@@ -1,0 +1,32 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <LangVersion>latest</LangVersion>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <NoWarn>CS1591</NoWarn>
+    <RootNamespace>ForgeEvolve.Governance</RootNamespace>
+    <Description>Governance (human-in-the-loop + provenance) for FORGE EVOLVE for TMPC: a tamper-evident SHA-256 hashchain immutable governance object model (IGOM), a Merkle root over all entries, and a review-gate evaluator (KG1/KG2 + per-component Design/Translation/Acceptance gates) whose decisions are themselves recorded to the ledger.</Description>
+  </PropertyGroup>
+
+  <!-- The tests/ and demo/ subfolders are sibling projects; keep their sources out of this lib. -->
+  <ItemGroup>
+    <Compile Remove="tests/**/*.cs" />
+    <Compile Remove="demo/**/*.cs" />
+  </ItemGroup>
+
+  <!-- Hashing primitives (ComputeEntryHash/Sha256Hex/ComputeMerkleRoot) are internal; the test and
+       demo assemblies need them to recompute hashes independently for tamper-detection proofs. -->
+  <ItemGroup>
+    <InternalsVisibleTo Include="ForgeEvolve.Governance.Tests" />
+    <InternalsVisibleTo Include="ForgeEvolve.Governance.Demo" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="../ForgeEvolve.Contracts/ForgeEvolve.Contracts.csproj" />
+  </ItemGroup>
+
+</Project>
