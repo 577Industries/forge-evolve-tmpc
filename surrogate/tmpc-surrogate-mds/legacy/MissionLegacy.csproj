@@ -1,0 +1,35 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!--
+    MissionLegacy — synthetic, intentionally-legacy MDS-like mission processor.
+
+    DELIBERATELY LEGACY: Nullable is DISABLED, warnings are NOT errors, and the code
+    style is 1990s-2000s "god class" on purpose. This project models the *classes of
+    technical debt* the government described; it is 100% synthetic and unclassified.
+    Do NOT "clean this up" — the debt is the point. See ../../DEBT.md.
+  -->
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <OutputType>Library</OutputType>
+    <Nullable>disable</Nullable>                 <!-- deliberately legacy -->
+    <ImplicitUsings>disable</ImplicitUsings>
+    <LangVersion>latest</LangVersion>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <GenerateDocumentationFile>false</GenerateDocumentationFile>
+    <RootNamespace>Tmpc.Surrogate.Legacy</RootNamespace>
+    <AssemblyName>MissionLegacy</AssemblyName>
+    <!-- Suppress the noise this legacy code intentionally produces. -->
+    <NoWarn>CS0168;CS0219;CS0649;CA2100;SYSLIB0014</NoWarn>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!--
+      Inline ADO.NET "publish" path (Microsoft.Data.SqlClient). It is wrapped behind a
+      PublishEnabled=false flag and NEVER connects during the demo (no real DB). Present
+      to model the inline-SQL-in-a-god-class debt and to give the discovery engine a real
+      data-access coupling to find.
+    -->
+    <PackageReference Include="Microsoft.Data.SqlClient" Version="5.2.2" />
+  </ItemGroup>
+
+</Project>

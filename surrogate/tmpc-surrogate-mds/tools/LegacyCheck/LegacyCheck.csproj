@@ -1,0 +1,27 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!--
+    LegacyCheck — proves the C# legacy MissionProcessor faithfully implements the
+    SPECIFIED defects (D1/D2/D3) by replaying the frozen golden corpus and comparing
+    its output to the stored Python `legacyOutput` answer key.
+
+    Discrete fields (routeValid, taskingGoNoGo, totFeasible, estimatedTotEpochSec,
+    messages, missionId, leg count) must match EXACTLY; continuous distance fields must
+    match within 1e-9 relative error. Exit 0 + "LEGACY-CHECK PASS: N/N" on success.
+  -->
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>disable</Nullable>
+    <ImplicitUsings>disable</ImplicitUsings>
+    <LangVersion>latest</LangVersion>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <RootNamespace>Tmpc.Surrogate.Tools</RootNamespace>
+    <AssemblyName>LegacyCheck</AssemblyName>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\legacy\MissionLegacy.csproj" />
+  </ItemGroup>
+
+</Project>

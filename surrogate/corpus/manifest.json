@@ -1,0 +1,34 @@
+{
+  "seed": 577077,
+  "n": 2000,
+  "legacyLegDecimals": 8,
+  "syntheticLeapBoundaries": [
+    1000000000,
+    1100000000,
+    1200000000,
+    2000000000,
+    4000000000
+  ],
+  "perTagCounts": {
+    "nominal": 900,
+    "precision-drift": 350,
+    "degenerate-route": 200,
+    "anti-meridian": 150,
+    "leap-second": 200,
+    "overflow": 200
+  },
+  "perTagDivergent": {
+    "nominal": 0,
+    "precision-drift": 16,
+    "degenerate-route": 0,
+    "anti-meridian": 150,
+    "leap-second": 96,
+    "overflow": 59
+  },
+  "divergentCount": 321,
+  "divergentFraction": 0.1605,
+  "rawEstimatedTotDiffCount": 1002,
+  "maxRelErrorOnEquivalentVectors": 9.445771273451221e-10,
+  "categoricalPreserved": true,
+  "corpusSha256": "480167494e8bd9a39fbb7207e47390fd4164f7d4346293cef01803a6b49f6a24"
+}

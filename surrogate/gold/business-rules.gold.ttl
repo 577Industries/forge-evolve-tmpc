@@ -1,0 +1,107 @@
+# business-rules.gold.ttl — HAND-LABELED gold business rules for the discovery F1 metric.
+#
+# PART OF: FORGE EVOLVE for TMPC, synthetic unclassified surrogate (Phase 1).
+#
+# This is the authoritative, human-authored set of business rules PRESENT in the synthetic
+# surrogate. The Discovery Engine's extracted rules are scored (precision/recall/F1) against
+# this file (see governance/pre-registration.md, rule-extraction F1 >= 0.85).
+#
+# 100% synthetic and unclassified. Categories use the BusinessRuleCategory enum from
+# ForgeEvolve.Contracts.Models (Calculation | Validation | Routing | Constraint).
+
+@prefix fe:   <https://577industries.com/forge-evolve/ns#> .
+@prefix rule: <https://577industries.com/forge-evolve/surrogate/rule#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd:  <http://www.w3.org/2001/XMLSchema#> .
+
+# ── CALCULATION ──────────────────────────────────────────────────────────────
+
+rule:GreatCircleLegDistance a fe:BusinessRule ;
+    fe:category "Calculation" ;
+    rdfs:label "Great-circle leg distance" ;
+    fe:statement "Each leg distance is the great-circle distance between consecutive waypoints, using Earth radius 3440.065 nm." ;
+    fe:expression "legDistanceNm = EARTH_RADIUS_NM * sqrt((dLatRad)^2 + (cos(meanLat)*dLonRad)^2)" ;
+    fe:sourceRef "MissionProcessor.ProcessMission" .
+
+rule:TotalDistanceSum a fe:BusinessRule ;
+    fe:category "Calculation" ;
+    rdfs:label "Total route distance" ;
+    fe:statement "Total distance is the sum of all leg distances (the reference sums exactly with no intermediate rounding)." ;
+    fe:expression "totalDistanceNm = sum(legDistancesNm)" ;
+    fe:sourceRef "MissionProcessor.ProcessMission" .
+
+rule:EstimatedTimeOnTarget a fe:BusinessRule ;
+    fe:category "Calculation" ;
+    rdfs:label "Estimated time-on-target" ;
+    fe:statement "Estimated TOT is launch epoch plus rounded travel time at nominal speed 0.15 nm/s, plus any synthetic leap seconds crossed between launch and TOT." ;
+    fe:expression "estimatedTotEpochSec = launchEpochSec + round(totalDistanceNm / 0.15) + leapSeconds(launch, tot)" ;
+    fe:sourceRef "MissionProcessor.ProcessMission" .
+
+rule:AntiMeridianLongitudeWrap a fe:BusinessRule ;
+    fe:category "Calculation" ;
+    rdfs:label "Anti-meridian longitude wrap" ;
+    fe:statement "Longitude deltas must be normalized to [-180, 180] before use so legs crossing +/-180 are measured correctly (the legacy distance path omits this wrap)." ;
+    fe:expression "dLon = wrapTo180(lon2 - lon1)" ;
+    fe:sourceRef "MissionProcessor.WrapDlon" .
+
+# ── VALIDATION ───────────────────────────────────────────────────────────────
+
+rule:LegDegreeBoxFeasibility a fe:BusinessRule ;
+    fe:category "Validation" ;
+    rdfs:label "Per-leg degree-box feasibility" ;
+    fe:statement "A leg is feasible only if |dLatDeg| <= 22.0 and wrappedAbs(dLonDeg) <= 22.0 (a coarse <=1500 nm proxy near the equator)." ;
+    fe:expression "abs(dLatDeg) <= 22.0 AND abs(wrap(dLonDeg)) <= 22.0" ;
+    fe:sourceRef "MissionProcessor.ProcessMission" .
+
+rule:TurnRateLimit a fe:BusinessRule ;
+    fe:category "Validation" ;
+    rdfs:label "Turn-rate limit between legs" ;
+    fe:statement "The turn angle between consecutive legs must not exceed MAX_TURN_DEG (120 degrees)." ;
+    fe:expression "turnAngle(bearing[i], bearing[i+1]) <= 120.0" ;
+    fe:sourceRef "MissionProcessor.TurnAngleDeg" .
+
+rule:TimeOnTargetTolerance a fe:BusinessRule ;
+    fe:category "Validation" ;
+    rdfs:label "Time-on-target tolerance" ;
+    fe:statement "A route is TOT-feasible only if |estimatedTot - desiredTot| <= TOT_TOL_SEC (120 seconds)." ;
+    fe:expression "abs(estimatedTotEpochSec - desiredTotEpochSec) <= 120" ;
+    fe:sourceRef "MissionProcessor.ProcessMission" .
+
+rule:RouteValidityAggregate a fe:BusinessRule ;
+    fe:category "Validation" ;
+    rdfs:label "Aggregate route validity" ;
+    fe:statement "A route is valid only if every leg passes the degree-box check and every turn passes the turn-rate limit." ;
+    fe:expression "routeValid = forall legs (inBox) AND forall turns (<= 120)" ;
+    fe:sourceRef "MissionProcessor.ProcessMission" .
+
+# ── ROUTING ──────────────────────────────────────────────────────────────────
+
+rule:WaypointOrderingLegs a fe:BusinessRule ;
+    fe:category "Routing" ;
+    rdfs:label "Sequential waypoint legs" ;
+    fe:statement "Legs are formed between consecutive waypoints in order; a route requires at least two waypoints." ;
+    fe:expression "legs = [(wp[i], wp[i+1]) for i in 0..n-2]; n >= 2" ;
+    fe:sourceRef "MissionProcessor.ProcessMission" .
+
+# ── CONSTRAINT ───────────────────────────────────────────────────────────────
+
+rule:MstSurfaceOnlyTasking a fe:BusinessRule ;
+    fe:category "Constraint" ;
+    rdfs:label "MST is surface-only (tasking go/no-go)" ;
+    fe:statement "Tasking is GO only if the route is valid AND the mission is not an MST variant on an SSN (submarine) platform; MST is surface-only." ;
+    fe:expression "taskingGoNoGo = routeValid AND NOT (variant = 'MST' AND platform = 'SSN')" ;
+    fe:sourceRef "MissionProcessor.ProcessMission" .
+
+rule:WeaponMaxRangeByVariant a fe:BusinessRule ;
+    fe:category "Constraint" ;
+    rdfs:label "Weapon max range by variant" ;
+    fe:statement "Each variant has a maximum weapon range: BlockIV 900 nm, BlockV 1000 nm, MST 1000 nm." ;
+    fe:expression "weaponMaxRangeNm = { BlockIV: 900, BlockV: 1000, MST: 1000 }" ;
+    fe:sourceRef "LegacyConfig" .
+
+rule:MaxLegLength a fe:BusinessRule ;
+    fe:category "Constraint" ;
+    rdfs:label "Maximum leg length" ;
+    fe:statement "A single leg may not exceed MAX_LEG_NM (1500 nm); the degree-box check is the coarse proxy enforcing this near the equator." ;
+    fe:expression "legDistanceNm <= 1500" ;
+    fe:sourceRef "LegacyConfig" .
