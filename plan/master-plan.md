@@ -40,5 +40,15 @@ Per-WS exit gate: builds, unit tests green, contract conformance, no secrets/ITA
 - **P6 Publish prep + DSIP guide** — gates H6/H7
 
 ## Execution log
-- 2026-05-31 — P0 started: repo init, .NET SDK 8.0.421 pinned, contracts authored & building, CLAR
-  schema + CETM validator in place.
+- 2026-05-31 — P0 complete (commit ca413ed): repo init, .NET SDK 8.0.421 pinned, contracts authored &
+  building, CLAR schema + CETM validator in place. `make build/audit` green.
+- 2026-05-31 — P1 complete (commit a4d103e): synthetic MDS-like surrogate + frozen golden corpus
+  (N=2000, seed 577077, sha256 480167…, 16.05% divergent, categoricals preserved 100%, max equiv
+  rel-err 9.45e-10). LegacyCheck self-test 2000/2000. Distance kernel = equirectangular (haversine is
+  invariant to the anti-meridian wrap defect). Surrogate projects intentionally out of ForgeEvolve.sln.
+- 2026-05-31 — P2 Wave 1 complete (merged to main): WS-A Discovery (CC=49, parse 100%, 12 rules F1=1.0,
+  crypto inv; 16 tests), WS-B CLAR (4-layer lift validates, precision-constrained coord/TOT; 19 tests),
+  WS-G Cyber/cATO (5 real STIG findings→10 controls, CycloneDX SBOM, Merkle provenance, POA&M; 10 tests),
+  WS-H Governance (SHA-256 IGOM, KG gates, tamper-detection; 30 tests). All build on main.
+  P3 reconcile notes: unify provenance ledger (Governance owns IGOM; Cato consumes) — Cato uses a
+  simpler hash formula than Governance; wire all modules into ForgeEvolve.sln at integration.
