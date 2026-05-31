@@ -1,0 +1,28 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <LangVersion>latest</LangVersion>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <NoWarn>CS1591</NoWarn>
+    <RootNamespace>ForgeEvolve.Cato</RootNamespace>
+    <Description>FORGE EVOLVE for TMPC — Cyber / cATO overlay (Stage 5). Static STIG analyzers (before/after), NIST 800-53 control map, CycloneDX SBOM, SHA-256 hashchain + Merkle provenance, and POA&amp;M generation.</Description>
+  </PropertyGroup>
+
+  <!-- The test/demo projects live in ./tests and ./demo; keep their sources out of this
+       library's compile glob. -->
+  <ItemGroup>
+    <Compile Remove="tests/**/*.cs" />
+    <None Remove="tests/**/*" />
+    <Compile Remove="demo/**/*.cs" />
+    <None Remove="demo/**/*" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="../ForgeEvolve.Contracts/ForgeEvolve.Contracts.csproj" />
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <LangVersion>latest</LangVersion>
+    <RootNamespace>ForgeEvolve.Cato.Demo</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="../ForgeEvolve.Cato.csproj" />
+    <ProjectReference Include="../../ForgeEvolve.Contracts/ForgeEvolve.Contracts.csproj" />
+  </ItemGroup>
+
+</Project>
