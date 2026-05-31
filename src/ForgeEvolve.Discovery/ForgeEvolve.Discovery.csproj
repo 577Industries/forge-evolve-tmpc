@@ -1,0 +1,34 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <LangVersion>latest</LangVersion>
+    <RootNamespace>ForgeEvolve.Discovery</RootNamespace>
+    <Description>FORGE EVOLVE for TMPC — Discovery Engine (Stage 1). Roslyn-based static analysis of the
+    synthetic surrogate: complexity vectors, dependency graph + Tarjan SCC, offline business-rule
+    extraction with an honest F1 vs. the gold set, and a weak-crypto / hardcoded-secret inventory.</Description>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!-- The test project lives under ./tests; keep its sources out of THIS project's compile glob. -->
+    <Compile Remove="tests/**/*.cs" />
+    <None Remove="tests/**/*" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="../ForgeEvolve.Contracts/ForgeEvolve.Contracts.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- Let the test project unit-test internal helpers (e.g. DependencyGraph.Tarjan). -->
+    <InternalsVisibleTo Include="ForgeEvolve.Discovery.Tests" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- Roslyn for the C# analysis path. JS/SQL/VB6 use lightweight heuristic parsing (see comments). -->
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.8.0" />
+  </ItemGroup>
+
+</Project>
