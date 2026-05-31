@@ -1,0 +1,282 @@
+{
+  "@context": {
+    "@vocab": "https://577industries.com/forge-evolve/clar/v0.1.0/ns#",
+    "clar": "https://577industries.com/forge-evolve/clar/v0.1.0/ns#",
+    "controlFlow": "https://577industries.com/forge-evolve/clar/v0.1.0/ns#controlFlow",
+    "dataFlow": "https://577industries.com/forge-evolve/clar/v0.1.0/ns#dataFlow",
+    "businessLogic": "https://577industries.com/forge-evolve/clar/v0.1.0/ns#businessLogic",
+    "infrastructure": "https://577industries.com/forge-evolve/clar/v0.1.0/ns#infrastructure",
+    "precisionConstrained": "https://577industries.com/forge-evolve/clar/v0.1.0/ns#precisionConstrained",
+    "clarType": "https://577industries.com/forge-evolve/clar/v0.1.0/ns#clarType",
+    "ruleRef": {
+      "@id": "https://577industries.com/forge-evolve/clar/v0.1.0/ns#ruleRef",
+      "@type": "@id"
+    },
+    "sourceModuleId": {
+      "@id": "https://577industries.com/forge-evolve/clar/v0.1.0/ns#sourceModuleId",
+      "@type": "@id"
+    }
+  },
+  "clarVersion": "0.1.0",
+  "sourceModuleId": "MissionRouting.MissionProcessor.ProcessMission",
+  "sourceLanguage": "CSharp",
+  "controlFlow": [
+    {
+      "id": "clar:MissionRouting.MissionProcessor.ProcessMission#cf/process",
+      "type": "PIPELINE",
+      "children": [
+        "clar:MissionRouting.MissionProcessor.ProcessMission#cf/parse",
+        "clar:MissionRouting.MissionProcessor.ProcessMission#cf/route-validation-loop",
+        "clar:MissionRouting.MissionProcessor.ProcessMission#cf/turn-rate-loop",
+        "clar:MissionRouting.MissionProcessor.ProcessMission#cf/distance-loop",
+        "clar:MissionRouting.MissionProcessor.ProcessMission#cf/tot-feasible-branch",
+        "clar:MissionRouting.MissionProcessor.ProcessMission#cf/tasking-go-no-go-branch",
+        "clar:MissionRouting.MissionProcessor.ProcessMission#cf/publish-branch"
+      ],
+      "label": "ProcessMission: parse -> validate -> distance -> TOT -> tasking -> publish"
+    },
+    {
+      "id": "clar:MissionRouting.MissionProcessor.ProcessMission#cf/parse",
+      "type": "TRY_CATCH",
+      "label": "Defensive JSON parse of MissionRequest (swallow-and-message on failure)"
+    },
+    {
+      "id": "clar:MissionRouting.MissionProcessor.ProcessMission#cf/route-validation-loop",
+      "type": "FOR_LOOP",
+      "label": "Per-leg degree-box feasibility check over consecutive waypoints"
+    },
+    {
+      "id": "clar:MissionRouting.MissionProcessor.ProcessMission#cf/turn-rate-loop",
+      "type": "FOR_LOOP",
+      "label": "Per-turn turn-rate limit check over consecutive bearings"
+    },
+    {
+      "id": "clar:MissionRouting.MissionProcessor.ProcessMission#cf/distance-loop",
+      "type": "FOR_LOOP",
+      "label": "Per-leg great-circle distance accumulation (legacy rounds each leg before summing)"
+    },
+    {
+      "id": "clar:MissionRouting.MissionProcessor.ProcessMission#cf/platform-routing-switch",
+      "type": "SWITCH",
+      "label": "Platform/variant routing-class switch (DDG/CG/SSN x BlockIV/BlockV/MST)"
+    },
+    {
+      "id": "clar:MissionRouting.MissionProcessor.ProcessMission#cf/tot-feasible-branch",
+      "type": "BRANCH",
+      "label": "TOT feasibility: |estimatedTot - desiredTot| <= TOT_TOL_SEC"
+    },
+    {
+      "id": "clar:MissionRouting.MissionProcessor.ProcessMission#cf/tasking-go-no-go-branch",
+      "type": "BRANCH",
+      "children": [
+        "clar:MissionRouting.MissionProcessor.ProcessMission#cf/platform-routing-switch"
+      ],
+      "label": "Tasking go/no-go: routeValid AND NOT (MST on SSN)"
+    },
+    {
+      "id": "clar:MissionRouting.MissionProcessor.ProcessMission#cf/publish-branch",
+      "type": "BRANCH",
+      "label": "Guarded inline-SQL publish (PublishEnabled flag; never connects in demo)"
+    }
+  ],
+  "dataFlow": [
+    {
+      "id": "clar:MissionRouting.MissionProcessor.ProcessMission#df/latDeg",
+      "type": "PARAMETER",
+      "name": "latDeg",
+      "clarType": "PrecisionConstrained",
+      "precisionConstrained": true,
+      "sourceType": "double"
+    },
+    {
+      "id": "clar:MissionRouting.MissionProcessor.ProcessMission#df/lonDeg",
+      "type": "PARAMETER",
+      "name": "lonDeg",
+      "clarType": "PrecisionConstrained",
+      "precisionConstrained": true,
+      "sourceType": "double"
+    },
+    {
+      "id": "clar:MissionRouting.MissionProcessor.ProcessMission#df/legDistanceNm",
+      "type": "ARITHMETIC",
+      "name": "legDistanceNm",
+      "clarType": "PrecisionConstrained",
+      "precisionConstrained": true,
+      "sourceType": "double"
+    },
+    {
+      "id": "clar:MissionRouting.MissionProcessor.ProcessMission#df/totalDistanceNm",
+      "type": "AGGREGATE",
+      "name": "totalDistanceNm",
+      "clarType": "PrecisionConstrained",
+      "precisionConstrained": true,
+      "sourceType": "double"
+    },
+    {
+      "id": "clar:MissionRouting.MissionProcessor.ProcessMission#df/earthRadiusNm",
+      "type": "CONSTANT",
+      "name": "earthRadiusNm",
+      "clarType": "PrecisionConstrained",
+      "precisionConstrained": true,
+      "sourceType": "double"
+    },
+    {
+      "id": "clar:MissionRouting.MissionProcessor.ProcessMission#df/travelSec",
+      "type": "CAST",
+      "name": "travelSec",
+      "clarType": "PrecisionConstrained",
+      "precisionConstrained": true,
+      "sourceType": "double->long"
+    },
+    {
+      "id": "clar:MissionRouting.MissionProcessor.ProcessMission#df/estimatedTotEpochSec",
+      "type": "DATE_TIME",
+      "name": "estimatedTotEpochSec",
+      "clarType": "PrecisionConstrained",
+      "precisionConstrained": true,
+      "sourceType": "long"
+    },
+    {
+      "id": "clar:MissionRouting.MissionProcessor.ProcessMission#df/routeValid",
+      "type": "RETURN_VALUE",
+      "name": "routeValid",
+      "clarType": "Boolean",
+      "precisionConstrained": false,
+      "sourceType": "bool"
+    },
+    {
+      "id": "clar:MissionRouting.MissionProcessor.ProcessMission#df/taskingGoNoGo",
+      "type": "RETURN_VALUE",
+      "name": "taskingGoNoGo",
+      "clarType": "Boolean",
+      "precisionConstrained": false,
+      "sourceType": "bool"
+    },
+    {
+      "id": "clar:MissionRouting.MissionProcessor.ProcessMission#df/platform",
+      "type": "PARAMETER",
+      "name": "platform",
+      "clarType": "Text",
+      "precisionConstrained": false,
+      "sourceType": "string"
+    },
+    {
+      "id": "clar:MissionRouting.MissionProcessor.ProcessMission#df/variant",
+      "type": "PARAMETER",
+      "name": "variant",
+      "clarType": "Text",
+      "precisionConstrained": false,
+      "sourceType": "string"
+    },
+    {
+      "id": "clar:MissionRouting.MissionProcessor.ProcessMission#df/messages",
+      "type": "COLLECTION",
+      "name": "messages",
+      "clarType": "TextList",
+      "precisionConstrained": false,
+      "sourceType": "List<string>"
+    }
+  ],
+  "businessLogic": [
+    {
+      "id": "clar:MissionRouting.MissionProcessor.ProcessMission#bl/great-circle-leg",
+      "type": "CALCULATION",
+      "ruleRef": "rule:GreatCircleLegDistance",
+      "statement": "Each leg distance is the great-circle distance between consecutive waypoints (R = 3440.065 nm)."
+    },
+    {
+      "id": "clar:MissionRouting.MissionProcessor.ProcessMission#bl/total-distance",
+      "type": "CALCULATION",
+      "ruleRef": "rule:TotalDistanceSum",
+      "statement": "Total distance is the exact sum of all leg distances (no intermediate rounding)."
+    },
+    {
+      "id": "clar:MissionRouting.MissionProcessor.ProcessMission#bl/anti-meridian-wrap",
+      "type": "CALCULATION",
+      "ruleRef": "rule:AntiMeridianLongitudeWrap",
+      "statement": "Longitude deltas must be wrapped to [-180,180] before use (legacy distance path omits this)."
+    },
+    {
+      "id": "clar:MissionRouting.MissionProcessor.ProcessMission#bl/estimated-tot",
+      "type": "CALCULATION",
+      "ruleRef": "rule:EstimatedTimeOnTarget",
+      "statement": "Estimated TOT = launch + round(total/0.15) + leap seconds crossed."
+    },
+    {
+      "id": "clar:MissionRouting.MissionProcessor.ProcessMission#bl/degree-box",
+      "type": "VALIDATION",
+      "ruleRef": "rule:LegDegreeBoxFeasibility",
+      "statement": "A leg is feasible only if |dLatDeg| <= 22.0 and wrappedAbs(dLonDeg) <= 22.0."
+    },
+    {
+      "id": "clar:MissionRouting.MissionProcessor.ProcessMission#bl/turn-rate",
+      "type": "VALIDATION",
+      "ruleRef": "rule:TurnRateLimit",
+      "statement": "The turn angle between consecutive legs must not exceed 120 degrees."
+    },
+    {
+      "id": "clar:MissionRouting.MissionProcessor.ProcessMission#bl/tot-tolerance",
+      "type": "VALIDATION",
+      "ruleRef": "rule:TimeOnTargetTolerance",
+      "statement": "A route is TOT-feasible only if |estimatedTot - desiredTot| <= 120 s."
+    },
+    {
+      "id": "clar:MissionRouting.MissionProcessor.ProcessMission#bl/route-validity",
+      "type": "INVARIANT",
+      "ruleRef": "rule:RouteValidityAggregate",
+      "statement": "A route is valid only if every leg passes the degree-box check and every turn the turn-rate limit."
+    },
+    {
+      "id": "clar:MissionRouting.MissionProcessor.ProcessMission#bl/waypoint-ordering",
+      "type": "ROUTING",
+      "ruleRef": "rule:WaypointOrderingLegs",
+      "statement": "Legs are formed between consecutive waypoints in order; a route needs >= 2 waypoints."
+    },
+    {
+      "id": "clar:MissionRouting.MissionProcessor.ProcessMission#bl/mst-surface-only",
+      "type": "CONSTRAINT",
+      "ruleRef": "rule:MstSurfaceOnlyTasking",
+      "statement": "Tasking is GO only if routeValid AND NOT (variant=MST AND platform=SSN); MST is surface-only."
+    },
+    {
+      "id": "clar:MissionRouting.MissionProcessor.ProcessMission#bl/max-leg-length",
+      "type": "CONSTRAINT",
+      "ruleRef": "rule:MaxLegLength",
+      "statement": "A single leg may not exceed 1500 nm; the degree-box check is the coarse proxy."
+    },
+    {
+      "id": "clar:MissionRouting.MissionProcessor.ProcessMission#bl/weapon-range",
+      "type": "CONSTRAINT",
+      "ruleRef": "rule:WeaponMaxRangeByVariant",
+      "statement": "Weapon max range by variant: BlockIV 900 nm, BlockV 1000 nm, MST 1000 nm."
+    },
+    {
+      "id": "clar:MissionRouting.MissionProcessor.ProcessMission#bl/tasking-classification",
+      "type": "CLASSIFICATION",
+      "ruleRef": "rule:MstSurfaceOnlyTasking",
+      "statement": "Mission is classified GO/NO-GO from routeValid and the MST-on-SSN constraint."
+    }
+  ],
+  "infrastructure": [
+    {
+      "id": "clar:MissionRouting.MissionProcessor.ProcessMission#infra/publish-missions",
+      "type": "DB_QUERY",
+      "target": "dbo.Missions (inline ADO.NET INSERT / sp_PublishMission; FLOAT columns)"
+    },
+    {
+      "id": "clar:MissionRouting.MissionProcessor.ProcessMission#infra/publish-waypoints",
+      "type": "DB_QUERY",
+      "target": "dbo.Waypoints (N+1 per-leg INSERT; FLOAT lat/lon/leg columns)"
+    },
+    {
+      "id": "clar:MissionRouting.MissionProcessor.ProcessMission#infra/legacy-config",
+      "type": "CONFIGURATION",
+      "target": "LegacyConfig (static mutable: EarthRadiusNm, MaxTurnDeg, NominalSpeed, TotTolSec, PublishEnabled)"
+    },
+    {
+      "id": "clar:MissionRouting.MissionProcessor.ProcessMission#infra/result-messages",
+      "type": "LOGGING",
+      "target": "MissionResult.messages diagnostic trail (LEG_OUT_OF_BOX / TURN_EXCEEDED / ...)"
+    }
+  ]
+}

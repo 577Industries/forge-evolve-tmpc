@@ -1,0 +1,40 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <LangVersion>latest</LangVersion>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <NoWarn>CS1591</NoWarn>
+    <RootNamespace>ForgeEvolve.Clar</RootNamespace>
+    <Description>CLAR (Cross-Language Abstract Representation) provider for FORGE EVOLVE for TMPC: lifts source modules into a four-layer JSON-LD CLAR document and validates it against the frozen clar-spec/CLAR.schema.json. The precision-constrained dataFlow mapping is the load-bearing feature driving decimal/checked target generation.</Description>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!-- The test project lives in a subfolder; keep its sources out of THIS project's
+         default-glob compilation (it owns its own .csproj). -->
+    <Compile Remove="tests\**\*.cs" />
+    <EmbeddedResource Remove="tests\**" />
+    <None Remove="tests\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- JSON Schema draft 2020-12 validator (the CLAR schema declares draft 2020-12). -->
+    <PackageReference Include="JsonSchema.Net" Version="7.1.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\ForgeEvolve.Contracts\ForgeEvolve.Contracts.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- Embed the FROZEN CLAR schema so Validate() works regardless of the working
+         directory; a filesystem copy under clar-spec/ remains the source of truth. -->
+    <EmbeddedResource Include="..\..\clar-spec\CLAR.schema.json">
+      <LogicalName>ForgeEvolve.Clar.CLAR.schema.json</LogicalName>
+    </EmbeddedResource>
+  </ItemGroup>
+
+</Project>
