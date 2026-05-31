@@ -1,0 +1,42 @@
+# .NET
+bin/
+obj/
+*.user
+[Dd]ebug/
+[Rr]elease/
+artifacts/
+.vs/
+TestResults/
+coverage*.xml
+coverage*.json
+*.coverage
+
+# Node / TypeScript
+node_modules/
+dist/
+*.tsbuildinfo
+.npm/
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# Tooling
+.dotnet/
+.idea/
+.DS_Store
+*.swp
+
+# Secrets / local env — NEVER commit
+.env
+.env.*
+*.key
+*.pem
+secrets/
+**/transcripts/cloud/
+
+# Demo working outputs (the committed reference run lives in results/reference/)
+results/run/
+!results/reference/

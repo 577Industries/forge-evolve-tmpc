@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <LangVersion>latest</LangVersion>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <NoWarn>CS1591</NoWarn>
+    <RootNamespace>ForgeEvolve.Contracts</RootNamespace>
+    <Description>Frozen integration contracts (interfaces + DTOs) for the FORGE EVOLVE for TMPC pipeline. These are the stable seams that let pipeline stages be developed and tested independently.</Description>
+  </PropertyGroup>
+
+</Project>

@@ -1,0 +1,56 @@
+name: demo-offline
+
+# Proves the reviewer contract: the pipeline builds and the offline demo runs with NO API keys,
+# on both Linux and Windows (matching the TMPC dual-OS reality).
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build-and-demo:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    env:
+      DOTNET_CLI_TELEMETRY_OPTOUT: 1
+      DOTNET_NOLOGO: 1
+      FORGE_ORCHESTRATOR_MODE: offline
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          global-json-file: global.json
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Build
+        run: dotnet build ForgeEvolve.sln -v q
+
+      - name: Test (with coverage)
+        run: dotnet test ForgeEvolve.sln --collect:"XPlat Code Coverage" -v q
+
+      - name: CETM honesty audit
+        run: node evidence/validate-cetm.mjs
+
+      - name: Offline demo (no API keys)
+        shell: bash
+        run: bash scripts/run-demo.sh
+
+      - name: Secret scan (no secrets committed)
+        if: runner.os == 'Linux'
+        uses: gitleaks/gitleaks-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

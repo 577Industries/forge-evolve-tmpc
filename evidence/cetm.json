@@ -1,0 +1,39 @@
+{
+  "cetm_version": "0.1.0",
+  "description": "Claim -> Evidence Traceability Matrix for the FORGE EVOLVE for TMPC proposal and repository. Seeded in Phase 0; populated at proposal-write time (Phase 4). Every claim is A (anchored to a runnable artifact), E (external citation), or P (preliminary/surrogate, with a mandatory in-text label).",
+  "claims": [
+    {
+      "claim_id": "C-EXAMPLE-A",
+      "claim_text": "The repository contains no real TMPC source code or controlled data; the mission-planning component is synthetic and unclassified.",
+      "source_location": "Vol2/§a; Vol2/§h",
+      "claim_type": "compliance",
+      "status": "A",
+      "evidence_artifact": "EXCLUSIONS.md",
+      "evidence_hash": null,
+      "verification_command": "cat EXCLUSIONS.md",
+      "label": null
+    },
+    {
+      "claim_id": "C-EXAMPLE-E",
+      "claim_text": "NAVAIR has publicly stated TMPC was designed in line with industry best practices of 25 to 40 years ago.",
+      "source_location": "Vol2/§a",
+      "claim_type": "capability",
+      "status": "E",
+      "evidence_artifact": "NAVAIR SPR 2025-0070 ICEAA briefing (public)",
+      "evidence_hash": null,
+      "verification_command": null,
+      "label": null
+    },
+    {
+      "claim_id": "C-EXAMPLE-P",
+      "claim_text": "FORGE EVOLVE achieves ~99.4% module-level behavioral-equivalence pass rate on prior modernization benchmarks.",
+      "source_location": "Vol2/§d",
+      "claim_type": "quantitative",
+      "status": "P",
+      "evidence_artifact": "forge-evolve.pdf (internal prior art)",
+      "evidence_hash": null,
+      "verification_command": null,
+      "label": "Internal/preliminary prior art (COBOL/Fortran/Ada/VB6 -> Java/Python/Rust/TS); not government-validated; the C#/.NET capability is a newly developed extension."
+    }
+  ]
+}

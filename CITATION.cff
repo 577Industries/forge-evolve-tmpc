@@ -1,0 +1,26 @@
+cff-version: 1.2.0
+message: "If you reference this work, please cite it as below."
+title: "FORGE EVOLVE for TMPC: AI-Assisted Modernization of C#/.NET Mission-Planning Software"
+abstract: >-
+  A reviewer-runnable C#/.NET reference implementation of the FORGE EVOLVE code-modernization
+  framework, extended to the Theater Mission Planning Center (TMPC) software stack
+  (C#/.NET, JavaScript, SQL, VB6). Demonstrates AI-assisted legacy code discovery, refactoring,
+  behavioral-equivalence validation with mission-data-aware oracles, and continuous-ATO artifact
+  generation on a synthetic, unclassified Mission-Distribution-System-like surrogate component.
+  Developed under U.S. Navy SBIR topic DON26BZ01-NV013.
+authors:
+  - family-names: Waweru
+    given-names: Thomas
+    affiliation: "577 Industries, Inc."
+    email: t.waweru@577industries.com
+license: Apache-2.0
+repository-code: "https://github.com/577Industries/forge-evolve-tmpc"
+keywords:
+  - AI-assisted modernization
+  - legacy code
+  - behavioral equivalence
+  - C#/.NET
+  - DevSecOps
+  - continuous ATO
+  - SBIR
+date-released: 2026-05-31

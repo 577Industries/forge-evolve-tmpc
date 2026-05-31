@@ -1,0 +1,87 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/577Industries/forge-evolve-tmpc/clar-spec/CLAR.schema.json",
+  "title": "Cross-Language Abstract Representation (CLAR) Document",
+  "description": "Language-agnostic intermediate representation that decouples source parsing from target generation. Four layers (Control Flow, Data Flow, Business Logic, Infrastructure). Serialized as JSON-LD. FROZEN CONTRACT for the FORGE EVOLVE for TMPC pipeline.",
+  "type": "object",
+  "required": ["@context", "clarVersion", "sourceModuleId", "sourceLanguage", "controlFlow", "dataFlow", "businessLogic", "infrastructure"],
+  "additionalProperties": false,
+  "properties": {
+    "@context": {
+      "description": "JSON-LD context. Maps CLAR terms to the published vocabulary.",
+      "type": ["string", "object"]
+    },
+    "clarVersion": { "type": "string", "const": "0.1.0" },
+    "sourceModuleId": { "type": "string" },
+    "sourceLanguage": {
+      "type": "string",
+      "enum": ["CSharp", "JavaScript", "Sql", "Vb6", "Cobol", "Fortran", "Ada", "Java"]
+    },
+    "controlFlow": { "type": "array", "items": { "$ref": "#/$defs/controlFlowNode" } },
+    "dataFlow": { "type": "array", "items": { "$ref": "#/$defs/dataFlowNode" } },
+    "businessLogic": { "type": "array", "items": { "$ref": "#/$defs/businessLogicNode" } },
+    "infrastructure": { "type": "array", "items": { "$ref": "#/$defs/infrastructureNode" } }
+  },
+  "$defs": {
+    "controlFlowNode": {
+      "type": "object",
+      "required": ["id", "type"],
+      "additionalProperties": false,
+      "properties": {
+        "id": { "type": "string" },
+        "type": {
+          "type": "string",
+          "enum": ["SEQUENCE", "BRANCH", "FOR_LOOP", "WHILE_LOOP", "DO_UNTIL", "SWITCH", "TRY_CATCH", "PARALLEL", "PIPELINE", "EVENT_HANDLER", "STATE_MACHINE", "COROUTINE"]
+        },
+        "children": { "type": "array", "items": { "type": "string" } },
+        "label": { "type": "string" }
+      }
+    },
+    "dataFlowNode": {
+      "type": "object",
+      "required": ["id", "type"],
+      "additionalProperties": false,
+      "properties": {
+        "id": { "type": "string" },
+        "type": {
+          "type": "string",
+          "enum": ["VARIABLE", "CONSTANT", "PARAMETER", "RETURN_VALUE", "ASSIGNMENT", "ARITHMETIC", "COMPARISON", "CAST", "AGGREGATE", "COLLECTION", "RECORD", "FIXED_DECIMAL", "FLOATING_POINT", "STRING_OP", "DATE_TIME"]
+        },
+        "name": { "type": "string" },
+        "clarType": { "type": "string", "description": "Abstract type, e.g. PrecisionConstrained, Integer, Boolean, Text." },
+        "precisionConstrained": {
+          "type": "boolean",
+          "description": "If true, the target generator MUST emit decimal/checked arithmetic (no float coercion). Set for coordinate/TOT math, fixed-point, and SQL FLOAT-backed values."
+        },
+        "sourceType": { "type": "string", "description": "Original source type, e.g. 'double', 'FLOAT', 'Currency'." }
+      }
+    },
+    "businessLogicNode": {
+      "type": "object",
+      "required": ["id", "type"],
+      "additionalProperties": false,
+      "properties": {
+        "id": { "type": "string" },
+        "type": {
+          "type": "string",
+          "enum": ["RULE", "CONSTRAINT", "INVARIANT", "VALIDATION", "CALCULATION", "CLASSIFICATION", "ROUTING", "AUTHORIZATION", "AUDIT", "NOTIFICATION"]
+        },
+        "ruleRef": { "type": "string", "description": "Id of the extracted BusinessRule (RDF) this node realizes." },
+        "statement": { "type": "string" }
+      }
+    },
+    "infrastructureNode": {
+      "type": "object",
+      "required": ["id", "type"],
+      "additionalProperties": false,
+      "properties": {
+        "id": { "type": "string" },
+        "type": {
+          "type": "string",
+          "enum": ["FILE_IO", "DB_QUERY", "API_CALL", "MESSAGE_SEND", "MESSAGE_RECEIVE", "STREAM_PROCESS", "BATCH_JOB", "TIMER", "LOGGING", "CONFIGURATION"]
+        },
+        "target": { "type": "string", "description": "Resource targeted, e.g. table name, endpoint, queue." }
+      }
+    }
+  }
+}

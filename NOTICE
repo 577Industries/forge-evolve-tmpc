@@ -1,0 +1,29 @@
+FORGE EVOLVE for TMPC
+Copyright 2026 577 Industries, Inc.
+
+This product includes software developed by 577 Industries, Inc.
+(https://github.com/577Industries).
+
+This repository is the C#/.NET/JavaScript/SQL extension of the FORGE EVOLVE
+code-modernization framework, developed under U.S. Navy SBIR topic
+DON26BZ01-NV013 ("AI-Assisted Modernization and Optimization of Theater
+Mission Planning Center (TMPC) Software").
+
+It consumes the following 577 Industries open-source packages (Apache-2.0):
+  - @577-industries/model-router
+  - @577-industries/hashchain-audit
+  - @577-industries/tool-guardrails
+  - @577-industries/agent-memory
+  - @577-industries/workflow-dag
+
+IMPORTANT — SCOPE AND HONESTY OF CLAIMS
+  * The mission-planning component in surrogate/ is SYNTHETIC and UNCLASSIFIED.
+    It contains NO real Theater Mission Planning Center source code, no real
+    tasking data, no real coordinates, and no real algorithms. See EXCLUSIONS.md.
+  * Quantitative results produced by this repository are measured on that
+    synthetic surrogate and are PRELIMINARY and FRAMEWORK-LEVEL. They are NOT
+    validated against government TMPC code and are NOT validated by the U.S. Navy.
+  * FORGE EVOLVE's prior published benchmarks (for COBOL/Fortran/Ada/VB6 ->
+    Java/Python/Rust/TypeScript) are internal/preliminary prior art, not
+    government-validated. The C#/.NET/JS/SQL capability in this repository is a
+    newly developed extension.
