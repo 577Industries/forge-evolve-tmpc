@@ -1,11 +1,11 @@
 {
   "cetm_version": "0.1.0",
-  "description": "Claim -> Evidence Traceability Matrix for the FORGE EVOLVE for TMPC proposal and repository. Seeded in Phase 0; populated at proposal-write time (Phase 4). Every claim is A (anchored to a runnable artifact), E (external citation), or P (preliminary/surrogate, with a mandatory in-text label).",
+  "description": "Claim -> Evidence Traceability Matrix for the FORGE EVOLVE for TMPC proposal and repository. Every claim is A (anchored to a runnable artifact/test in this repo), E (external citation), or P (preliminary/surrogate prior art, with a mandatory in-text label). A-rows point at the committed reference run (results/reference/) or a test; reviewers reproduce with `make demo` / `dotnet test`. All A/E metrics are measured on the synthetic, unclassified surrogate and are preliminary; none is government-validated.",
   "claims": [
     {
-      "claim_id": "C-EXAMPLE-A",
+      "claim_id": "C-DATA-EXCL",
       "claim_text": "The repository contains no real TMPC source code or controlled data; the mission-planning component is synthetic and unclassified.",
-      "source_location": "Vol2/§a; Vol2/§h",
+      "source_location": "Vol2/§a; Vol2/§h; Vol2/§i",
       "claim_type": "compliance",
       "status": "A",
       "evidence_artifact": "EXCLUSIONS.md",
@@ -14,7 +14,106 @@
       "label": null
     },
     {
-      "claim_id": "C-EXAMPLE-E",
+      "claim_id": "C-EQUIV-PASS",
+      "claim_text": "The modernized .NET 8 component is behaviorally equivalent to the legacy component: 2000/2000 corpus vectors equivalent, zero unexplained violations.",
+      "source_location": "Vol2/§b O3; Vol2/§c T-E",
+      "claim_type": "quantitative",
+      "status": "A",
+      "evidence_artifact": "results/reference/equivalence-report.json",
+      "evidence_hash": null,
+      "verification_command": "make demo  # MODERN-CHECK PASS: 2000/2000; equivalence-report violations=0",
+      "label": null
+    },
+    {
+      "claim_id": "C-EQUIV-CHERNOFF",
+      "claim_text": "Behavioral-equivalence statistical confidence: multiplicative-Chernoff deviation bound 5.003e-7 at delta=0.999 over N=2000 vectors.",
+      "source_location": "Vol2/§c T-E",
+      "claim_type": "quantitative",
+      "status": "A",
+      "evidence_artifact": "results/reference/equivalence-report.json",
+      "evidence_hash": null,
+      "verification_command": "make demo",
+      "label": null
+    },
+    {
+      "claim_id": "C-CC-REDUCE",
+      "claim_text": "AI-assisted refactoring reduced the god-method cyclomatic complexity from 49 to 6 while preserving behavior.",
+      "source_location": "Vol2/§b O1/O3; Vol2/§c T-D",
+      "claim_type": "quantitative",
+      "status": "A",
+      "evidence_artifact": "results/reference/transform-result.json",
+      "evidence_hash": null,
+      "verification_command": "make demo  # Transform: max-method CC 49 -> 6",
+      "label": null
+    },
+    {
+      "claim_id": "C-DISC-F1",
+      "claim_text": "Discovery parses the surrogate C# at 100% and extracts business rules at F1=1.0 against a hand-labeled gold set (discriminating match test).",
+      "source_location": "Vol2/§b O1; Vol2/§c T-B",
+      "claim_type": "quantitative",
+      "status": "A",
+      "evidence_artifact": "src/ForgeEvolve.Discovery/tests/DiscoveryEngineTests.cs",
+      "evidence_hash": null,
+      "verification_command": "dotnet test src/ForgeEvolve.Discovery/tests/ForgeEvolve.Discovery.Tests.csproj",
+      "label": null
+    },
+    {
+      "claim_id": "C-CATO-STIG",
+      "claim_text": "cATO overlay generates STIG findings (before/after), NIST 800-53 control mappings, a CycloneDX SBOM, and a POA&M as pipeline byproducts; the modern component remediates its in-scope C# findings.",
+      "source_location": "Vol2/§b O4; Vol2/§c T-F",
+      "claim_type": "capability",
+      "status": "A",
+      "evidence_artifact": "results/reference/cato/stig-after.json",
+      "evidence_hash": null,
+      "verification_command": "make demo  # results/reference/cato + sbom.cdx.json + poam.csv",
+      "label": null
+    },
+    {
+      "claim_id": "C-GOV-IGOM",
+      "claim_text": "Every pipeline stage is recorded into a tamper-evident SHA-256 hashchain with a Merkle root (immutable governance object model); KG1/KG2 review gates pass; tampering is detected.",
+      "source_location": "Vol2/§c T-F; Vol2/§a",
+      "claim_type": "capability",
+      "status": "A",
+      "evidence_artifact": "results/reference/provenance.json",
+      "evidence_hash": null,
+      "verification_command": "dotnet test src/ForgeEvolve.Governance/tests/ForgeEvolve.Governance.Tests.csproj",
+      "label": null
+    },
+    {
+      "claim_id": "C-REPRO-DET",
+      "claim_text": "The demonstration runs offline with no API keys and is byte-deterministic across runs.",
+      "source_location": "Vol2/§c; Vol2/§i",
+      "claim_type": "capability",
+      "status": "A",
+      "evidence_artifact": "scripts/verify-reproducible.sh",
+      "evidence_hash": null,
+      "verification_command": "make verify",
+      "label": null
+    },
+    {
+      "claim_id": "C-DIV-DETECT",
+      "claim_text": "The mission-data-aware validation oracles detect latent legacy defects (anti-meridian, leap-second, precision, overflow) at precision=recall=1.0 against 321 ground-truth divergent vectors.",
+      "source_location": "Vol2/§b O3; Vol2/§c T-E; Vol2/§d",
+      "claim_type": "quantitative",
+      "status": "A",
+      "evidence_artifact": "src/ForgeEvolve.Validation/tests/EquivalenceValidatorTests.cs",
+      "evidence_hash": null,
+      "verification_command": "dotnet test src/ForgeEvolve.Validation/tests/ForgeEvolve.Validation.Tests.csproj",
+      "label": null
+    },
+    {
+      "claim_id": "C-REUSE-ROUTER",
+      "claim_text": "The orchestrator's live-mode routing reuses 577's published @577-industries/model-router package (air-gappable, sovereignOnly), demonstrating reuse of the existing FORGE OS framework.",
+      "source_location": "Vol2/§b O2; Vol2/§c T-D",
+      "claim_type": "capability",
+      "status": "A",
+      "evidence_artifact": "orchestrator/package.json",
+      "evidence_hash": null,
+      "verification_command": "cd orchestrator && npm ci && npm test",
+      "label": null
+    },
+    {
+      "claim_id": "C-NAVAIR-LEGACY",
       "claim_text": "NAVAIR has publicly stated TMPC was designed in line with industry best practices of 25 to 40 years ago.",
       "source_location": "Vol2/§a",
       "claim_type": "capability",
@@ -25,15 +124,37 @@
       "label": null
     },
     {
-      "claim_id": "C-EXAMPLE-P",
-      "claim_text": "FORGE EVOLVE achieves ~99.4% module-level behavioral-equivalence pass rate on prior modernization benchmarks.",
+      "claim_id": "C-STACK-CSHARP",
+      "claim_text": "The TMPC priority subsystem (MDS) is ~1.3M LOC, ~103 projects, mostly C#, with SQL and JavaScript; transition is into PMA-281.",
+      "source_location": "Vol2/§a; Vol2/§e; Vol2/§f",
+      "claim_type": "capability",
+      "status": "E",
+      "evidence_artifact": "Topic DON26BZ01-NV013 published Q&A (government answers)",
+      "evidence_hash": null,
+      "verification_command": null,
+      "label": null
+    },
+    {
+      "claim_id": "C-FORGE-BENCH",
+      "claim_text": "FORGE EVOLVE achieves high module-level behavioral-equivalence pass rates and multi-tool orchestration quality gains on prior modernization benchmarks.",
       "source_location": "Vol2/§d",
       "claim_type": "quantitative",
       "status": "P",
       "evidence_artifact": "forge-evolve.pdf (internal prior art)",
       "evidence_hash": null,
       "verification_command": null,
-      "label": "Internal/preliminary prior art (COBOL/Fortran/Ada/VB6 -> Java/Python/Rust/TS); not government-validated; the C#/.NET capability is a newly developed extension."
+      "label": "Internal/preliminary prior art for COBOL/Fortran/Ada/VB6 -> Java/Python/Rust/TS; not government-validated; the C#/.NET/JS/SQL capability is the newly developed extension demonstrated in this repository."
+    },
+    {
+      "claim_id": "C-AIRGAP-QUALITY",
+      "claim_text": "FORGE EVOLVE's air-gapped open-weight local-model mode reaches roughly 94% of cloud-frontier quality on prior internal benchmarks.",
+      "source_location": "Vol2/§c; Vol2/§d",
+      "claim_type": "quantitative",
+      "status": "P",
+      "evidence_artifact": "forge-evolve.pdf (internal prior art)",
+      "evidence_hash": null,
+      "verification_command": null,
+      "label": "Internal/preliminary prior-art benchmark; not re-measured on the TMPC surrogate; not government-validated."
     }
   ]
 }
