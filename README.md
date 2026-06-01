@@ -1,5 +1,11 @@
 # FORGE EVOLVE for TMPC
 
+[![demo-offline](https://github.com/577Industries/forge-evolve-tmpc/actions/workflows/demo-offline.yml/badge.svg)](https://github.com/577Industries/forge-evolve-tmpc/actions/workflows/demo-offline.yml)
+[![License: Apache-2.0](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](LICENSE)
+[![.NET](https://img.shields.io/badge/.NET-8.0-512BD4.svg)](global.json)
+[![tests](https://img.shields.io/badge/tests-137_passing-brightgreen.svg)](#build--test-developers)
+[![make demo](https://img.shields.io/badge/make_demo-offline_%7C_keyless_%7C_deterministic-success.svg)](#-for-navy-sbir-reviewers--5-minute-onramp)
+
 **AI-assisted modernization of C#/.NET mission-planning software, with behavioral-equivalence proof
 and continuous-ATO artifacts — runnable end-to-end on a synthetic, unclassified surrogate.**
 
