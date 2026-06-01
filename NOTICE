@@ -9,12 +9,13 @@ code-modernization framework, developed under U.S. Navy SBIR topic
 DON26BZ01-NV013 ("AI-Assisted Modernization and Optimization of Theater
 Mission Planning Center (TMPC) Software").
 
-It consumes the following 577 Industries open-source packages (Apache-2.0):
-  - @577-industries/model-router
-  - @577-industries/hashchain-audit
-  - @577-industries/tool-guardrails
-  - @577-industries/agent-memory
-  - @577-industries/workflow-dag
+It reuses 577 Industries' FORGE OS framework (Apache-2.0). Specifically:
+  - The orchestrator's live-mode routing directly consumes the published
+    @577-industries/model-router package (see orchestrator/package.json).
+  - The governance/provenance layer mirrors the @577-industries/hashchain-audit
+    design (SHA-256 hashchain + Merkle root), reimplemented in C# for the .NET pipeline.
+  - The broader FORGE OS family (agent-memory, tool-guardrails, workflow-dag)
+    informs the architecture but is not a direct runtime dependency of this repo.
 
 IMPORTANT — SCOPE AND HONESTY OF CLAIMS
   * The mission-planning component in surrogate/ is SYNTHETIC and UNCLASSIFIED.
