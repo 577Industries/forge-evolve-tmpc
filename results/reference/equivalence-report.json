@@ -93,14 +93,16 @@
       "isIntentionalDivergence": false
     }
   ],
-  "chernoffDeviationBound": 5.00250166791811E-07,
-  "confidenceLevel": 0.999,
+  "chernoffDeviationBound": 0.001497866136776995,
+  "confidenceLevel": 0.95,
+  "secondaryUpperConfidenceBound": 0.003453877639491068,
+  "secondaryConfidenceLevel": 0.999,
   "composedSystemBound": null,
   "notes": [
     "Differential equivalence over 2000 vectors (legacy vs modern, mission-data-aware oracles).",
     "VectorsPassed (fully equivalent, zero divergence): 2000.",
     "IntentionalDivergences (modern corrected a known legacy bug; findings, not failures): 0.",
     "UnexpectedViolations (target 0): 0.",
-    "ChernoffDeviationBound = ln(1/0.999)/N with N=2000 (zero-violation regime)."
+    "95% upper confidence bound on the per-vector deviation probability = ln(1/(1-0.95))/N = ln(20)/N with N=2000 (rule of three, \u22483/N; zero-violation regime). Secondary 99.9% bound = ln(1000)/N."
   ]
 }

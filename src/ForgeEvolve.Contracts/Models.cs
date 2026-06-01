@@ -268,9 +268,24 @@ public sealed record EquivalenceReport
     public required int VectorsPassed { get; init; }
     public required int Violations { get; init; }
     public required IReadOnlyList<OracleResult> Oracles { get; init; }
-    /// <summary>Multiplicative-Chernoff upper bound on operational-deviation probability: ln(1/delta)/N.</summary>
+    /// <summary>
+    /// The headline upper confidence bound on the per-vector operational-deviation probability,
+    /// for ZERO violations in N trials: the "rule of three" <c>ln(1/(1−ConfidenceLevel))/N</c>
+    /// (the 95% bound is ≈ 3/N = ln(20)/N). Reported at <see cref="ConfidenceLevel"/> (95% by
+    /// default). Field name retained for contract compatibility; this is NOT the raw ln(1/δ)/N
+    /// exponential statistic — that mislabeled value (≈5e-7 at δ=0.999) understated risk and was
+    /// removed. Lower is better; shrinks as 1/N. In the zero-violation regime only.
+    /// </summary>
     public double ChernoffDeviationBound { get; init; }
-    public double ConfidenceLevel { get; init; } // delta, e.g. 0.999
+    /// <summary>The CONFIDENCE level (1−α) for <see cref="ChernoffDeviationBound"/>; 0.95 (95%) by default.</summary>
+    public double ConfidenceLevel { get; init; }
+    /// <summary>
+    /// A secondary, more-conservative upper confidence bound at <see cref="SecondaryConfidenceLevel"/>
+    /// (99.9%): <c>ln(1/(1−0.999))/N = ln(1000)/N</c> (≈3.454e-3 at N=2000). Null when not computed.
+    /// </summary>
+    public double? SecondaryUpperConfidenceBound { get; init; }
+    /// <summary>The confidence level for <see cref="SecondaryUpperConfidenceBound"/> (e.g. 0.999). Null when not computed.</summary>
+    public double? SecondaryConfidenceLevel { get; init; }
     /// <summary>System-level bound from the Equivalence-Composability theorem across the unit DAG.</summary>
     public double? ComposedSystemBound { get; init; }
     public IReadOnlyList<string> Notes { get; init; } = Array.Empty<string>();

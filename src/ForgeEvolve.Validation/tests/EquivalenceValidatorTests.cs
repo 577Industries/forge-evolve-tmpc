@@ -51,9 +51,9 @@ public sealed class EquivalenceValidatorTests
         Assert.All(report.Oracles, o => Assert.Equal(0, o.Violations));
     }
 
-    // ── (b) modern == corpus legacyOutput => 0 violations, Chernoff = ln(1/0.999)/N ──
+    // ── (b) modern == corpus legacyOutput => 0 violations, 95% rule-of-three bound = ln(20)/N ──
     [Fact]
-    public void B_ModernEqualsCorpusLegacyOutput_ZeroViolations_ChernoffExact()
+    public void B_ModernEqualsCorpusLegacyOutput_ZeroViolations_UpperBoundExact()
     {
         var validator = new EquivalenceValidator();
         var legacy = new LegacyRunner();
@@ -65,10 +65,16 @@ public sealed class EquivalenceValidatorTests
         Assert.Equal(0, report.Violations);
         Assert.Equal(n, report.VectorsPassed);
 
-        double expected = Math.Log(1.0 / 0.999) / n;
-        Assert.Equal(expected, report.ChernoffDeviationBound, 15);
-        Assert.Equal(0.999, report.ConfidenceLevel, 12);
-        _out.WriteLine($"Chernoff bound (N={n}, delta=0.999) = {report.ChernoffDeviationBound:E6}");
+        // Headline: the 95% upper confidence bound = ln(1/(1-0.95))/N = ln(20)/N (rule of three).
+        double expected95 = Math.Log(20.0) / n;
+        Assert.Equal(expected95, report.ChernoffDeviationBound, 1e-12);
+        Assert.Equal(0.95, report.ConfidenceLevel, 12);
+        // Secondary, more-conservative 99.9% bound = ln(1000)/N.
+        Assert.NotNull(report.SecondaryUpperConfidenceBound);
+        Assert.Equal(Math.Log(1000.0) / n, report.SecondaryUpperConfidenceBound!.Value, 1e-12);
+        Assert.Equal(0.999, report.SecondaryConfidenceLevel!.Value, 12);
+        _out.WriteLine($"95% upper bound (rule of three, N={n}) = {report.ChernoffDeviationBound:E6}");
+        _out.WriteLine($"99.9% upper bound (N={n}) = {report.SecondaryUpperConfidenceBound:E6}");
     }
 
     // ── (c) modern perturbed beyond tolerance on a continuous field => > 0 violations ─

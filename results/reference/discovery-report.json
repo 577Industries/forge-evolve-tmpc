@@ -6,7 +6,7 @@
         "DisplayName": "LegacyConfig",
         "Kind": "Type",
         "Language": "CSharp",
-        "SourcePath": "/home/twawe/577i-Projects/SBIR Working Folder/DON26BZ01-NV013 AI-Assisted Modernization/forge-evolve-tmpc/surrogate/tmpc-surrogate-mds/legacy/MissionProcessor.cs",
+        "SourcePath": "surrogate/tmpc-surrogate-mds/legacy/MissionProcessor.cs",
         "StartLine": 41,
         "EndLine": 65,
         "Complexity": {
@@ -26,7 +26,7 @@
         "DisplayName": "MissionProcessor",
         "Kind": "Type",
         "Language": "CSharp",
-        "SourcePath": "/home/twawe/577i-Projects/SBIR Working Folder/DON26BZ01-NV013 AI-Assisted Modernization/forge-evolve-tmpc/surrogate/tmpc-surrogate-mds/legacy/MissionProcessor.cs",
+        "SourcePath": "surrogate/tmpc-surrogate-mds/legacy/MissionProcessor.cs",
         "StartLine": 70,
         "EndLine": 361,
         "Complexity": {
@@ -46,7 +46,7 @@
         "DisplayName": "ProcessMission",
         "Kind": "Method",
         "Language": "CSharp",
-        "SourcePath": "/home/twawe/577i-Projects/SBIR Working Folder/DON26BZ01-NV013 AI-Assisted Modernization/forge-evolve-tmpc/surrogate/tmpc-surrogate-mds/legacy/MissionProcessor.cs",
+        "SourcePath": "surrogate/tmpc-surrogate-mds/legacy/MissionProcessor.cs",
         "StartLine": 78,
         "EndLine": 302,
         "Complexity": {
@@ -66,7 +66,7 @@
         "DisplayName": "WrapDlon",
         "Kind": "Method",
         "Language": "CSharp",
-        "SourcePath": "/home/twawe/577i-Projects/SBIR Working Folder/DON26BZ01-NV013 AI-Assisted Modernization/forge-evolve-tmpc/surrogate/tmpc-surrogate-mds/legacy/MissionProcessor.cs",
+        "SourcePath": "surrogate/tmpc-surrogate-mds/legacy/MissionProcessor.cs",
         "StartLine": 306,
         "EndLine": 311,
         "Complexity": {
@@ -86,7 +86,7 @@
         "DisplayName": "InitialBearingDeg",
         "Kind": "Method",
         "Language": "CSharp",
-        "SourcePath": "/home/twawe/577i-Projects/SBIR Working Folder/DON26BZ01-NV013 AI-Assisted Modernization/forge-evolve-tmpc/surrogate/tmpc-surrogate-mds/legacy/MissionProcessor.cs",
+        "SourcePath": "surrogate/tmpc-surrogate-mds/legacy/MissionProcessor.cs",
         "StartLine": 313,
         "EndLine": 323,
         "Complexity": {
@@ -106,7 +106,7 @@
         "DisplayName": "TurnAngleDeg",
         "Kind": "Method",
         "Language": "CSharp",
-        "SourcePath": "/home/twawe/577i-Projects/SBIR Working Folder/DON26BZ01-NV013 AI-Assisted Modernization/forge-evolve-tmpc/surrogate/tmpc-surrogate-mds/legacy/MissionProcessor.cs",
+        "SourcePath": "surrogate/tmpc-surrogate-mds/legacy/MissionProcessor.cs",
         "StartLine": 325,
         "EndLine": 329,
         "Complexity": {
@@ -126,7 +126,7 @@
         "DisplayName": "BuildResultJson",
         "Kind": "Method",
         "Language": "CSharp",
-        "SourcePath": "/home/twawe/577i-Projects/SBIR Working Folder/DON26BZ01-NV013 AI-Assisted Modernization/forge-evolve-tmpc/surrogate/tmpc-surrogate-mds/legacy/MissionProcessor.cs",
+        "SourcePath": "surrogate/tmpc-surrogate-mds/legacy/MissionProcessor.cs",
         "StartLine": 333,
         "EndLine": 360,
         "Complexity": {
@@ -146,7 +146,7 @@
         "DisplayName": "clientTaskingGoNoGo",
         "Kind": "Script",
         "Language": "JavaScript",
-        "SourcePath": "/home/twawe/577i-Projects/SBIR Working Folder/DON26BZ01-NV013 AI-Assisted Modernization/forge-evolve-tmpc/surrogate/tmpc-surrogate-mds/legacy/wwwroot/mission-review.js",
+        "SourcePath": "surrogate/tmpc-surrogate-mds/legacy/wwwroot/mission-review.js",
         "StartLine": 33,
         "EndLine": 33,
         "Complexity": {
@@ -166,7 +166,7 @@
         "DisplayName": "clientTotFeasible",
         "Kind": "Script",
         "Language": "JavaScript",
-        "SourcePath": "/home/twawe/577i-Projects/SBIR Working Folder/DON26BZ01-NV013 AI-Assisted Modernization/forge-evolve-tmpc/surrogate/tmpc-surrogate-mds/legacy/wwwroot/mission-review.js",
+        "SourcePath": "surrogate/tmpc-surrogate-mds/legacy/wwwroot/mission-review.js",
         "StartLine": 42,
         "EndLine": 42,
         "Complexity": {
@@ -186,7 +186,7 @@
         "DisplayName": "renderRow",
         "Kind": "Script",
         "Language": "JavaScript",
-        "SourcePath": "/home/twawe/577i-Projects/SBIR Working Folder/DON26BZ01-NV013 AI-Assisted Modernization/forge-evolve-tmpc/surrogate/tmpc-surrogate-mds/legacy/wwwroot/mission-review.js",
+        "SourcePath": "surrogate/tmpc-surrogate-mds/legacy/wwwroot/mission-review.js",
         "StartLine": 48,
         "EndLine": 48,
         "Complexity": {
@@ -206,7 +206,7 @@
         "DisplayName": "renderMissionReview",
         "Kind": "Script",
         "Language": "JavaScript",
-        "SourcePath": "/home/twawe/577i-Projects/SBIR Working Folder/DON26BZ01-NV013 AI-Assisted Modernization/forge-evolve-tmpc/surrogate/tmpc-surrogate-mds/legacy/wwwroot/mission-review.js",
+        "SourcePath": "surrogate/tmpc-surrogate-mds/legacy/wwwroot/mission-review.js",
         "StartLine": 55,
         "EndLine": 55,
         "Complexity": {
@@ -226,7 +226,7 @@
         "DisplayName": "dbo.sp_PublishMission",
         "Kind": "StoredProcedure",
         "Language": "Sql",
-        "SourcePath": "/home/twawe/577i-Projects/SBIR Working Folder/DON26BZ01-NV013 AI-Assisted Modernization/forge-evolve-tmpc/surrogate/tmpc-surrogate-mds/legacy/sql/sp_PublishMission.sql",
+        "SourcePath": "surrogate/tmpc-surrogate-mds/legacy/sql/sp_PublishMission.sql",
         "StartLine": 22,
         "EndLine": 92,
         "Complexity": {
@@ -246,7 +246,7 @@
         "DisplayName": "dbo.Missions",
         "Kind": "Schema",
         "Language": "Sql",
-        "SourcePath": "/home/twawe/577i-Projects/SBIR Working Folder/DON26BZ01-NV013 AI-Assisted Modernization/forge-evolve-tmpc/surrogate/tmpc-surrogate-mds/legacy/sql/schema.sql",
+        "SourcePath": "surrogate/tmpc-surrogate-mds/legacy/sql/schema.sql",
         "StartLine": 22,
         "EndLine": 22,
         "Complexity": {
@@ -266,7 +266,7 @@
         "DisplayName": "dbo.Waypoints",
         "Kind": "Schema",
         "Language": "Sql",
-        "SourcePath": "/home/twawe/577i-Projects/SBIR Working Folder/DON26BZ01-NV013 AI-Assisted Modernization/forge-evolve-tmpc/surrogate/tmpc-surrogate-mds/legacy/sql/schema.sql",
+        "SourcePath": "surrogate/tmpc-surrogate-mds/legacy/sql/schema.sql",
         "StartLine": 42,
         "EndLine": 42,
         "Complexity": {
@@ -286,7 +286,7 @@
         "DisplayName": "DegreesToMilGrid",
         "Kind": "Procedure",
         "Language": "Vb6",
-        "SourcePath": "/home/twawe/577i-Projects/SBIR Working Folder/DON26BZ01-NV013 AI-Assisted Modernization/forge-evolve-tmpc/surrogate/tmpc-surrogate-mds/legacy/GeoFixedPoint.bas",
+        "SourcePath": "surrogate/tmpc-surrogate-mds/legacy/GeoFixedPoint.bas",
         "StartLine": 33,
         "EndLine": 33,
         "Complexity": {
@@ -306,7 +306,7 @@
         "DisplayName": "MilGridToDegrees",
         "Kind": "Procedure",
         "Language": "Vb6",
-        "SourcePath": "/home/twawe/577i-Projects/SBIR Working Folder/DON26BZ01-NV013 AI-Assisted Modernization/forge-evolve-tmpc/surrogate/tmpc-surrogate-mds/legacy/GeoFixedPoint.bas",
+        "SourcePath": "surrogate/tmpc-surrogate-mds/legacy/GeoFixedPoint.bas",
         "StartLine": 47,
         "EndLine": 47,
         "Complexity": {
@@ -326,7 +326,7 @@
         "DisplayName": "MilGridLonDelta",
         "Kind": "Procedure",
         "Language": "Vb6",
-        "SourcePath": "/home/twawe/577i-Projects/SBIR Working Folder/DON26BZ01-NV013 AI-Assisted Modernization/forge-evolve-tmpc/surrogate/tmpc-surrogate-mds/legacy/GeoFixedPoint.bas",
+        "SourcePath": "surrogate/tmpc-surrogate-mds/legacy/GeoFixedPoint.bas",
         "StartLine": 55,
         "EndLine": 55,
         "Complexity": {
@@ -346,7 +346,7 @@
         "DisplayName": "LegInsideBox",
         "Kind": "Procedure",
         "Language": "Vb6",
-        "SourcePath": "/home/twawe/577i-Projects/SBIR Working Folder/DON26BZ01-NV013 AI-Assisted Modernization/forge-evolve-tmpc/surrogate/tmpc-surrogate-mds/legacy/GeoFixedPoint.bas",
+        "SourcePath": "surrogate/tmpc-surrogate-mds/legacy/GeoFixedPoint.bas",
         "StartLine": 67,
         "EndLine": 67,
         "Complexity": {
@@ -583,7 +583,7 @@
         "Id": "secret-000",
         "Algorithm": "connection-string",
         "Family": "Secret",
-        "Location": "/home/twawe/577i-Projects/SBIR Working Folder/DON26BZ01-NV013 AI-Assisted Modernization/forge-evolve-tmpc/surrogate/tmpc-surrogate-mds/legacy/MissionProcessor.cs:58",
+        "Location": "surrogate/tmpc-surrogate-mds/legacy/MissionProcessor.cs:58",
         "IsWeak": true,
         "QuantumVulnerable": false,
         "Severity": "Medium"

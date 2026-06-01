@@ -1,6 +1,6 @@
 {
   "schema": "forge-evolve/provenance/v1",
-  "merkleRoot": "6fe75157462f932c33806b164f1bd5559c41229ed6b62456eb0e1db81f12f2e1",
+  "merkleRoot": "8c11531f94f5e8866337e6df2586037fb097535704ae35c068b652250714dede",
   "entryCount": 8,
   "records": [
     {
@@ -39,33 +39,33 @@
       "sequence": "4",
       "action": "validate",
       "actor": "ForgeEvolve.Validation",
-      "payloadSha256": "b6d459f2fb1a639372f05e36cb1a4485671bf28e2d62429037d118fecb81e2e1",
+      "payloadSha256": "179a36c4e97fd8af8bc01b681339800ed8c437c270701b675e9a3be1475d92dd",
       "prevHash": "d541730e96cc5b95faae58df8cb62ae1060243d4bc3920cb6151699171a720d6",
-      "entryHash": "9e7fc643ceb3669eaa83eb8d96d706ba6f3c2e807c7548ed85d0819bf04b1639"
+      "entryHash": "a68dd4db457f225e73233a7cc918e85350eaf4bfb971395dc45c85c24d788a25"
     },
     {
       "sequence": "5",
       "action": "cato",
       "actor": "ForgeEvolve.Cato",
-      "payloadSha256": "cb6109b01304d2cfafa940c4da29612fb05a9df4eb1e47c8b55ed9c31eba3ff8",
-      "prevHash": "9e7fc643ceb3669eaa83eb8d96d706ba6f3c2e807c7548ed85d0819bf04b1639",
-      "entryHash": "7d0860db2ab2d9131c82c1c964df99802e00a446ee9ab35c25a60a55b98d3972"
+      "payloadSha256": "f2e299a86ed9989855817b05ebaea51ae04d842f6f00fa5a5b6cdbb9e31e2772",
+      "prevHash": "a68dd4db457f225e73233a7cc918e85350eaf4bfb971395dc45c85c24d788a25",
+      "entryHash": "27427f8afe13bf0689a910f29b9d4bed4a4f89a3852e376d2224c3614141fc3c"
     },
     {
       "sequence": "6",
       "action": "review-gate-decision",
       "actor": "governance:gate:KG1",
       "payloadSha256": "2bfe4b2cc2c9a849b2fef5df66ce48491c8789a860261cd8fbab4b013b53db3f",
-      "prevHash": "7d0860db2ab2d9131c82c1c964df99802e00a446ee9ab35c25a60a55b98d3972",
-      "entryHash": "70297ffd14b96225b7aa46610f9155bcd053d6a1e7e660d85f368c964ad11d66"
+      "prevHash": "27427f8afe13bf0689a910f29b9d4bed4a4f89a3852e376d2224c3614141fc3c",
+      "entryHash": "367d505ba042027bdab3749a2d52b9543fd4669a7c4c8bdc06067b7ff9817521"
     },
     {
       "sequence": "7",
       "action": "review-gate-decision",
       "actor": "governance:gate:KG2",
       "payloadSha256": "01c58ef8e1f9be0a00f62bbf311f4389927b8b4ca9295faf19527c3285583e10",
-      "prevHash": "70297ffd14b96225b7aa46610f9155bcd053d6a1e7e660d85f368c964ad11d66",
-      "entryHash": "db89a3c87a3bae9ee6b780132e0f5b4ce24b5846759605de4c333a7f46dc8f4e"
+      "prevHash": "367d505ba042027bdab3749a2d52b9543fd4669a7c4c8bdc06067b7ff9817521",
+      "entryHash": "1ccdbb099f360bbc4a984e4e151d0c60d59fe61c0a647cecb1fb3eb503d78e93"
     }
   ]
 }

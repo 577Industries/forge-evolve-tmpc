@@ -6,6 +6,7 @@
   "groundTruthDivergent": 321,
   "precision": 1,
   "recall": 1,
+  "note": "Detector applies the same divergence definition used to label the corpus ground truth; P=R=1.0 reflects implementation correctness/self-consistency, not detection of unseen criteria.",
   "byClass": [
     {
       "tag": "anti-meridian",

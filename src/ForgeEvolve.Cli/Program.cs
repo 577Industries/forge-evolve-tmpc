@@ -89,7 +89,7 @@ internal static class Program
 
         // ── STAGE 1 — DISCOVERY ──────────────────────────────────────────────────
         Console.WriteLine("── [1/8] Discovery ───────────────────────────────────────────────");
-        IReadOnlyList<SourceArtifact> sources = LoadSurrogateSources(surrogateDir);
+        IReadOnlyList<SourceArtifact> sources = LoadSurrogateSources(surrogateDir, repoRoot);
         string goldTtl = File.ReadAllText(Path.Combine(repoRoot, "surrogate", "gold", "business-rules.gold.ttl"));
 
         var discoveryEngine = new DiscoveryEngine();
@@ -268,7 +268,9 @@ internal static class Program
         Console.WriteLine($"  VectorsPassed      : {eq.VectorsPassed}  (fully equivalent, modern == legacy)");
         Console.WriteLine($"  Violations         : {eq.Violations}   (MUST be 0)");
         Console.WriteLine($"  IntentionalDiverg. : {intentionalDivergences}  (corpus ground-truth divergent: {corpus.DivergentCount})");
-        Console.WriteLine($"  Chernoff bound     : {eq.ChernoffDeviationBound:E6}  (delta={eq.ConfidenceLevel})");
+        Console.WriteLine($"  Upper conf. bound  : {eq.ChernoffDeviationBound:E6}  (95% rule-of-three, ln(20)/N; confidenceLevel={eq.ConfidenceLevel})");
+        if (eq.SecondaryUpperConfidenceBound is double secBound)
+            Console.WriteLine($"  (secondary)        : {secBound:E6}  (99.9% upper bound, ln(1000)/N)");
         Console.WriteLine($"  -> {Rel(repoRoot, eqPath)}");
         if (eq.Violations != 0)
             throw new InvalidOperationException(
@@ -381,7 +383,7 @@ internal static class Program
         Console.WriteLine($"  Planner     : {plan.Units.Count} candidate microservice boundaries proposed (heuristic)");
         Console.WriteLine($"  Transform   : max-method CC {ccBefore} -> {ccAfter}; {transform.Files.Count} modern files (offline replay)");
         Console.WriteLine($"  EQUIVALENCE : {eq.VectorsPassed}/{eq.VectorsTotal} vectors equivalent; Violations={eq.Violations}; intentional divergences={intentionalDivergences}");
-        Console.WriteLine($"              : Chernoff deviation bound {eq.ChernoffDeviationBound:E3} at delta={eq.ConfidenceLevel}");
+        Console.WriteLine($"              : 95% upper confidence bound (rule of three, ln(20)/N) {eq.ChernoffDeviationBound:E3} at confidenceLevel={eq.ConfidenceLevel}");
         Console.WriteLine($"  LATENT DEFS : {latent.TotalDetected} surfaced (P=R={latent.Precision:F1}): {string.Join(" / ", latent.ByClass.Select(c => $"{c.Tag} {c.DetectedCount}"))}");
         Console.WriteLine($"  cATO        : STIG {findingsBefore} detected -> {remediated} remediated / {outOfScope} out-of-scope / {residual} residual; {cato.ControlMap.Count} controls; {cato.Poam.Count} POA&M items");
         Console.WriteLine($"  Governance  : {governance.Ledger.Count}-record IGOM, root {Short(governance.CurrentMerkleRoot())}; KG1={(kg1.Passed ? "PASS" : "FAIL")} KG2={(kg2.Passed ? "PASS" : "FAIL")}");
@@ -393,7 +395,13 @@ internal static class Program
     }
 
     // ── Surrogate source loading (mirrors the module tests' SurrogateFixture) ─────
-    private static IReadOnlyList<SourceArtifact> LoadSurrogateSources(string surrogateDir)
+    // PRIVACY/DETERMINISM: read each file from its ABSOLUTE on-disk path, but store the artifact's
+    // Path as a REPO-ROOT-RELATIVE, forward-slashed string (e.g.
+    // "surrogate/tmpc-surrogate-mds/legacy/MissionProcessor.cs"). SourceArtifact.Path is only used
+    // for display/provenance (SourcePath in Discovery, Location in Cato, the POA&M weakness text),
+    // never to re-open the file, so making it relative leaks no OS username / machine paths into the
+    // committed artifacts and keeps the run byte-identical across machines.
+    private static IReadOnlyList<SourceArtifact> LoadSurrogateSources(string surrogateDir, string repoRoot)
     {
         var rel = new[]
         {
@@ -409,7 +417,9 @@ internal static class Program
             string path = Path.Combine(surrogateDir, r);
             if (!File.Exists(path))
                 throw new FileNotFoundException($"Surrogate source missing: {path}");
-            files.Add(SourceLoader.FromFile(path));
+            SourceArtifact art = SourceLoader.FromFile(path);
+            // Re-anchor the path to the repo root so no absolute/OS-specific path is emitted.
+            files.Add(art with { Path = Rel(repoRoot, path) });
         }
         return files;
     }

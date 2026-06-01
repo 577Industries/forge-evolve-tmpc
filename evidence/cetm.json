@@ -26,7 +26,7 @@
     },
     {
       "claim_id": "C-EQUIV-CHERNOFF",
-      "claim_text": "Behavioral-equivalence statistical confidence: multiplicative-Chernoff deviation bound 5.003e-7 at delta=0.999 over N=2000 vectors.",
+      "claim_text": "Behavioral-equivalence statistical confidence: 95% upper confidence bound on the per-vector deviation probability = 1.498e-3 (rule of three, ln(20)/N) for 0 violations in N=2000 vectors; secondary 99.9% upper bound = 3.454e-3 (ln(1000)/N).",
       "source_location": "Vol2/§c T-E",
       "claim_type": "quantitative",
       "status": "A",

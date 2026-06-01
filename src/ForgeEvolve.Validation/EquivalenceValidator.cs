@@ -123,11 +123,17 @@ public sealed class EquivalenceValidator : IEquivalenceValidator
             else vectorsPassed++;
         }
 
-        // Chernoff bound: valid only in the zero-violation regime, over vectors that PASSED
-        // (fully equivalent). With unexpected violations present the empirical rate dominates.
-        double chernoff = violations == 0
-            ? EquivalenceBounds.ChernoffDeviationBound(vectorsPassed)
+        // Rule-of-three UPPER CONFIDENCE BOUND: valid only in the zero-violation regime, over
+        // vectors that PASSED (fully equivalent). With unexpected violations present the empirical
+        // deviation rate dominates. The headline is the 95% bound (≈3/N = ln(20)/N); we also expose
+        // a more-conservative 99.9% bound for reviewers who want a higher confidence level.
+        bool zeroViolation = violations == 0;
+        double primaryBound = zeroViolation
+            ? EquivalenceBounds.UpperConfidenceBound(vectorsPassed, EquivalenceBounds.PrimaryConfidenceLevel)
             : (double)violations / Math.Max(vectorsTotal, 1);
+        double? secondaryBound = zeroViolation
+            ? EquivalenceBounds.UpperConfidenceBound(vectorsPassed, EquivalenceBounds.SecondaryConfidenceLevel)
+            : (double?)null;
 
         var oracles = new List<OracleResult>
         {
@@ -146,9 +152,11 @@ public sealed class EquivalenceValidator : IEquivalenceValidator
             $"VectorsPassed (fully equivalent, zero divergence): {vectorsPassed}.",
             $"IntentionalDivergences (modern corrected a known legacy bug; findings, not failures): {intentionalDivergentVectors}.",
             $"UnexpectedViolations (target 0): {violations}.",
-            violations == 0
-                ? $"ChernoffDeviationBound = ln(1/{EquivalenceBounds.PreRegisteredDelta})/N with N={vectorsPassed} (zero-violation regime)."
-                : $"ChernoffDeviationBound replaced by empirical deviation rate {violations}/{vectorsTotal} (violations present; bound invalid).",
+            zeroViolation
+                ? $"95% upper confidence bound on the per-vector deviation probability = ln(1/(1-0.95))/N "
+                  + $"= ln(20)/N with N={vectorsPassed} (rule of three, ≈3/N; zero-violation regime). "
+                  + $"Secondary 99.9% bound = ln(1000)/N."
+                : $"Upper confidence bound replaced by empirical deviation rate {violations}/{vectorsTotal} (violations present; bound invalid).",
         };
 
         return new EquivalenceReport
@@ -158,8 +166,10 @@ public sealed class EquivalenceValidator : IEquivalenceValidator
             VectorsPassed = vectorsPassed,
             Violations = violations,
             Oracles = oracles,
-            ChernoffDeviationBound = chernoff,
-            ConfidenceLevel = EquivalenceBounds.PreRegisteredDelta,
+            ChernoffDeviationBound = primaryBound,
+            ConfidenceLevel = EquivalenceBounds.PrimaryConfidenceLevel,
+            SecondaryUpperConfidenceBound = secondaryBound,
+            SecondaryConfidenceLevel = zeroViolation ? EquivalenceBounds.SecondaryConfidenceLevel : (double?)null,
             ComposedSystemBound = null, // populated at system integration (P3) across the unit DAG
             Notes = notes,
         };

@@ -263,6 +263,10 @@ internal sealed record LatentDefectReport
             report.GroundTruthDivergent,
             report.Precision,
             report.Recall,
+            note =
+                "Detector applies the same divergence definition used to label the corpus ground "
+                + "truth; P=R=1.0 reflects implementation correctness/self-consistency, not detection "
+                + "of unseen criteria.",
             byClass = report.ByClass.Select(c => new
             {
                 c.Tag,

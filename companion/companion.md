@@ -22,7 +22,7 @@ A committed reference run lives in `results/reference/`; reviewers can reproduce
 |---|---|---|---|
 | No real/controlled TMPC data is present | C-DATA-EXCL | `EXCLUSIONS.md` | `cat EXCLUSIONS.md` |
 | Modern component is behaviorally equivalent to legacy: **2000/2000 vectors, 0 violations** | C-EQUIV-PASS | `results/reference/equivalence-report.json`; `tmpc-modern-mds/tools/ModernCheck` | `make demo` → MODERN-CHECK PASS 2000/2000 |
-| Equivalence confidence (Chernoff) **5.003e-7** at δ=0.999, N=2000 | C-EQUIV-CHERNOFF | `results/reference/equivalence-report.json` (`chernoffDeviationBound`) | `make demo` |
+| Equivalence confidence: **95% upper confidence bound 1.498e-3** (rule of three, ln(20)/N) for 0 violations in N=2000; secondary 99.9% bound 3.454e-3 (ln(1000)/N) | C-EQUIV-CHERNOFF | `results/reference/equivalence-report.json` (`chernoffDeviationBound` @ `confidenceLevel`=0.95; `secondaryUpperConfidenceBound` @ 0.999) | `make demo` |
 | Refactor cuts god-method cyclomatic complexity **49 → 6** | C-CC-REDUCE | Discovery vs modern; `results/reference/transform-result.json` Notes | `make demo` |
 | Discovery parses C# at **100%**, extracts rules at **F1=1.0** vs gold | C-DISC-F1 | `ForgeEvolve.Discovery.Tests`; `results/reference/discovery-report.json` | `dotnet test` |
 | cATO: detects **5 STIG findings**; genuinely remediates the **CAT I SQL-injection**; JS-XSS + SQL-DDL out-of-scope; TLS + hardcoded-cred residual; 10×800-53 + SBOM + POA&M | C-CATO-STIG | `results/reference/cato/*`, `sbom.cdx.json`, `poam.csv` | `make demo` |

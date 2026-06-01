@@ -1,19 +1,19 @@
 [
   {
     "id": "POAM-S-001",
-    "weakness": "[APSC-DV-001620 / CAT II] TLS server-certificate validation disabled (TrustServerCertificate=true) (/home/twawe/577i-Projects/SBIR Working Folder/DON26BZ01-NV013 AI-Assisted Modernization/forge-evolve-tmpc/surrogate/tmpc-surrogate-mds/legacy/MissionProcessor.cs:58) [disposition: Residual]",
+    "weakness": "[APSC-DV-001620 / CAT II] TLS server-certificate validation disabled (TrustServerCertificate=true) (surrogate/tmpc-surrogate-mds/legacy/MissionProcessor.cs:58) [disposition: Residual]",
     "status": "Open",
     "scheduledCompletion": "ECP-recommended"
   },
   {
     "id": "POAM-S-002",
-    "weakness": "[APSC-DV-002400 / CAT II] Hardcoded database connection string (embedded authentication/configuration data) (/home/twawe/577i-Projects/SBIR Working Folder/DON26BZ01-NV013 AI-Assisted Modernization/forge-evolve-tmpc/surrogate/tmpc-surrogate-mds/legacy/MissionProcessor.cs:58) [disposition: Residual]",
+    "weakness": "[APSC-DV-002400 / CAT II] Hardcoded database connection string (embedded authentication/configuration data) (surrogate/tmpc-surrogate-mds/legacy/MissionProcessor.cs:58) [disposition: Residual]",
     "status": "Open",
     "scheduledCompletion": "ECP-recommended"
   },
   {
     "id": "POAM-S-003",
-    "weakness": "[APSC-DV-002490 / CAT II] HTML built by string concatenation and injected without output encoding (DOM-based XSS class) (/home/twawe/577i-Projects/SBIR Working Folder/DON26BZ01-NV013 AI-Assisted Modernization/forge-evolve-tmpc/surrogate/tmpc-surrogate-mds/legacy/wwwroot/mission-review.js:80) [disposition: OutOfScope]",
+    "weakness": "[APSC-DV-002490 / CAT II] HTML built by string concatenation and injected without output encoding (DOM-based XSS class) (surrogate/tmpc-surrogate-mds/legacy/wwwroot/mission-review.js:80) [disposition: OutOfScope]",
     "status": "Open",
     "scheduledCompletion": "Follow-on increment (out of transform scope)"
   },
@@ -25,7 +25,7 @@
   },
   {
     "id": "POAM-S-005",
-    "weakness": "[APSC-DV-002560 / CAT II] Untrusted delimited blob parsed with no validation (CHARINDEX/SUBSTRING/STRING_SPLIT over an external parameter) (/home/twawe/577i-Projects/SBIR Working Folder/DON26BZ01-NV013 AI-Assisted Modernization/forge-evolve-tmpc/surrogate/tmpc-surrogate-mds/legacy/sql/sp_PublishMission.sql:67) [disposition: OutOfScope]",
+    "weakness": "[APSC-DV-002560 / CAT II] Untrusted delimited blob parsed with no validation (CHARINDEX/SUBSTRING/STRING_SPLIT over an external parameter) (surrogate/tmpc-surrogate-mds/legacy/sql/sp_PublishMission.sql:67) [disposition: OutOfScope]",
     "status": "Open",
     "scheduledCompletion": "Follow-on increment (out of transform scope)"
   },

@@ -9,29 +9,53 @@ namespace ForgeEvolve.Validation.Tests;
 public sealed class BoundsTests
 {
     [Fact]
-    public void Chernoff_N2000_Delta999_MatchesClosedForm()
+    public void UpperBound_95pct_N2000_IsRuleOfThree_LnTwentyOverN()
     {
-        double b = EquivalenceBounds.ChernoffDeviationBound(2000, 0.999);
-        Assert.Equal(Math.Log(1.0 / 0.999) / 2000.0, b, 15);
-        // Sanity: about 5.0025e-7.
-        Assert.InRange(b, 5.0e-7, 5.01e-7);
+        // 95% upper confidence bound for 0 failures in N=2000: ln(1/(1-0.95))/2000 = ln(20)/2000.
+        double b = EquivalenceBounds.UpperConfidenceBound(2000, 0.95);
+        Assert.Equal(Math.Log(20.0) / 2000.0, b, 1e-9);
+        // Sanity: the rule of three, ≈ 3/N ≈ 1.498e-3 (NOT the old mislabeled 5.003e-7).
+        Assert.InRange(b, 1.497e-3, 1.499e-3);
     }
 
     [Fact]
-    public void Chernoff_ShrinksWithN()
+    public void UpperBound_DefaultConfidenceIs95pct()
+        => Assert.Equal(EquivalenceBounds.UpperConfidenceBound(2000, 0.95),
+                        EquivalenceBounds.UpperConfidenceBound(2000), 1e-15);
+
+    [Fact]
+    public void UpperBound_99pct_N2000_IsLnHundredOverN()
+        => Assert.Equal(Math.Log(100.0) / 2000.0,
+                        EquivalenceBounds.UpperConfidenceBound(2000, 0.99), 1e-9); // ≈ 2.303e-3
+
+    [Fact]
+    public void UpperBound_999pct_N2000_IsLnThousandOverN()
     {
-        Assert.True(EquivalenceBounds.ChernoffDeviationBound(4000)
-                    < EquivalenceBounds.ChernoffDeviationBound(2000));
+        double b = EquivalenceBounds.UpperConfidenceBound(2000, 0.999);
+        Assert.Equal(Math.Log(1000.0) / 2000.0, b, 1e-9); // ≈ 3.454e-3
+        Assert.InRange(b, 3.45e-3, 3.46e-3);
     }
 
     [Fact]
-    public void Chernoff_NoEvidence_IsInfinite()
-        => Assert.Equal(double.PositiveInfinity, EquivalenceBounds.ChernoffDeviationBound(0));
+    public void UpperBound_HigherConfidence_IsMoreConservative()
+        => Assert.True(EquivalenceBounds.UpperConfidenceBound(2000, 0.999)
+                       > EquivalenceBounds.UpperConfidenceBound(2000, 0.95));
+
+    [Fact]
+    public void UpperBound_ShrinksWithN()
+    {
+        Assert.True(EquivalenceBounds.UpperConfidenceBound(4000)
+                    < EquivalenceBounds.UpperConfidenceBound(2000));
+    }
+
+    [Fact]
+    public void UpperBound_NoEvidence_IsInfinite()
+        => Assert.Equal(double.PositiveInfinity, EquivalenceBounds.UpperConfidenceBound(0));
 
     [Fact]
     public void Composed_AllUnitInfluenceOne_IsPlainSum()
     {
-        double b = EquivalenceBounds.ChernoffDeviationBound(2000);
+        double b = EquivalenceBounds.UpperConfidenceBound(2000);
         var units = new[]
         {
             new UnitBound("u1", b),
@@ -118,8 +142,10 @@ public sealed class ReportTests
         _out.WriteLine($"VectorsTotal         : {report.VectorsTotal}");
         _out.WriteLine($"VectorsPassed        : {report.VectorsPassed}");
         _out.WriteLine($"Violations (target 0): {report.Violations}");
-        _out.WriteLine($"ChernoffDeviationBound (delta=0.999, N={report.VectorsPassed}) = "
+        _out.WriteLine($"95% upper confidence bound (rule of three, N={report.VectorsPassed}) = "
             + $"{report.ChernoffDeviationBound:E6}");
+        if (report.SecondaryUpperConfidenceBound is double sec)
+            _out.WriteLine($"99.9% upper confidence bound = {sec:E6}");
         _out.WriteLine($"ComposedSystemBound (1 unit, L=1) = {report.ComposedSystemBound:E6}");
         _out.WriteLine($"Artifact written     : {written}");
 

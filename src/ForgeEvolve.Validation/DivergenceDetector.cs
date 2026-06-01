@@ -16,6 +16,16 @@
 // Detecting divergence requires ONLY the legacy output and the reference answer key — it does
 // not depend on the modern implementation — so the detector can be validated against the
 // 321-vector ground truth independently of any modern component.
+//
+// HONESTY DISCLOSURE (read before citing the precision/recall numbers):
+//   This detector applies the SAME divergence definition that the corpus used to LABEL its
+//   `expectedLegacyDivergent` ground truth (reference/reference.py :: is_legacy_divergent). The
+//   detector and the labeler are therefore the same function. Consequently precision = recall =
+//   F1 = 1.0 is a measure of ENGINE SELF-CONSISTENCY / CORRECTNESS OF THE IMPLEMENTATION (the C#
+//   port faithfully reproduces the reference definition on every vector), NOT a measure of blind
+//   detection skill against unseen or independently-authored criteria. It demonstrates that the
+//   implementation matches its own specification — it is not evidence of generalization to a
+//   different, withheld divergence taxonomy. Cite it accordingly.
 
 using ForgeEvolve.Contracts;
 
