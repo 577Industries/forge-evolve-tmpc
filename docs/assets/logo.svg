@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="577 Industries — FORGE EVOLVE">
+  <title>FORGE EVOLVE for TMPC — 577 Industries</title>
+  <!-- Rounded tile -->
+  <rect x="2" y="2" width="60" height="60" rx="12" fill="#3949ab"/>
+  <!-- Forge accent stroke (anvil-line) -->
+  <line x1="12" y1="50" x2="52" y2="50" stroke="#7c4dff" stroke-width="3" stroke-linecap="round"/>
+  <!-- 577 text mark -->
+  <text x="32" y="40" text-anchor="middle" font-family="'JetBrains Mono', ui-monospace, monospace"
+        font-size="26" font-weight="700" letter-spacing="-1" fill="#ffffff">577</text>
+</svg>

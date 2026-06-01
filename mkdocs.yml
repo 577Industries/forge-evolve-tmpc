@@ -1,0 +1,142 @@
+site_name: FORGE EVOLVE for TMPC
+site_description: >-
+  AI-assisted modernization of C#/.NET mission-planning software with behavioral-equivalence
+  proof and continuous-ATO artifacts — 577 Industries · U.S. Navy SBIR Phase I · Topic DON26BZ01-NV013.
+site_url: https://577industries.github.io/forge-evolve-tmpc/
+site_author: 577 Industries, Inc.
+repo_url: https://github.com/577Industries/forge-evolve-tmpc
+repo_name: 577Industries/forge-evolve-tmpc
+edit_uri: edit/main/
+copyright: >-
+  Copyright &copy; 2026 577 Industries, Inc. — Apache-2.0 license. Preliminary, surrogate-based results —
+  not government-validated, no Navy endorsement implied.
+
+# Transcluded repo Markdown keeps its repo-relative links verbatim (rewrite-relative-urls=false, the
+# HELIOS pattern). Those links resolve on the canonical GitHub repo, not inside the built site, so the
+# in-page link checks are relaxed to non-fatal while nav/structure validation stays strict.
+validation:
+  omitted_files: warn
+  absolute_links: info
+  unrecognized_links: info
+  nav:
+    omitted_files: warn
+    not_found: warn
+    absolute_links: warn
+  links:
+    not_found: ignore
+    anchors: info
+    absolute_links: info
+    unrecognized_links: info
+
+theme:
+  name: material
+  custom_dir: overrides
+  logo: assets/logo.svg
+  favicon: assets/favicon.svg
+
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - navigation.top
+    - toc.follow
+    - search.suggest
+    - search.highlight
+    - content.code.copy
+    - content.action.edit
+    - content.tooltips
+
+  palette:
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: indigo
+      accent: deep purple
+      toggle:
+        icon: material/weather-night
+        name: Switch to dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: indigo
+      accent: deep purple
+      toggle:
+        icon: material/weather-sunny
+        name: Switch to light mode
+
+  icon:
+    repo: fontawesome/brands/github
+    edit: material/pencil
+
+  font:
+    text: Inter
+    code: JetBrains Mono
+
+plugins:
+  - search:
+      separator: '[\s\-\.]+'
+  - git-revision-date-localized:
+      enable_creation_date: true
+      type: iso_date
+      fallback_to_build_date: true
+  - include-markdown
+  - glightbox:
+      touchNavigation: true
+      loop: false
+      effect: zoom
+
+markdown_extensions:
+  - admonition
+  - attr_list
+  - def_list
+  - footnotes
+  - md_in_html
+  - tables
+  - toc:
+      permalink: true
+      toc_depth: 3
+  - pymdownx.details
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+  - pymdownx.inlinehilite
+  - pymdownx.smartsymbols
+  - pymdownx.snippets
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.tasklist:
+      custom_checkbox: true
+
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/577Industries
+      name: 577 Industries on GitHub
+    - icon: fontawesome/brands/linkedin
+      link: https://www.linkedin.com/company/577-industries/
+      name: 577 Industries on LinkedIn
+  generator: false
+
+extra_css:
+  - stylesheets/extra.css
+
+extra_javascript:
+  - https://unpkg.com/mermaid@10.9.0/dist/mermaid.min.js
+
+nav:
+  - Home: index.md
+  - "For Reviewers (5-min)": reviewers.md
+  - Proposal Companion: companion.md
+  - Technical Approach: technical-approach.md
+  - Artifacts & Claims: artifacts.md
+  - Reproducibility: reproducibility.md
+  - Governance & Pre-Registration: governance.md
+  - Honesty & Exclusions: honesty.md
+  - Master Plan: master-plan.md
+  - Contact: contact.md

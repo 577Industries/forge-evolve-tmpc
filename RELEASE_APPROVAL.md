@@ -16,7 +16,7 @@ real/controlled TMPC data — so there is nothing to sanitize or split out. See 
 - [x] `make verify` — byte-deterministic across runs
 - [x] `make audit` — CETM `issues_count: 0`
 - [x] Independent security/ITAR audit — **no secrets, no real/controlled data, Apache-2.0 clean, safe to publish**
-- [x] No absolute build paths / usernames in committed artifacts (`grep -r twawe results/` → clean)
+- [x] No absolute build paths / usernames in committed artifacts (recursive username/home-path grep over `results/` → clean)
 - [x] CI workflow (`.github/workflows/demo-offline.yml`) runs build + test + offline demo + secret scan on push
 
 ## Reviewer reproduction contract (what a Navy reviewer does)

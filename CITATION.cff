@@ -23,4 +23,14 @@ keywords:
   - DevSecOps
   - continuous ATO
   - SBIR
-date-released: 2026-05-31
+  - Roslyn
+  - differential testing
+  - property-based testing
+  - STIG
+  - NIST 800-53
+  - CycloneDX SBOM
+  - software provenance
+  - mission planning
+  - TMPC
+  - Navy SBIR
+date-released: 2026-06-01

@@ -1,0 +1,100 @@
+{% extends "main.html" %}
+
+{# Hide the page title (we render our own in the hero), the breadcrumb, and the TOC for the landing page only. #}
+{% block htmltitle %}
+  <title>{{ config.site_name }} — {{ config.site_description }}</title>
+{% endblock %}
+
+{# Inject the hero between the tabs bar and the main content. `super()` keeps the tabs visible. #}
+{% block tabs %}
+  {{ super() }}
+
+  <section class="forge-hero">
+    <div class="forge-hero__inner">
+      <p class="forge-hero__eyebrow">577 Industries · U.S. Navy SBIR Phase I · Topic DON26BZ01-NV013</p>
+      <h1>FORGE EVOLVE for TMPC</h1>
+      <p class="forge-hero__subtitle">
+        AI-assisted modernization of C#/.NET mission-planning software, with behavioral-equivalence
+        proof and continuous-ATO artifacts — runnable end-to-end on a synthetic, unclassified surrogate.
+      </p>
+      <p class="forge-hero__lede">
+        The C#/.NET/JavaScript/SQL extension of the FORGE EVOLVE code-modernization framework, built for
+        the Theater Mission Planning Center (TMPC) software stack. Discovery → CLAR → Migration Planner →
+        Tool Orchestrator → Transformation → behavioral-equivalence Validation → cyber/cATO overlay →
+        Governance — every step reproducible offline, with no API keys and no network.
+      </p>
+
+      <div class="forge-hero__headline-number">
+        <strong>2000/2000 vectors · 0 violations</strong>
+        <span>behavioral equivalence between the legacy and modernized .NET&nbsp;8 mission component, over the frozen golden corpus.</span>
+      </div>
+      <span class="forge-hero__caveat">Synthetic surrogate · preliminary · not government-validated</span>
+
+      <div class="forge-hero__actions">
+        <a class="forge-btn forge-btn--primary" href="reviewers/">5-minute Reviewer Onramp</a>
+        <a class="forge-btn forge-btn--secondary" href="companion/">Proposal Companion</a>
+        <a class="forge-btn forge-btn--secondary" href="https://github.com/577Industries/forge-evolve-tmpc">GitHub</a>
+      </div>
+    </div>
+  </section>
+{% endblock %}
+
+{# Wrap the standard markdown content in our home-page layout sections. #}
+{% block content %}
+<div class="forge-artifacts">
+  <h2 id="artifacts">Phase I artifacts</h2>
+  <p class="forge-artifacts__intro">
+    A single public repository converts the submitted-proposal claims into citable, reproducible URLs,
+    consuming 577's published model-router. See the
+    <a href="artifacts/">Artifacts &amp; Claims</a> registry for the full claim&rarr;artifact mapping.
+  </p>
+
+  <div class="forge-artifact-grid">
+    <div class="forge-artifact-card">
+      <h3>forge-evolve-tmpc</h3>
+      <p class="forge-artifact-card__desc">
+        The C#/.NET reference implementation: Roslyn discovery, CLAR lift, risk-scored migration
+        planning, offline-replay tool orchestration, .NET&nbsp;8 transformation, mission-data-aware
+        equivalence validation, and continuous-ATO artifacts on a synthetic, unclassified surrogate.
+      </p>
+      <div class="forge-artifact-card__footer">
+        <span class="forge-status forge-status--in-development">v0.1.0 · reviewer-runnable</span>
+        <a class="forge-artifact-card__link" href="https://github.com/577Industries/forge-evolve-tmpc">repo →</a>
+      </div>
+    </div>
+
+    <div class="forge-artifact-card forge-artifact-card--secondary">
+      <h3>@577-industries/model-router</h3>
+      <p class="forge-artifact-card__desc">
+        Consumed dependency. The published 577 model-router routes live transform tasks; the demo runs
+        the deterministic offline transcript-replay path, so the headline numbers reproduce without it.
+      </p>
+      <div class="forge-artifact-card__footer">
+        <span class="forge-status forge-status--stable">npm dep · ^1.0.0</span>
+        <a class="forge-artifact-card__link" href="https://github.com/577Industries">repo →</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="forge-stats">
+  <div class="forge-stat">
+    <div class="forge-stat__number">137</div>
+    <div class="forge-stat__label">tests passing</div>
+  </div>
+  <div class="forge-stat">
+    <div class="forge-stat__number">24</div>
+    <div class="forge-stat__label">projects in solution</div>
+  </div>
+  <div class="forge-stat">
+    <div class="forge-stat__number">2000/2000</div>
+    <div class="forge-stat__label">vectors equivalent</div>
+  </div>
+  <div class="forge-stat">
+    <div class="forge-stat__number">321</div>
+    <div class="forge-stat__label">latent defects detected</div>
+  </div>
+</div>
+
+{{ super() }}
+{% endblock %}

@@ -46,6 +46,14 @@ exact file/test that backs it. [`EXCLUSIONS.md`](EXCLUSIONS.md) states why this 
 > of technical debt and *shapes* of mission-planning logic the government described, so results
 > transfer in kind, not in fidelity. See [`surrogate/DEBT.md`](surrogate/DEBT.md).
 
+## Reading order for first-time visitors
+
+1. [`companion/companion.md`](companion/companion.md) — each proposal claim mapped to the exact file/test that backs it.
+2. [`REPRODUCIBILITY.md`](REPRODUCIBILITY.md) — reproduce every cited metric offline, from a clean clone.
+3. [`EXCLUSIONS.md`](EXCLUSIONS.md) — why this is unclassified, ITAR-clean, and safe to publish.
+4. [`governance/pre-registration.md`](governance/pre-registration.md) — metrics, thresholds, and kill-gates frozen before any run.
+5. Companion site: <https://577industries.github.io/forge-evolve-tmpc/>
+
 ---
 
 ## What it does (the pipeline)

@@ -1,0 +1,344 @@
+/* FORGE EVOLVE for TMPC — custom polish on top of MkDocs Material 9.5
+   Goal: credible engineering register for a Navy SBIR reviewer audience.
+   Avoid startup-marketing aesthetics. Restrained, type-driven, data-forward.
+   Indigo / deep-purple palette so it reads as a HELIOS sibling, not a clone. */
+
+/* ---- Hero section (used by overrides/home.html) ---- */
+.forge-hero {
+  background:
+    radial-gradient(ellipse at 30% 0%, rgba(124, 77, 255, 0.12) 0%, transparent 55%),
+    linear-gradient(135deg,
+      var(--md-primary-fg-color) 0%,
+      color-mix(in oklab, var(--md-primary-fg-color) 80%, black) 100%);
+  color: #fff;
+  padding: 5rem 1.5rem 4.5rem;
+  margin: -1.5rem -1.5rem 3rem -1.5rem; /* full-bleed within the Material content frame */
+  position: relative;
+  overflow: hidden;
+}
+
+.forge-hero::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background-image:
+    radial-gradient(circle at 80% 30%, rgba(255,255,255,0.06) 0%, transparent 50%),
+    radial-gradient(circle at 20% 90%, rgba(124, 77, 255, 0.10) 0%, transparent 45%);
+  pointer-events: none;
+}
+
+.forge-hero__inner {
+  max-width: 64rem;
+  margin: 0 auto;
+  position: relative;
+}
+
+.forge-hero__eyebrow {
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  opacity: 0.85;
+  margin: 0 0 0.5rem;
+  color: var(--md-accent-fg-color);
+  font-weight: 600;
+}
+
+.forge-hero h1 {
+  font-size: 3.25rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  margin: 0 0 0.75rem;
+  color: #fff;
+}
+
+.forge-hero__subtitle {
+  font-size: 1.35rem;
+  font-weight: 400;
+  opacity: 0.92;
+  margin: 0 0 2rem;
+  max-width: 48rem;
+  line-height: 1.45;
+}
+
+.forge-hero__lede {
+  font-size: 1.05rem;
+  line-height: 1.65;
+  max-width: 52rem;
+  margin: 0 0 1.75rem;
+  opacity: 0.95;
+}
+
+.forge-hero__headline-number {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.5rem;
+  padding: 0.6rem 1.1rem;
+  background: rgba(255,255,255,0.10);
+  border: 1px solid rgba(255,255,255,0.18);
+  border-radius: 0.4rem;
+  margin: 0 0 1.5rem;
+}
+
+.forge-hero__headline-number strong {
+  font-size: 1.7rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  color: var(--md-accent-fg-color);
+}
+
+.forge-hero__caveat {
+  font-size: 0.82rem;
+  opacity: 0.75;
+  font-style: italic;
+  display: block;
+  margin-top: 0.4rem;
+}
+
+.forge-hero__actions {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.forge-btn {
+  display: inline-block;
+  padding: 0.65rem 1.25rem;
+  border-radius: 0.3rem;
+  font-weight: 600;
+  font-size: 0.95rem;
+  text-decoration: none;
+  transition: all 0.18s ease;
+  border: 1px solid transparent;
+}
+
+.forge-btn--primary {
+  background: var(--md-accent-fg-color);
+  color: #ffffff !important;
+}
+
+.forge-btn--primary:hover {
+  background: color-mix(in oklab, var(--md-accent-fg-color) 88%, white);
+  transform: translateY(-1px);
+}
+
+.forge-btn--secondary {
+  background: transparent;
+  color: #fff !important;
+  border-color: rgba(255,255,255,0.45);
+}
+
+.forge-btn--secondary:hover {
+  background: rgba(255,255,255,0.08);
+  border-color: rgba(255,255,255,0.7);
+}
+
+/* ---- Artifact cards grid ---- */
+.forge-artifacts {
+  max-width: 64rem;
+  margin: 0 auto 4rem;
+}
+
+.forge-artifacts h2,
+.forge-section h2 {
+  font-size: 1.7rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  margin: 0 0 0.5rem;
+}
+
+.forge-artifacts__intro {
+  color: var(--md-default-fg-color--light);
+  margin: 0 0 1.75rem;
+  font-size: 1rem;
+}
+
+.forge-artifact-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+  gap: 1.25rem;
+}
+
+.forge-artifact-card {
+  background: var(--md-default-bg-color);
+  border: 1px solid var(--md-default-fg-color--lightest);
+  border-radius: 0.5rem;
+  padding: 1.4rem 1.4rem 1.2rem;
+  transition: all 0.2s ease;
+  display: flex;
+  flex-direction: column;
+}
+
+.forge-artifact-card--secondary {
+  border-style: dashed;
+}
+
+.forge-artifact-card:hover {
+  border-color: var(--md-accent-fg-color);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(0,0,0,0.08);
+}
+
+.forge-artifact-card h3 {
+  font-size: 1rem;
+  font-weight: 700;
+  margin: 0 0 0.4rem;
+  font-family: var(--md-code-font, monospace);
+  word-break: break-word;
+}
+
+.forge-artifact-card__desc {
+  font-size: 0.88rem;
+  line-height: 1.5;
+  color: var(--md-default-fg-color--light);
+  margin: 0 0 1rem;
+  flex: 1;
+}
+
+.forge-artifact-card__footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.82rem;
+}
+
+.forge-status {
+  display: inline-block;
+  padding: 0.18rem 0.55rem;
+  border-radius: 0.2rem;
+  font-size: 0.72rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  white-space: nowrap;
+}
+
+.forge-status--scaffolding {
+  background: rgba(158, 158, 158, 0.18);
+  color: #757575;
+}
+
+.forge-status--in-development {
+  background: rgba(76, 175, 80, 0.18);
+  color: #2e7d32;
+}
+
+.forge-status--stable {
+  background: rgba(63, 81, 181, 0.18);
+  color: #303f9f;
+}
+
+.forge-artifact-card__link {
+  font-weight: 600;
+  text-decoration: none;
+}
+
+/* ---- Stats strip ---- */
+.forge-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(11rem, 1fr));
+  gap: 1.5rem;
+  max-width: 64rem;
+  margin: 0 auto 4rem;
+  padding: 2rem 1.5rem;
+  background: var(--md-code-bg-color);
+  border-radius: 0.5rem;
+}
+
+.forge-stat {
+  text-align: center;
+}
+
+.forge-stat__number {
+  font-size: 2.1rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--md-primary-fg-color);
+  line-height: 1;
+}
+
+.forge-stat__label {
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--md-default-fg-color--light);
+  margin-top: 0.4rem;
+}
+
+/* ---- Diagram / section ---- */
+.forge-section {
+  max-width: 64rem;
+  margin: 0 auto 4rem;
+}
+
+.forge-section .mermaid {
+  background: var(--md-default-bg-color);
+  border: 1px solid var(--md-default-fg-color--lightest);
+  border-radius: 0.5rem;
+  padding: 1.5rem;
+  text-align: center;
+}
+
+/* ---- Dark mode adjustments ---- */
+[data-md-color-scheme="slate"] .forge-hero {
+  background:
+    radial-gradient(ellipse at 30% 0%, rgba(124, 77, 255, 0.14) 0%, transparent 55%),
+    linear-gradient(135deg,
+      color-mix(in oklab, var(--md-primary-fg-color) 70%, black) 0%,
+      color-mix(in oklab, var(--md-primary-fg-color) 50%, black) 100%);
+}
+
+[data-md-color-scheme="slate"] .forge-artifact-card {
+  background: var(--md-code-bg-color);
+}
+
+[data-md-color-scheme="slate"] .forge-status--scaffolding {
+  background: rgba(158, 158, 158, 0.24);
+  color: #bdbdbd;
+}
+
+[data-md-color-scheme="slate"] .forge-status--in-development {
+  background: rgba(76, 175, 80, 0.24);
+  color: #81c784;
+}
+
+[data-md-color-scheme="slate"] .forge-status--stable {
+  background: rgba(63, 81, 181, 0.24);
+  color: #9fa8da;
+}
+
+/* ---- Print overrides — for reviewer PDF exports ---- */
+@media print {
+  .forge-hero {
+    background: #fff;
+    color: #000;
+    padding: 1rem 0;
+    margin: 0 0 1rem;
+  }
+  .forge-hero h1, .forge-hero__subtitle, .forge-hero__lede {
+    color: #000 !important;
+  }
+  .forge-btn {
+    display: none;
+  }
+  .forge-artifact-card {
+    page-break-inside: avoid;
+  }
+}
+
+/* ---- Reduce visual weight of the Material default content area ---- */
+.md-content__inner > h1:first-child {
+  /* the H1 from the markdown body sits below the hero — make it less prominent */
+  font-size: 1.6rem;
+  margin-top: 1rem;
+}
+
+/* Tighten table styling */
+.md-typeset table:not([class]) {
+  font-size: 0.85rem;
+}
+
+/* Better code-block contrast in dark mode */
+[data-md-color-scheme="slate"] .md-typeset code {
+  background: rgba(255,255,255,0.06);
+}

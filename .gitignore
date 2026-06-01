@@ -40,3 +40,6 @@ secrets/
 # Demo working outputs; only the committed reference run (results/reference/) is tracked
 results/*
 !results/reference/
+
+# MkDocs build output (companion site is built by CI from docs/)
+site/

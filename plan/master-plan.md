@@ -1,7 +1,6 @@
 # Master Plan — FORGE EVOLVE for TMPC
 
-This is the execution map for the build. Full program plan (incl. proposal) lives at
-`~/.claude/plans/hello-claude-today-i-vast-narwhal.md`.
+This is the execution map for the build. Full program plan is held privately by 577 Industries.
 
 ## Frozen integration contracts (Phase 0 — DO NOT break)
 These are the seams every workstream builds against. Additive changes OK; breaking changes require a
