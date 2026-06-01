@@ -2,7 +2,7 @@
 
 !!! warning "Surrogate-based · preliminary · not government-validated"
     Every claim below is measured on the **synthetic, unclassified** surrogate in the repository and is
-    **preliminary** — not validated against government TMPC code, not validated by the Navy, and implying
+    **preliminary** - not validated against government TMPC code, not validated by the Navy, and implying
     no Navy endorsement. Reviewers reproduce the A-rows with `make demo` / `dotnet test`. See
     **[Honesty & Exclusions](honesty.md)** and **[Reproducibility](reproducibility.md)**.
 

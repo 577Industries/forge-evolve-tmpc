@@ -1,4 +1,4 @@
-# CLAR Language Profile — VB6
+# CLAR Language Profile - VB6
 
 > Part of **FORGE EVOLVE for TMPC**. Defines how a Visual Basic 6 source module maps into the
 > four CLAR layers of [`clar-spec/CLAR.schema.json`](../CLAR.schema.json). The surrogate's
@@ -45,7 +45,7 @@
 
 VB6 legacy mission code typically stores coordinates as **scaled-integer fixed-point** ("mils",
 e.g. 1° = 10000 grid units in `GeoFixedPoint.bas`) and money as the `Currency` type (a 64-bit
-integer scaled by 10,000). Both are *deliberately* fixed-point because float was distrusted —
+integer scaled by 10,000). Both are *deliberately* fixed-point because float was distrusted -
 that intent must be **preserved**, not flattened to `double` by the target generator.
 
 | VB6 source type / use | CLAR `clarType` | `precisionConstrained` | Target generator emits |

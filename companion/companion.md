@@ -1,4 +1,4 @@
-# Companion — Proposal ↔ Code Index
+# Companion - Proposal ↔ Code Index
 
 This document maps each Phase-I objective and key proposal claim to the exact file, test, or artifact
 in this repository that backs it. It is the reviewer's "canonical index" (the HELIOS pattern). Rows are

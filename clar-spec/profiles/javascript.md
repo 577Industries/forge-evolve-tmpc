@@ -1,4 +1,4 @@
-# CLAR Language Profile — JavaScript
+# CLAR Language Profile - JavaScript
 
 > Part of **FORGE EVOLVE for TMPC**. Defines how a JavaScript source module maps into the
 > four CLAR layers of [`clar-spec/CLAR.schema.json`](../CLAR.schema.json). The surrogate's
@@ -41,7 +41,7 @@
 ## Precision-constrained mapping (load-bearing)
 
 JavaScript has a **single numeric type (IEEE-754 `double`)**, so *every* coordinate, distance,
-and time value is implicitly a float — the precision hazard is even sharper than C#. CLAR marks
+and time value is implicitly a float - the precision hazard is even sharper than C#. CLAR marks
 these `precisionConstrained` so the target generator does not naïvely port `Number` math.
 
 | JS source value | CLAR `clarType` | `precisionConstrained` | Target generator emits |
@@ -57,7 +57,7 @@ these `precisionConstrained` so the target generator does not naïvely port `Num
 
 **Note on `BigInt`:** when a JS value is an epoch in milliseconds or a scaled fixed-point grid
 unit, the target may emit `long`/`BigInt` rather than `decimal`; the `precisionConstrained`
-flag still applies — the contract is "no silent float coercion", not "always decimal".
+flag still applies - the contract is "no silent float coercion", not "always decimal".
 
 ## Worked example (`mission-review.js`)
 

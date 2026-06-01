@@ -1,7 +1,7 @@
 # Orchestrator transcripts (offline replay cache)
 
 The Offline orchestrator (`ToolOrchestrator` in `OrchestratorMode.Offline`) replays a recorded
-`TransformResult` for each task. It NEVER calls a model and NEVER fabricates output — a missing
+`TransformResult` for each task. It NEVER calls a model and NEVER fabricates output - a missing
 transcript is a hard error.
 
 ## How a transcript is resolved
@@ -39,6 +39,6 @@ falls back to the copies embedded in the assembly (so replay works from any work
 | File | Owner | Notes |
 |---|---|---|
 | `sample-dummy-unit.json` | this workstream (WS-D) | tiny self-test fixture; **not** a real model run |
-| `mission-modernization.json` | **Transformation workstream** | the real surrogate transcript; consume whatever is present — do **not** author it here |
+| `mission-modernization.json` | **Transformation workstream** | the real surrogate transcript; consume whatever is present - do **not** author it here |
 
 `transcripts/cloud/` is git-ignored: live cloud captures are never committed.

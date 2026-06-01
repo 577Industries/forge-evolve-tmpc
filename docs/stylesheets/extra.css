@@ -1,4 +1,4 @@
-/* FORGE EVOLVE for TMPC — custom polish on top of MkDocs Material 9.5
+/* FORGE EVOLVE for TMPC - custom polish on top of MkDocs Material 9.5
    Goal: credible engineering register for a Navy SBIR reviewer audience.
    Avoid startup-marketing aesthetics. Restrained, type-driven, data-forward.
    Indigo / deep-purple palette so it reads as a HELIOS sibling, not a clone. */
@@ -307,7 +307,7 @@
   color: #9fa8da;
 }
 
-/* ---- Print overrides — for reviewer PDF exports ---- */
+/* ---- Print overrides - for reviewer PDF exports ---- */
 @media print {
   .forge-hero {
     background: #fff;
@@ -328,7 +328,7 @@
 
 /* ---- Reduce visual weight of the Material default content area ---- */
 .md-content__inner > h1:first-child {
-  /* the H1 from the markdown body sits below the hero — make it less prominent */
+  /* the H1 from the markdown body sits below the hero - make it less prominent */
   font-size: 1.6rem;
   margin-top: 1rem;
 }

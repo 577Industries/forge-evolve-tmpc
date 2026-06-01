@@ -1,4 +1,4 @@
-# CLAR Language Profile — SQL (T-SQL / SQL Server)
+# CLAR Language Profile - SQL (T-SQL / SQL Server)
 
 > Part of **FORGE EVOLVE for TMPC**. Defines how a SQL source module (schema + stored
 > procedures) maps into the four CLAR layers of [`clar-spec/CLAR.schema.json`](../CLAR.schema.json).
@@ -43,7 +43,7 @@
 ## Precision-constrained mapping (load-bearing)
 
 SQL Server `FLOAT`/`REAL` are **approximate** numeric types: storing a nautical-mile distance or
-a coordinate in a `FLOAT` column **loses precision on every read/write round-trip** — this is the
+a coordinate in a `FLOAT` column **loses precision on every read/write round-trip** - this is the
 persistence-layer analog of the C# **D2** precision-drift defect (see `schema.sql` comments). CLAR
 marks every `FLOAT`-backed coordinate/distance/time value `precisionConstrained` so the target
 generator (a) computes in `decimal`/`checked` and (b) **migrates the column `FLOAT → DECIMAL`**.

@@ -2,7 +2,7 @@
 
 {# Hide the page title (we render our own in the hero), the breadcrumb, and the TOC for the landing page only. #}
 {% block htmltitle %}
-  <title>{{ config.site_name }} — {{ config.site_description }}</title>
+  <title>{{ config.site_name }} - {{ config.site_description }}</title>
 {% endblock %}
 
 {# Inject the hero between the tabs bar and the main content. `super()` keeps the tabs visible. #}
@@ -15,13 +15,13 @@
       <h1>FORGE EVOLVE for TMPC</h1>
       <p class="forge-hero__subtitle">
         AI-assisted modernization of C#/.NET mission-planning software, with behavioral-equivalence
-        proof and continuous-ATO artifacts — runnable end-to-end on a synthetic, unclassified surrogate.
+        proof and continuous-ATO artifacts - runnable end-to-end on a synthetic, unclassified surrogate.
       </p>
       <p class="forge-hero__lede">
         The C#/.NET/JavaScript/SQL extension of the FORGE EVOLVE code-modernization framework, built for
         the Theater Mission Planning Center (TMPC) software stack. Discovery → CLAR → Migration Planner →
         Tool Orchestrator → Transformation → behavioral-equivalence Validation → cyber/cATO overlay →
-        Governance — every step reproducible offline, with no API keys and no network.
+        Governance - every step reproducible offline, with no API keys and no network.
       </p>
 
       <div class="forge-hero__headline-number">

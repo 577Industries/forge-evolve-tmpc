@@ -6,11 +6,11 @@ that as explicit, recorded gates. No transformation is accepted into the modern 
 human sign-off carrying the rule-diff, the equivalence delta, and the STIG delta.
 
 ## Pipeline gates (per transformed component)
-1. **Design gate** — after Discovery + Planning: human approves the proposed microservice boundary and
+1. **Design gate** - after Discovery + Planning: human approves the proposed microservice boundary and
    the migration unit scope.
-2. **Translation gate** — after Transformation: human reviews the emitted modern code, the extracted
+2. **Translation gate** - after Transformation: human reviews the emitted modern code, the extracted
    business rules it must honor, and the diff.
-3. **Acceptance gate** — after Validation: human reviews the equivalence report (vectors passed,
+3. **Acceptance gate** - after Validation: human reviews the equivalence report (vectors passed,
    per-oracle deltas, intentional divergences) and the cATO deltas before the component is accepted.
 
 Each gate produces a `ReviewGate` record (see `ForgeEvolve.Contracts`) appended to the tamper-evident

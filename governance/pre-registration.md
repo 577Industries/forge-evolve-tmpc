@@ -42,5 +42,5 @@ equivalence report. This keeps the validation story honest.
 
 ## Change control
 Any change to a threshold, the seed, or the vector set after freeze requires a tracked commit that
-references this file and a note in `governance/REVIEW_GATES.md` — mirroring the ECP audit trail the
+references this file and a note in `governance/REVIEW_GATES.md` - mirroring the ECP audit trail the
 government described in the topic Q&A.

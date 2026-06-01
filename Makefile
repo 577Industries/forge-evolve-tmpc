@@ -1,4 +1,4 @@
-# FORGE EVOLVE for TMPC — developer & reviewer entrypoints.
+# FORGE EVOLVE for TMPC - developer & reviewer entrypoints.
 # All targets are designed to run OFFLINE with no API keys.
 
 # Prefer a user-local .NET SDK install if present, else the one on PATH.

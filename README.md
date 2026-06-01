@@ -7,7 +7,7 @@
 [![make demo](https://img.shields.io/badge/make_demo-offline_%7C_keyless_%7C_deterministic-success.svg)](#-for-navy-sbir-reviewers--5-minute-onramp)
 
 **AI-assisted modernization of C#/.NET mission-planning software, with behavioral-equivalence proof
-and continuous-ATO artifacts — runnable end-to-end on a synthetic, unclassified surrogate.**
+and continuous-ATO artifacts - runnable end-to-end on a synthetic, unclassified surrogate.**
 
 Developed by [577 Industries, Inc.](https://github.com/577Industries) under U.S. Navy SBIR topic
 **DON26BZ01-NV013** ("AI-Assisted Modernization and Optimization of Theater Mission Planning Center
@@ -17,7 +17,7 @@ Java/Python/Rust/TypeScript; the C#/.NET capability here is newly developed for 
 
 ---
 
-## ⭐ For Navy SBIR Reviewers — 5-minute onramp
+## ⭐ For Navy SBIR Reviewers - 5-minute onramp
 
 This repo lets you **run the modernization pipeline yourself**, with **no API keys and no network**,
 and inspect both the legacy input and the modernized output.
@@ -41,17 +41,17 @@ make demo        # offline, deterministic, ~minutes
 exact file/test that backs it. [`EXCLUSIONS.md`](EXCLUSIONS.md) states why this is safe to publish.
 
 > **Honesty note.** Every metric the demo prints is measured on the **synthetic, unclassified**
-> surrogate in [`surrogate/`](surrogate/) and is **preliminary** — not validated against government
+> surrogate in [`surrogate/`](surrogate/) and is **preliminary** - not validated against government
 > TMPC code and not validated by the Navy. The surrogate is engineered to exhibit the *same classes*
 > of technical debt and *shapes* of mission-planning logic the government described, so results
 > transfer in kind, not in fidelity. See [`surrogate/DEBT.md`](surrogate/DEBT.md).
 
 ## Reading order for first-time visitors
 
-1. [`companion/companion.md`](companion/companion.md) — each proposal claim mapped to the exact file/test that backs it.
-2. [`REPRODUCIBILITY.md`](REPRODUCIBILITY.md) — reproduce every cited metric offline, from a clean clone.
-3. [`EXCLUSIONS.md`](EXCLUSIONS.md) — why this is unclassified, ITAR-clean, and safe to publish.
-4. [`governance/pre-registration.md`](governance/pre-registration.md) — metrics, thresholds, and kill-gates frozen before any run.
+1. [`companion/companion.md`](companion/companion.md) - each proposal claim mapped to the exact file/test that backs it.
+2. [`REPRODUCIBILITY.md`](REPRODUCIBILITY.md) - reproduce every cited metric offline, from a clean clone.
+3. [`EXCLUSIONS.md`](EXCLUSIONS.md) - why this is unclassified, ITAR-clean, and safe to publish.
+4. [`governance/pre-registration.md`](governance/pre-registration.md) - metrics, thresholds, and kill-gates frozen before any run.
 5. Companion site: <https://577industries.github.io/forge-evolve-tmpc/>
 
 ---
@@ -63,24 +63,24 @@ ingest → Discovery → CLAR → Migration Planner → Tool Orchestrator → Tr
        → Validation (behavioral equivalence) → Cyber/cATO overlay → Governance
 ```
 
-- **Discovery** — [Roslyn](https://github.com/dotnet/roslyn) semantic analysis of C# (+ Tree-sitter for
+- **Discovery** - [Roslyn](https://github.com/dotnet/roslyn) semantic analysis of C# (+ Tree-sitter for
   JS/SQL, FORGE VB6 grammar): dependency graph, Tarjan SCCs, complexity vectors, business-rule
   extraction (AST + LLM majority vote → RDF), cryptographic inventory.
-- **CLAR** — Cross-Language Abstract Representation ([`clar-spec/`](clar-spec/CLAR.schema.json)):
+- **CLAR** - Cross-Language Abstract Representation ([`clar-spec/`](clar-spec/CLAR.schema.json)):
   four layers, decouples source parsing from target generation; flags precision-constrained values so
   coordinate/time-on-target math is emitted with `decimal`/checked arithmetic.
-- **Migration Planner** — composite risk scoring + spectral clustering → candidate microservice
+- **Migration Planner** - composite risk scoring + spectral clustering → candidate microservice
   boundaries + a topologically-ordered, risk-scored migration sequence (the Phase II roadmap).
-- **Tool Orchestrator** — routes transform tasks via
+- **Tool Orchestrator** - routes transform tasks via
   [`@577-industries/model-router`](https://github.com/577Industries); runs **offline** (deterministic
-  transcript replay — the default), **local** (sovereign/air-gapped), or **cloud**.
-- **Transformation** — emits modern, testable .NET 8 with secure-by-construction patterns.
-- **Validation** — differential + property-based testing with **mission-data-aware oracles**
+  transcript replay - the default), **local** (sovereign/air-gapped), or **cloud**.
+- **Transformation** - emits modern, testable .NET 8 with secure-by-construction patterns.
+- **Validation** - differential + property-based testing with **mission-data-aware oracles**
   (route feasibility, anti-meridian, time-on-target); discrete outputs to exact equality, continuous to
   bounded relative error; reports a Chernoff confidence bound.
-- **Cyber/cATO** — STIG checks (before/after), NIST 800-53 mapping, CycloneDX SBOM, hashchain
+- **Cyber/cATO** - STIG checks (before/after), NIST 800-53 mapping, CycloneDX SBOM, hashchain
   provenance ([`@577-industries/hashchain-audit`](https://github.com/577Industries)), POA&M.
-- **Governance** — human-in-the-loop review gates + tamper-evident audit trail.
+- **Governance** - human-in-the-loop review gates + tamper-evident audit trail.
 
 ## Layout
 
@@ -107,4 +107,4 @@ Toolchain: .NET SDK 8 (pinned in `global.json`), Node 18+, Python 3.10+ (corpus 
 Docker (legacy surrogate runtime for differential testing). See [`REPRODUCIBILITY.md`](REPRODUCIBILITY.md).
 
 ## License
-Apache-2.0 — see [`LICENSE`](LICENSE) and [`NOTICE`](NOTICE).
+Apache-2.0 - see [`LICENSE`](LICENSE) and [`NOTICE`](NOTICE).

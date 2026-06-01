@@ -58,7 +58,7 @@ jobs:
           # High-confidence real-secret formats. The scanner-rule source files
           # (CryptoInventory.cs, StigAnalyzer.cs) legitimately contain detection
           # PATTERNS, and the surrogate uses a password-less synthetic (localdb)
-          # connection string by design (see EXCLUSIONS.md) — both are excluded.
+          # connection string by design (see EXCLUSIONS.md) - both are excluded.
           PATTERN='AKIA[0-9A-Z]{16}|ASIA[0-9A-Z]{16}|gh[pousr]_[A-Za-z0-9]{36,}|xox[baprs]-[A-Za-z0-9-]{10,}|-----BEGIN (RSA |EC |OPENSSH |PGP |DSA )?PRIVATE KEY-----|AIza[0-9A-Za-z_-]{35}|sk-[A-Za-z0-9]{20,}'
           MATCHES=$(git ls-files -z \
             | grep -zvE '(CryptoInventory\.cs|StigAnalyzer\.cs)$' \

@@ -1,7 +1,7 @@
 # Honesty & Exclusions
 
 !!! danger "Scope of every claim on this site"
-    - **100% synthetic, unclassified surrogate** — no real or controlled TMPC data.
+    - **100% synthetic, unclassified surrogate** - no real or controlled TMPC data.
     - **No real TMPC / MDS / TED / TMT source code, mission data, or Tomahawk algorithms.**
     - All results are **preliminary** and **not government-validated**.
     - The repository is **ITAR-clean** and contains no export-controlled technical data.

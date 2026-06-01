@@ -17,7 +17,7 @@ It reuses 577 Industries' FORGE OS framework (Apache-2.0). Specifically:
   - The broader FORGE OS family (agent-memory, tool-guardrails, workflow-dag)
     informs the architecture but is not a direct runtime dependency of this repo.
 
-IMPORTANT — SCOPE AND HONESTY OF CLAIMS
+IMPORTANT - SCOPE AND HONESTY OF CLAIMS
   * The mission-planning component in surrogate/ is SYNTHETIC and UNCLASSIFIED.
     It contains NO real Theater Mission Planning Center source code, no real
     tasking data, no real coordinates, and no real algorithms. See EXCLUSIONS.md.

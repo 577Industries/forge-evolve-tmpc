@@ -23,7 +23,7 @@ make audit     # validates the claim->evidence matrix
 ## Determinism
 The demo runs the Tool Orchestrator in `offline` mode: model interactions are served from a recorded
 **transcript cache** keyed by a hash of (prompt, model, task). This makes the pipeline deterministic by
-construction — `make verify` confirms two runs produce byte-identical evidence. Live `cloud`/`local`
+construction - `make verify` confirms two runs produce byte-identical evidence. Live `cloud`/`local`
 model runs may vary; only the offline path backs the reproducible headline numbers.
 
 ## Submission anchoring

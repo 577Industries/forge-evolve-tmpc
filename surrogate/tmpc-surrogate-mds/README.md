@@ -1,4 +1,4 @@
-# tmpc-surrogate-mds — synthetic, unclassified MDS-like surrogate
+# tmpc-surrogate-mds - synthetic, unclassified MDS-like surrogate
 
 Part of **FORGE EVOLVE for TMPC** (U.S. Navy SBIR DON26BZ01-NV013). This directory is a
 **100% synthetic, unclassified** stand-in for a Mission-Distribution-System-like component.
@@ -29,9 +29,9 @@ There are **three** implementations of the same domain, by design:
 | **Modern (to be produced)** | emitted by the pipeline into `tmpc-modern-mds/` | The AI-modernized, secure-by-construction .NET 8 component, validated for behavioral equivalence against the reference. |
 
 **Seeded defects (legacy only):**
-- **D1 — anti-meridian:** raw (unwrapped) longitude delta → wrong distance across ±180°.
-- **D2 — precision drift:** each leg rounded (banker's) before summing → accumulated error.
-- **D3 — TOT:** travel time truncated (not rounded) and the leap-second adjustment omitted.
+- **D1 - anti-meridian:** raw (unwrapped) longitude delta → wrong distance across ±180°.
+- **D2 - precision drift:** each leg rounded (banker's) before summing → accumulated error.
+- **D3 - TOT:** travel time truncated (not rounded) and the leap-second adjustment omitted.
 
 By construction the defects touch **only** the continuous outputs (distances) and the
 time-on-target outputs; the categorical decisions (`routeValid`, `taskingGoNoGo`) use bug-free
@@ -48,7 +48,7 @@ the seed, counts, and the divergent fraction.
 
 `tools/LegacyCheck` replays the corpus through the **C# legacy** `MissionProcessor` and asserts
 it matches the stored Python `legacyOutput` (discrete fields exact; continuous within `1e-9`
-relative) — proving the C# legacy faithfully implements the specified defects.
+relative) - proving the C# legacy faithfully implements the specified defects.
 
 ## Build & verify
 
