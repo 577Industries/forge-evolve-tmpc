@@ -1,0 +1,49 @@
+{
+  "name": "@forge-evolve-tmpc/orchestrator",
+  "version": "0.1.0",
+  "description": "TypeScript live-mode bridge for the FORGE EVOLVE for TMPC Tool Orchestrator. Consumes the already-built @577-industries/model-router to select a model for a transform task, honoring sovereignOnly for air-gapped/Local mode. NOT used by the offline reviewer demo (which is pure C# transcript replay).",
+  "type": "module",
+  "private": true,
+  "main": "./dist/route.js",
+  "types": "./dist/route.d.ts",
+  "bin": {
+    "forge-orchestrator-route": "./dist/cli.js"
+  },
+  "exports": {
+    ".": {
+      "types": "./dist/route.d.ts",
+      "import": "./dist/route.js"
+    }
+  },
+  "files": [
+    "dist",
+    "src"
+  ],
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "lint": "tsc --noEmit"
+  },
+  "keywords": [
+    "forge-evolve",
+    "tmpc",
+    "model-router",
+    "orchestrator",
+    "sovereign",
+    "air-gapped"
+  ],
+  "author": "577 Industries",
+  "license": "Apache-2.0",
+  "dependencies": {
+    "@577-industries/model-router": "^1.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "typescript": "^5.7.0",
+    "vitest": "^3.0.0"
+  }
+}

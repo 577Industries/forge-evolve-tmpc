@@ -1,0 +1,36 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <LangVersion>latest</LangVersion>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <NoWarn>CS1591</NoWarn>
+    <RootNamespace>ForgeEvolve.Orchestrator</RootNamespace>
+    <Description>Tool Orchestrator for FORGE EVOLVE for TMPC: routes transform tasks to coding agents in Offline (deterministic transcript replay — the default, keyless reviewer demo path), Local (sovereign/air-gapped via Ollama + @577-industries/model-router sovereignOnly) or Cloud mode. The Offline path is pure C# with no network and no npm dependency; it replays a transcript recorded under a deterministic SHA-256 key and never fabricates model output. A Thompson-sampling capability registry computes the agent the task WOULD route to (recorded in the result Notes) so the routing logic stays real and testable.</Description>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!-- The test project lives in a subfolder; keep its sources out of THIS project's
+         default-glob compilation (it owns its own .csproj). -->
+    <Compile Remove="tests\**\*.cs" />
+    <EmbeddedResource Remove="tests\**" />
+    <None Remove="tests\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\ForgeEvolve.Contracts\ForgeEvolve.Contracts.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- Embed the sample transcript + index so Offline replay works regardless of the
+         working directory. A filesystem copy under fixtures/transcripts/ remains the
+         source of truth and is what the Transformation workstream drops new transcripts into. -->
+    <EmbeddedResource Include="fixtures\transcripts\**\*.json">
+      <LogicalName>ForgeEvolve.Orchestrator.fixtures.%(RecursiveDir)%(Filename)%(Extension)</LogicalName>
+    </EmbeddedResource>
+  </ItemGroup>
+
+</Project>
