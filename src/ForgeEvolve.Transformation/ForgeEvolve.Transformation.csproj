@@ -1,0 +1,43 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!--
+    ForgeEvolve.Transformation — Stage 3 (the Transformation Engine). Implements
+    ITransformer.TransformAsync. In Offline mode it deterministically REPLAYS a serialized
+    TransformResult transcript (the emitted modern source files), keyless and air-gapped, exactly
+    like the Orchestrator's offline replay. The emitted files ARE the behavior-preserving modern
+    .NET 8 component under ../../tmpc-modern-mds/. The engine also measures and reports the
+    before/after max-method cyclomatic complexity (legacy 49 -> modern < 10) using the same
+    Roslyn McCabe-with-short-circuit definition the Discovery engine pre-registers.
+  -->
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <LangVersion>latest</LangVersion>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <RootNamespace>ForgeEvolve.Transformation</RootNamespace>
+    <Description>FORGE EVOLVE for TMPC — Transformation Engine (Stage 3). Offline deterministic
+    transcript replay producing the behavior-preserving modern .NET 8 mission component, with
+    measurable complexity-reduction notes (max method CC 49 -> &lt; 10).</Description>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!-- The test project lives under ./tests; keep its sources out of THIS compile glob. -->
+    <Compile Remove="tests/**/*.cs" />
+    <None Remove="tests/**/*" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="../ForgeEvolve.Contracts/ForgeEvolve.Contracts.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <InternalsVisibleTo Include="ForgeEvolve.Transformation.Tests" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- Roslyn: measure cyclomatic complexity of the emitted modern source (same definition as Discovery). -->
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.8.0" />
+  </ItemGroup>
+
+</Project>
