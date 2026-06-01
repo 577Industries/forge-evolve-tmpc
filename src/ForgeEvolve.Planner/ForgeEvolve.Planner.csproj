@@ -1,0 +1,30 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <LangVersion>latest</LangVersion>
+    <RootNamespace>ForgeEvolve.Planner</RootNamespace>
+    <Description>FORGE EVOLVE for TMPC — Migration Planner (Stage 2). Composite modernization-risk scoring,
+    dependency-graph decomposition (Tarjan SCC -> DAG) with a spectral / Fiedler bipartition of the
+    god-class coupling cluster into candidate microservice boundaries, lowest-risk-first topological
+    ordering of the unit DAG (strangler-fig seams), and a risk-annotated Mermaid flowchart.</Description>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!-- The test project lives under ./tests; keep its sources out of THIS project's compile glob. -->
+    <Compile Remove="tests/**/*.cs" />
+    <None Remove="tests/**/*" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="../ForgeEvolve.Contracts/ForgeEvolve.Contracts.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- Let the test project unit-test internal helpers (spectral bipartition, risk model). -->
+    <InternalsVisibleTo Include="ForgeEvolve.Planner.Tests" />
+  </ItemGroup>
+
+</Project>
