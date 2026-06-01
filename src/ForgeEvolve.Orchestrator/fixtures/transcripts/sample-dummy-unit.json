@@ -1,0 +1,19 @@
+{
+  "taskId": "sample-dummy-task",
+  "files": [
+    {
+      "path": "SampleUnit/SampleService.cs",
+      "content": "// Modernized .NET 8 stand-in emitted by the recorded transcript.\n// This is a deterministic SAMPLE used to make the Orchestrator self-testable offline;\n// it is NOT a real transformation of any TMPC code.\nnamespace SampleUnit;\n\npublic sealed class SampleService\n{\n    public decimal AddChecked(decimal a, decimal b) => checked(a + b);\n}\n",
+      "language": "CSharp"
+    }
+  ],
+  "agentId": "claude-code",
+  "mode": "Cloud",
+  "promptSha256": null,
+  "compiledClean": true,
+  "qualityEstimate": 0.91,
+  "notes": [
+    "sample transcript: dummy migration unit used for orchestrator self-test",
+    "authored as a fixture, not a real model run"
+  ]
+}
