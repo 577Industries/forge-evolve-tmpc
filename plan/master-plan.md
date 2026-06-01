@@ -76,3 +76,11 @@ Per-WS exit gate: builds, unit tests green, contract conformance, no secrets/ITA
 7. Tidy stray committed demo artifacts (`results/clar/`, `results/equivalence-report.json`) → move under
    `results/reference/` (the committed reference run) or regenerate; keep `results/run/` gitignored.
 8. CETM: add real status-A claims for the proven metrics (MODERN-CHECK, Chernoff, CC reduction, STIG, F1).
+
+- 2026-05-31 — P3 complete (commits af8eca9, 4924adb, 17d4ff6): all 23 projects in ForgeEvolve.sln
+  (builds clean, 132 tests pass). ForgeEvolve.Cli drives the full pipeline offline/keyless. LIVE headline:
+  **2000/2000 equivalent, Violations=0, Chernoff 5.003e-7**; god CC 49→6; STIG 5→2 residual; KG1/KG2 PASS;
+  8-record IGOM. `make demo` byte-deterministic (`make verify` PASS). Transcript path + provenance unified.
+  Committed reference run in results/reference/. Companion + CETM populated (10 A / 2 E / 2 P, issues_count=0).
+  CI (demo-offline.yml) runs build+test+demo+audit+secret-scan on push.
+  Deferred polish (P5): surface the latent-defect detection (321 vs reference) in the demo output, not only tests.
