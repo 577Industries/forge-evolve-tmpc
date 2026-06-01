@@ -1,0 +1,41 @@
+flowchart LR
+    %% FORGE EVOLVE — Migration Plan (units = candidate microservices, edges = strangler-fig seams)
+    %% Node label: [order] ServiceName / risk=AggregateRiskScore. Heuristic proposal on the synthetic surrogate.
+    unit_route_validation["13. RouteValidationService<br/>unit:route-validation<br/>risk=0.899"]
+    unit_mission_distribution["14. MissionDistributionService<br/>unit:mission-distribution<br/>risk=0.479"]
+    unit_tasking_rules["15. TaskingRulesService<br/>unit:tasking-rules<br/>risk=0.908"]
+    unit_legacyconfig["2. RouteValidationService<br/>unit:legacyconfig<br/>risk=0.331"]
+    unit_clienttaskinggonogo["9. TaskingRulesService<br/>unit:clienttaskinggonogo<br/>risk=0.516"]
+    unit_clienttotfeasible["10. TotDeconflictionService<br/>unit:clienttotfeasible<br/>risk=0.516"]
+    unit_renderrow["12. MissionDistributionService<br/>unit:renderrow<br/>risk=0.516"]
+    unit_rendermissionreview["11. MissionDistributionService<br/>unit:rendermissionreview<br/>risk=0.516"]
+    unit_sp_publishmission["7. MissionDistributionService<br/>unit:sp-publishmission<br/>risk=0.488"]
+    unit_missions["3. MissionDistributionService<br/>unit:missions<br/>risk=0.401"]
+    unit_waypoints["1. MissionDistributionService<br/>unit:waypoints<br/>risk=0.325"]
+    unit_degreestomilgrid["4. RouteValidationService<br/>unit:degreestomilgrid<br/>risk=0.473"]
+    unit_milgridtodegrees["6. RouteValidationService<br/>unit:milgridtodegrees<br/>risk=0.473"]
+    unit_milgridlondelta["5. RouteValidationService<br/>unit:milgridlondelta<br/>risk=0.473"]
+    unit_leginsidebox["8. RouteValidationService<br/>unit:leginsidebox<br/>risk=0.490"]
+
+    unit_mission_distribution -->|"depends ×1"| unit_route_validation
+    unit_tasking_rules -->|"depends ×1"| unit_mission_distribution
+    unit_tasking_rules -->|"depends ×4"| unit_route_validation
+
+    classDef low fill:#1b5e20,stroke:#0b3d12,color:#fff;
+    classDef med fill:#e65100,stroke:#8c3100,color:#fff;
+    classDef high fill:#b71c1c,stroke:#7f1010,color:#fff;
+    class unit_route_validation high;
+    class unit_mission_distribution med;
+    class unit_tasking_rules high;
+    class unit_legacyconfig low;
+    class unit_clienttaskinggonogo med;
+    class unit_clienttotfeasible med;
+    class unit_renderrow med;
+    class unit_rendermissionreview med;
+    class unit_sp_publishmission med;
+    class unit_missions med;
+    class unit_waypoints low;
+    class unit_degreestomilgrid med;
+    class unit_milgridtodegrees med;
+    class unit_milgridlondelta med;
+    class unit_leginsidebox med;

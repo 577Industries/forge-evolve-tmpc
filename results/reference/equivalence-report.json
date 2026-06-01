@@ -1,5 +1,5 @@
 {
-  "unitId": "MissionRouting.MissionProcessor.ProcessMission",
+  "unitId": "MissionRouting.MissionProcessor",
   "vectorsTotal": 2000,
   "vectorsPassed": 2000,
   "violations": 0,
@@ -95,7 +95,7 @@
   ],
   "chernoffDeviationBound": 5.00250166791811E-07,
   "confidenceLevel": 0.999,
-  "composedSystemBound": 5.00250166791811E-07,
+  "composedSystemBound": null,
   "notes": [
     "Differential equivalence over 2000 vectors (legacy vs modern, mission-data-aware oracles).",
     "VectorsPassed (fully equivalent, zero divergence): 2000.",

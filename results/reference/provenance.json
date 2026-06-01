@@ -1,0 +1,71 @@
+{
+  "schema": "forge-evolve/provenance/v1",
+  "merkleRoot": "1d2412b3aa87be5ffee9a129f43d90145cff9e846aacc8e430552733046bac95",
+  "entryCount": 8,
+  "records": [
+    {
+      "sequence": "0",
+      "action": "discovery",
+      "actor": "ForgeEvolve.Discovery",
+      "payloadSha256": "3d9066cf8157f5ef4b38dfecab6cc9e59fccfe519c8888a1289080b2d28d1165",
+      "prevHash": "GENESIS",
+      "entryHash": "aac9b91f07ad146091c53a94df8ed9364590df9d7303adbed9c7ed9750b3ca52"
+    },
+    {
+      "sequence": "1",
+      "action": "clar",
+      "actor": "ForgeEvolve.Clar",
+      "payloadSha256": "0b0fbab3d00b1ea3de8c3a0cb5d0695d3c4a50fadc7818aa2f500ae1f932ec9c",
+      "prevHash": "aac9b91f07ad146091c53a94df8ed9364590df9d7303adbed9c7ed9750b3ca52",
+      "entryHash": "c3bfe88a93d1a73c49c4306b9a5cffa5f385d374b43666bf465f194fe91d2c05"
+    },
+    {
+      "sequence": "2",
+      "action": "plan",
+      "actor": "ForgeEvolve.Planner",
+      "payloadSha256": "b8064f795d249688ff133098034f1ebc49858bedefb1afd263b2549d50fdc8b9",
+      "prevHash": "c3bfe88a93d1a73c49c4306b9a5cffa5f385d374b43666bf465f194fe91d2c05",
+      "entryHash": "98f88b8c91a06a58465ea81388bfbffba5923e46672df11baa81d9d9200a9b55"
+    },
+    {
+      "sequence": "3",
+      "action": "transform",
+      "actor": "ForgeEvolve.Transformation",
+      "payloadSha256": "a14275e1fea125898d4ad917aab83c97677a27a1c1d0e262c973666735aaa923",
+      "prevHash": "98f88b8c91a06a58465ea81388bfbffba5923e46672df11baa81d9d9200a9b55",
+      "entryHash": "d541730e96cc5b95faae58df8cb62ae1060243d4bc3920cb6151699171a720d6"
+    },
+    {
+      "sequence": "4",
+      "action": "validate",
+      "actor": "ForgeEvolve.Validation",
+      "payloadSha256": "b6d459f2fb1a639372f05e36cb1a4485671bf28e2d62429037d118fecb81e2e1",
+      "prevHash": "d541730e96cc5b95faae58df8cb62ae1060243d4bc3920cb6151699171a720d6",
+      "entryHash": "9e7fc643ceb3669eaa83eb8d96d706ba6f3c2e807c7548ed85d0819bf04b1639"
+    },
+    {
+      "sequence": "5",
+      "action": "cato",
+      "actor": "ForgeEvolve.Cato",
+      "payloadSha256": "766adf78133de92809c35275189f909c434d80419e0523c56f2c458a692971b2",
+      "prevHash": "9e7fc643ceb3669eaa83eb8d96d706ba6f3c2e807c7548ed85d0819bf04b1639",
+      "entryHash": "05de7a3e653ba129279b2c7773cb06bc5101a6bcb2cfc25c07ceba9c374e555d"
+    },
+    {
+      "sequence": "6",
+      "action": "review-gate-decision",
+      "actor": "governance:gate:KG1",
+      "payloadSha256": "2bfe4b2cc2c9a849b2fef5df66ce48491c8789a860261cd8fbab4b013b53db3f",
+      "prevHash": "05de7a3e653ba129279b2c7773cb06bc5101a6bcb2cfc25c07ceba9c374e555d",
+      "entryHash": "59b633b5e5f690eb33fd4c1ce58cbaa954c40a2a00e8ff0b61d46a8585550595"
+    },
+    {
+      "sequence": "7",
+      "action": "review-gate-decision",
+      "actor": "governance:gate:KG2",
+      "payloadSha256": "01c58ef8e1f9be0a00f62bbf311f4389927b8b4ca9295faf19527c3285583e10",
+      "prevHash": "59b633b5e5f690eb33fd4c1ce58cbaa954c40a2a00e8ff0b61d46a8585550595",
+      "entryHash": "70f77047cde63d74883650da948d364cc29596fa94100c84cc2bdb90bfe10fea"
+    }
+  ]
+}

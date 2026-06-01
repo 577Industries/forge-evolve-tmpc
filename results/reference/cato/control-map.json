@@ -1,0 +1,76 @@
+[
+  {
+    "controlId": "AU-10",
+    "controlName": "Non-repudiation",
+    "evidenceRefs": [
+      "provenance.json"
+    ]
+  },
+  {
+    "controlId": "CM-8",
+    "controlName": "System Component Inventory",
+    "evidenceRefs": [
+      "sbom.cdx.json"
+    ]
+  },
+  {
+    "controlId": "IA-5",
+    "controlName": "Authenticator Management",
+    "evidenceRefs": [
+      "APSC-DV-002400"
+    ]
+  },
+  {
+    "controlId": "SA-11",
+    "controlName": "Developer Testing and Evaluation",
+    "evidenceRefs": [
+      "APSC-DV-002500",
+      "cato/stig-after.json",
+      "cato/stig-before.json"
+    ]
+  },
+  {
+    "controlId": "SA-15",
+    "controlName": "Development Process, Standards, and Tools",
+    "evidenceRefs": [
+      "sbom.cdx.json"
+    ]
+  },
+  {
+    "controlId": "SC-13",
+    "controlName": "Cryptographic Protection",
+    "evidenceRefs": [
+      "APSC-DV-001620"
+    ]
+  },
+  {
+    "controlId": "SC-28",
+    "controlName": "Protection of Information at Rest",
+    "evidenceRefs": [
+      "APSC-DV-002400"
+    ]
+  },
+  {
+    "controlId": "SC-8",
+    "controlName": "Transmission Confidentiality and Integrity",
+    "evidenceRefs": [
+      "APSC-DV-001620"
+    ]
+  },
+  {
+    "controlId": "SI-10",
+    "controlName": "Information Input Validation",
+    "evidenceRefs": [
+      "APSC-DV-002490",
+      "APSC-DV-002500",
+      "APSC-DV-002560"
+    ]
+  },
+  {
+    "controlId": "SR-3",
+    "controlName": "Supply Chain Controls and Processes",
+    "evidenceRefs": [
+      "sbom.cdx.json"
+    ]
+  }
+]

@@ -1,0 +1,42 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!--
+    ForgeEvolve.Cli — the Phase-3 integration driver. Runs the FULL FORGE EVOLVE for TMPC
+    pipeline end-to-end on the synthetic surrogate, OFFLINE and keyless, writing the cited
+    evidence artifacts under results/run/. Wired into `make demo` via scripts/run-demo.sh.
+
+    DETERMINISM: this program writes no wall-clock timestamps, RNG, or absolute machine paths
+    into any compared artifact. Repeated runs over the same surrogate are byte-identical
+    (see `make verify`).
+  -->
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <OutputType>Exe</OutputType>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <LangVersion>latest</LangVersion>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <GenerateDocumentationFile>false</GenerateDocumentationFile>
+    <RootNamespace>ForgeEvolve.Cli</RootNamespace>
+    <AssemblyName>ForgeEvolve.Cli</AssemblyName>
+    <InvariantGlobalization>true</InvariantGlobalization>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!-- All 8 FORGE EVOLVE module libraries. -->
+    <ProjectReference Include="..\ForgeEvolve.Contracts\ForgeEvolve.Contracts.csproj" />
+    <ProjectReference Include="..\ForgeEvolve.Discovery\ForgeEvolve.Discovery.csproj" />
+    <ProjectReference Include="..\ForgeEvolve.Clar\ForgeEvolve.Clar.csproj" />
+    <ProjectReference Include="..\ForgeEvolve.Planner\ForgeEvolve.Planner.csproj" />
+    <ProjectReference Include="..\ForgeEvolve.Orchestrator\ForgeEvolve.Orchestrator.csproj" />
+    <ProjectReference Include="..\ForgeEvolve.Transformation\ForgeEvolve.Transformation.csproj" />
+    <ProjectReference Include="..\ForgeEvolve.Validation\ForgeEvolve.Validation.csproj" />
+    <ProjectReference Include="..\ForgeEvolve.Cato\ForgeEvolve.Cato.csproj" />
+    <ProjectReference Include="..\ForgeEvolve.Governance\ForgeEvolve.Governance.csproj" />
+
+    <!-- The REAL modern runner and the REAL legacy runner used by the headline equivalence proof. -->
+    <ProjectReference Include="..\..\tmpc-modern-mds\ForgeEvolve.ModernMds.csproj" />
+    <ProjectReference Include="..\..\surrogate\tmpc-surrogate-mds\legacy\MissionLegacy.csproj" />
+  </ItemGroup>
+
+</Project>

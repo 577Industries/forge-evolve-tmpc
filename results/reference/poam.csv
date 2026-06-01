@@ -1,0 +1,8 @@
+Id,Weakness,Status,ScheduledCompletion
+POAM-S-001,[APSC-DV-001620 / CAT II] TLS server-certificate validation disabled (TrustServerCertificate=true) (/home/twawe/577i-Projects/SBIR Working Folder/DON26BZ01-NV013 AI-Assisted Modernization/forge-evolve-tmpc/surrogate/tmpc-surrogate-mds/legacy/MissionProcessor.cs:58),Open,ECP-recommended
+POAM-S-002,[APSC-DV-002400 / CAT II] Hardcoded database connection string (embedded authentication/configuration data) (/home/twawe/577i-Projects/SBIR Working Folder/DON26BZ01-NV013 AI-Assisted Modernization/forge-evolve-tmpc/surrogate/tmpc-surrogate-mds/legacy/MissionProcessor.cs:58),Open,ECP-recommended
+POAM-S-003,[APSC-DV-002490 / CAT II] HTML built by string concatenation and injected without output encoding (DOM-based XSS class) ((remediated in modern code)),Remediated,
+POAM-S-004,[APSC-DV-002500 / CAT I] SQL command text constructed by string concatenation in the publish path (dynamic-SQL / SQL-injection class) ((remediated in modern code)),Remediated,
+POAM-S-005,[APSC-DV-002560 / CAT II] Untrusted delimited blob parsed with no validation (CHARINDEX/SUBSTRING/STRING_SPLIT over an external parameter) ((remediated in modern code)),Remediated,
+POAM-C-001,D1 anti-meridian distance defect: legacy leg distance uses raw (lon2-lon1) with no longitude wrap; legs crossing +/-180 deg are computed incorrectly. Latent computational correctness defect. RECOMMENDED FOR ECP (not auto-fixed by the cATO overlay).,Open,ECP-recommended
+POAM-C-002,"D3 time-on-target defect: travel time is truncated (not rounded) and the leap-second adjustment is omitted, biasing estimatedTot/totFeasible. Latent computational correctness defect. RECOMMENDED FOR ECP (not auto-fixed by the cATO overlay).",Open,ECP-recommended

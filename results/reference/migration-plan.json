@@ -1,0 +1,223 @@
+{
+  "Units": [
+    {
+      "Id": "unit:route-validation",
+      "ProposedServiceName": "RouteValidationService",
+      "MemberModuleIds": [
+        "Tmpc.Surrogate.Legacy.MissionProcessor",
+        "Tmpc.Surrogate.Legacy.MissionProcessor.WrapDlon",
+        "Tmpc.Surrogate.Legacy.MissionProcessor.InitialBearingDeg",
+        "Tmpc.Surrogate.Legacy.MissionProcessor.TurnAngleDeg"
+      ],
+      "AggregateRiskScore": 0.8991666666666667,
+      "ApiOperations": [
+        "ValidateRoute",
+        "CheckLegDegreeBox",
+        "CheckTurnRate",
+        "ComputeInitialBearing",
+        "WrapAntiMeridian",
+        "WrapDlon",
+        "InitialBearingDeg",
+        "TurnAngleDeg"
+      ]
+    },
+    {
+      "Id": "unit:mission-distribution",
+      "ProposedServiceName": "MissionDistributionService",
+      "MemberModuleIds": [
+        "Tmpc.Surrogate.Legacy.MissionProcessor.BuildResultJson"
+      ],
+      "AggregateRiskScore": 0.4789166666666667,
+      "ApiOperations": [
+        "PublishMission",
+        "UpsertMission",
+        "InsertWaypoints",
+        "BuildMissionResult",
+        "BuildResultJson"
+      ]
+    },
+    {
+      "Id": "unit:tasking-rules",
+      "ProposedServiceName": "TaskingRulesService",
+      "MemberModuleIds": [
+        "Tmpc.Surrogate.Legacy.MissionProcessor.ProcessMission"
+      ],
+      "AggregateRiskScore": 0.9076666666666667,
+      "ApiOperations": [
+        "EvaluateTaskingGoNoGo",
+        "CheckMstSurfaceOnly",
+        "ProcessMission"
+      ]
+    },
+    {
+      "Id": "unit:legacyconfig",
+      "ProposedServiceName": "RouteValidationService",
+      "MemberModuleIds": [
+        "Tmpc.Surrogate.Legacy.LegacyConfig"
+      ],
+      "AggregateRiskScore": 0.33075000000000004,
+      "ApiOperations": [
+        "LegacyConfig"
+      ]
+    },
+    {
+      "Id": "unit:clienttaskinggonogo",
+      "ProposedServiceName": "TaskingRulesService",
+      "MemberModuleIds": [
+        "js:mission-review.clientTaskingGoNoGo"
+      ],
+      "AggregateRiskScore": 0.5159166666666667,
+      "ApiOperations": [
+        "clientTaskingGoNoGo"
+      ]
+    },
+    {
+      "Id": "unit:clienttotfeasible",
+      "ProposedServiceName": "TotDeconflictionService",
+      "MemberModuleIds": [
+        "js:mission-review.clientTotFeasible"
+      ],
+      "AggregateRiskScore": 0.5159166666666667,
+      "ApiOperations": [
+        "clientTotFeasible"
+      ]
+    },
+    {
+      "Id": "unit:renderrow",
+      "ProposedServiceName": "MissionDistributionService",
+      "MemberModuleIds": [
+        "js:mission-review.renderRow"
+      ],
+      "AggregateRiskScore": 0.5159166666666667,
+      "ApiOperations": [
+        "renderRow"
+      ]
+    },
+    {
+      "Id": "unit:rendermissionreview",
+      "ProposedServiceName": "MissionDistributionService",
+      "MemberModuleIds": [
+        "js:mission-review.renderMissionReview"
+      ],
+      "AggregateRiskScore": 0.5159166666666667,
+      "ApiOperations": [
+        "renderMissionReview"
+      ]
+    },
+    {
+      "Id": "unit:sp-publishmission",
+      "ProposedServiceName": "MissionDistributionService",
+      "MemberModuleIds": [
+        "sql:proc:dbo.sp_PublishMission"
+      ],
+      "AggregateRiskScore": 0.48845,
+      "ApiOperations": [
+        "dbo.sp_PublishMission"
+      ]
+    },
+    {
+      "Id": "unit:missions",
+      "ProposedServiceName": "MissionDistributionService",
+      "MemberModuleIds": [
+        "sql:table:dbo.Missions"
+      ],
+      "AggregateRiskScore": 0.4011666666666666,
+      "ApiOperations": [
+        "dbo.Missions"
+      ]
+    },
+    {
+      "Id": "unit:waypoints",
+      "ProposedServiceName": "MissionDistributionService",
+      "MemberModuleIds": [
+        "sql:table:dbo.Waypoints"
+      ],
+      "AggregateRiskScore": 0.32466666666666666,
+      "ApiOperations": [
+        "dbo.Waypoints"
+      ]
+    },
+    {
+      "Id": "unit:degreestomilgrid",
+      "ProposedServiceName": "RouteValidationService",
+      "MemberModuleIds": [
+        "vb6:GeoFixedPoint.DegreesToMilGrid"
+      ],
+      "AggregateRiskScore": 0.47251666666666664,
+      "ApiOperations": [
+        "DegreesToMilGrid"
+      ]
+    },
+    {
+      "Id": "unit:milgridtodegrees",
+      "ProposedServiceName": "RouteValidationService",
+      "MemberModuleIds": [
+        "vb6:GeoFixedPoint.MilGridToDegrees"
+      ],
+      "AggregateRiskScore": 0.47251666666666664,
+      "ApiOperations": [
+        "MilGridToDegrees"
+      ]
+    },
+    {
+      "Id": "unit:milgridlondelta",
+      "ProposedServiceName": "RouteValidationService",
+      "MemberModuleIds": [
+        "vb6:GeoFixedPoint.MilGridLonDelta"
+      ],
+      "AggregateRiskScore": 0.47251666666666664,
+      "ApiOperations": [
+        "MilGridLonDelta"
+      ]
+    },
+    {
+      "Id": "unit:leginsidebox",
+      "ProposedServiceName": "RouteValidationService",
+      "MemberModuleIds": [
+        "vb6:GeoFixedPoint.LegInsideBox"
+      ],
+      "AggregateRiskScore": 0.48951666666666666,
+      "ApiOperations": [
+        "LegInsideBox"
+      ]
+    }
+  ],
+  "OrderedUnitIds": [
+    "unit:waypoints",
+    "unit:legacyconfig",
+    "unit:missions",
+    "unit:degreestomilgrid",
+    "unit:milgridlondelta",
+    "unit:milgridtodegrees",
+    "unit:sp-publishmission",
+    "unit:leginsidebox",
+    "unit:clienttaskinggonogo",
+    "unit:clienttotfeasible",
+    "unit:rendermissionreview",
+    "unit:renderrow",
+    "unit:route-validation",
+    "unit:mission-distribution",
+    "unit:tasking-rules"
+  ],
+  "UnitEdges": [
+    {
+      "FromId": "unit:mission-distribution",
+      "ToId": "unit:route-validation",
+      "Kind": "References",
+      "Weight": 1
+    },
+    {
+      "FromId": "unit:tasking-rules",
+      "ToId": "unit:mission-distribution",
+      "Kind": "References",
+      "Weight": 1
+    },
+    {
+      "FromId": "unit:tasking-rules",
+      "ToId": "unit:route-validation",
+      "Kind": "References",
+      "Weight": 4
+    }
+  ],
+  "MermaidDiagram": "flowchart LR\n    %% FORGE EVOLVE \u2014 Migration Plan (units = candidate microservices, edges = strangler-fig seams)\n    %% Node label: [order] ServiceName / risk=AggregateRiskScore. Heuristic proposal on the synthetic surrogate.\n    unit_route_validation[\u002213. RouteValidationService\u003Cbr/\u003Eunit:route-validation\u003Cbr/\u003Erisk=0.899\u0022]\n    unit_mission_distribution[\u002214. MissionDistributionService\u003Cbr/\u003Eunit:mission-distribution\u003Cbr/\u003Erisk=0.479\u0022]\n    unit_tasking_rules[\u002215. TaskingRulesService\u003Cbr/\u003Eunit:tasking-rules\u003Cbr/\u003Erisk=0.908\u0022]\n    unit_legacyconfig[\u00222. RouteValidationService\u003Cbr/\u003Eunit:legacyconfig\u003Cbr/\u003Erisk=0.331\u0022]\n    unit_clienttaskinggonogo[\u00229. TaskingRulesService\u003Cbr/\u003Eunit:clienttaskinggonogo\u003Cbr/\u003Erisk=0.516\u0022]\n    unit_clienttotfeasible[\u002210. TotDeconflictionService\u003Cbr/\u003Eunit:clienttotfeasible\u003Cbr/\u003Erisk=0.516\u0022]\n    unit_renderrow[\u002212. MissionDistributionService\u003Cbr/\u003Eunit:renderrow\u003Cbr/\u003Erisk=0.516\u0022]\n    unit_rendermissionreview[\u002211. MissionDistributionService\u003Cbr/\u003Eunit:rendermissionreview\u003Cbr/\u003Erisk=0.516\u0022]\n    unit_sp_publishmission[\u00227. MissionDistributionService\u003Cbr/\u003Eunit:sp-publishmission\u003Cbr/\u003Erisk=0.488\u0022]\n    unit_missions[\u00223. MissionDistributionService\u003Cbr/\u003Eunit:missions\u003Cbr/\u003Erisk=0.401\u0022]\n    unit_waypoints[\u00221. MissionDistributionService\u003Cbr/\u003Eunit:waypoints\u003Cbr/\u003Erisk=0.325\u0022]\n    unit_degreestomilgrid[\u00224. RouteValidationService\u003Cbr/\u003Eunit:degreestomilgrid\u003Cbr/\u003Erisk=0.473\u0022]\n    unit_milgridtodegrees[\u00226. RouteValidationService\u003Cbr/\u003Eunit:milgridtodegrees\u003Cbr/\u003Erisk=0.473\u0022]\n    unit_milgridlondelta[\u00225. RouteValidationService\u003Cbr/\u003Eunit:milgridlondelta\u003Cbr/\u003Erisk=0.473\u0022]\n    unit_leginsidebox[\u00228. RouteValidationService\u003Cbr/\u003Eunit:leginsidebox\u003Cbr/\u003Erisk=0.490\u0022]\n\n    unit_mission_distribution --\u003E|\u0022depends \u00D71\u0022| unit_route_validation\n    unit_tasking_rules --\u003E|\u0022depends \u00D71\u0022| unit_mission_distribution\n    unit_tasking_rules --\u003E|\u0022depends \u00D74\u0022| unit_route_validation\n\n    classDef low fill:#1b5e20,stroke:#0b3d12,color:#fff;\n    classDef med fill:#e65100,stroke:#8c3100,color:#fff;\n    classDef high fill:#b71c1c,stroke:#7f1010,color:#fff;\n    class unit_route_validation high;\n    class unit_mission_distribution med;\n    class unit_tasking_rules high;\n    class unit_legacyconfig low;\n    class unit_clienttaskinggonogo med;\n    class unit_clienttotfeasible med;\n    class unit_renderrow med;\n    class unit_rendermissionreview med;\n    class unit_sp_publishmission med;\n    class unit_missions med;\n    class unit_waypoints low;\n    class unit_degreestomilgrid med;\n    class unit_milgridtodegrees med;\n    class unit_milgridlondelta med;\n    class unit_leginsidebox med;\n"
+}

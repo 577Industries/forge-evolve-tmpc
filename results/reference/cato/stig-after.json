@@ -1,0 +1,37 @@
+[
+  {
+    "ruleId": "APSC-DV-001620",
+    "title": "TLS server-certificate validation disabled (TrustServerCertificate=true)",
+    "severity": "CAT II",
+    "location": "/home/twawe/577i-Projects/SBIR Working Folder/DON26BZ01-NV013 AI-Assisted Modernization/forge-evolve-tmpc/surrogate/tmpc-surrogate-mds/legacy/MissionProcessor.cs:58",
+    "remediatedByTransform": false
+  },
+  {
+    "ruleId": "APSC-DV-002400",
+    "title": "Hardcoded database connection string (embedded authentication/configuration data)",
+    "severity": "CAT II",
+    "location": "/home/twawe/577i-Projects/SBIR Working Folder/DON26BZ01-NV013 AI-Assisted Modernization/forge-evolve-tmpc/surrogate/tmpc-surrogate-mds/legacy/MissionProcessor.cs:58",
+    "remediatedByTransform": false
+  },
+  {
+    "ruleId": "APSC-DV-002490",
+    "title": "HTML built by string concatenation and injected without output encoding (DOM-based XSS class)",
+    "severity": "CAT II",
+    "location": "(remediated in modern code)",
+    "remediatedByTransform": true
+  },
+  {
+    "ruleId": "APSC-DV-002500",
+    "title": "SQL command text constructed by string concatenation in the publish path (dynamic-SQL / SQL-injection class)",
+    "severity": "CAT I",
+    "location": "(remediated in modern code)",
+    "remediatedByTransform": true
+  },
+  {
+    "ruleId": "APSC-DV-002560",
+    "title": "Untrusted delimited blob parsed with no validation (CHARINDEX/SUBSTRING/STRING_SPLIT over an external parameter)",
+    "severity": "CAT II",
+    "location": "(remediated in modern code)",
+    "remediatedByTransform": true
+  }
+]

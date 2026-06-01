@@ -37,6 +37,6 @@ venv/
 secrets/
 **/transcripts/cloud/
 
-# Demo working outputs (the committed reference run lives in results/reference/)
-results/run/
+# Demo working outputs; only the committed reference run (results/reference/) is tracked
+results/*
 !results/reference/
