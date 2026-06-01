@@ -84,3 +84,11 @@ Per-WS exit gate: builds, unit tests green, contract conformance, no secrets/ITA
   Committed reference run in results/reference/. Companion + CETM populated (10 A / 2 E / 2 P, issues_count=0).
   CI (demo-offline.yml) runs build+test+demo+audit+secret-scan on push.
   Deferred polish (P5): surface the latent-defect detection (321 vs reference) in the demo output, not only tests.
+- 2026-05-31 — P4 started: weasyprint render pipeline (proposal/render.py); Vol2_Technical.md drafted &
+  renders to 7pp @10pt (≤10). Honesty fix applied: STIG framing corrected — only the CAT I SQL-injection
+  is GENUINELY remediated; JS-XSS + SQL-DDL are out-of-transform-scope (not "fixed"); TLS + hardcoded-cred
+  are residual POA&M. Updated companion + CETM to match.
+  **P5 MUST-FIX (honesty):** the Cato module marks JS-XSS/SQL-DDL as remediatedByTransform=true purely
+  because those files aren't in the modern C# set (absence≠fix). Reconcile StigAnalyzer to classify
+  Remediated (in-scope, genuinely fixed) vs Out-of-scope vs Residual; update demo console line + reference
+  stig-after.json so "3 remediated" becomes "1 remediated / 2 out-of-scope / 2 residual" (matches Vol 2).

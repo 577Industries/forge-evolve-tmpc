@@ -25,7 +25,7 @@ A committed reference run lives in `results/reference/`; reviewers can reproduce
 | Equivalence confidence (Chernoff) **5.003e-7** at δ=0.999, N=2000 | C-EQUIV-CHERNOFF | `results/reference/equivalence-report.json` (`chernoffDeviationBound`) | `make demo` |
 | Refactor cuts god-method cyclomatic complexity **49 → 6** | C-CC-REDUCE | Discovery vs modern; `results/reference/transform-result.json` Notes | `make demo` |
 | Discovery parses C# at **100%**, extracts rules at **F1=1.0** vs gold | C-DISC-F1 | `ForgeEvolve.Discovery.Tests`; `results/reference/discovery-report.json` | `dotnet test` |
-| cATO: **STIG findings remediated** (5 legacy → 2 residual out-of-scope) + 10×800-53 + SBOM + POA&M | C-CATO-STIG | `results/reference/cato/*`, `sbom.cdx.json`, `poam.csv` | `make demo` |
+| cATO: detects **5 STIG findings**; genuinely remediates the **CAT I SQL-injection**; JS-XSS + SQL-DDL out-of-scope; TLS + hardcoded-cred residual; 10×800-53 + SBOM + POA&M | C-CATO-STIG | `results/reference/cato/*`, `sbom.cdx.json`, `poam.csv` | `make demo` |
 | Tamper-evident provenance (SHA-256 IGOM + Merkle root); KG1/KG2 pass | C-GOV-IGOM | `results/reference/provenance.json`; `ForgeEvolve.Governance.Tests` | `dotnet test` |
 | Demo is byte-deterministic (offline, keyless) | C-REPRO-DET | `scripts/verify-reproducible.sh` | `make verify` |
 | Validation engine detects latent legacy defects at **P=R=1.0** on 321 vectors | C-DIV-DETECT | `ForgeEvolve.Validation.Tests` (divergence detector) | `dotnet test` |

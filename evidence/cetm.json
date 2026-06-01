@@ -59,7 +59,7 @@
     },
     {
       "claim_id": "C-CATO-STIG",
-      "claim_text": "cATO overlay generates STIG findings (before/after), NIST 800-53 control mappings, a CycloneDX SBOM, and a POA&M as pipeline byproducts; the modern component remediates its in-scope C# findings.",
+      "claim_text": "cATO overlay detects 5 STIG findings (1 CAT I) and emits NIST 800-53 control mappings, a CycloneDX SBOM, and a POA&M as pipeline byproducts; the behavior-preserving refactor genuinely remediates the CAT I SQL-injection (parameterization); the JS-XSS and SQL-DDL findings are out-of-transform-scope and the TLS/hardcoded-credential findings are carried as residual POA&M items (not over-claimed as fixed).",
       "source_location": "Vol2/§b O4; Vol2/§c T-F",
       "claim_type": "capability",
       "status": "A",
