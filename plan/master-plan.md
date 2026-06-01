@@ -52,3 +52,27 @@ Per-WS exit gate: builds, unit tests green, contract conformance, no secrets/ITA
   WS-H Governance (SHA-256 IGOM, KG gates, tamper-detection; 30 tests). All build on main.
   P3 reconcile notes: unify provenance ledger (Governance owns IGOM; Cato consumes) — Cato uses a
   simpler hash formula than Governance; wire all modules into ForgeEvolve.sln at integration.
+- 2026-05-31 — P2 Wave 2 complete (merged to main @ 0afa6be): WS-C Planner (god-cluster→service
+  boundaries, risk-scored topo order; 17 tests), WS-D Orchestrator (offline transcript replay +
+  Thompson routing; real @577-industries/model-router@1.0.0 for live modes; 19+7 tests), WS-E
+  Transformation (modern .NET 8, god method CC 49→6, **MODERN-CHECK 2000/2000** behavioral
+  equivalence; 6 tests), WS-F Validation (mission-data-aware oracles, **Chernoff 5.0e-7** N=2000,
+  intentional-divergence detector **P=R=1.0** on 321 vectors; 15 tests). (WS-E/F failed once on a
+  transient socket error mid-read; relaunched fresh — worktrees were clean.)
+  ALL 8 modules built, tested, merged. Worktrees/branches cleaned up.
+
+## P3 integration to-dos (reconcile)
+1. Add all 9 src projects + tmpc-modern-mds + surrogate + tools to ForgeEvolve.sln (so `make build/test` cover them).
+2. Build `src/ForgeEvolve.Cli` driving the full pipeline: Discovery→CLAR→Planner→Orchestrator(replay)→
+   Transformation→Validation(legacy vs REAL modern on corpus)→Cato→Governance → writes `results/run/`.
+3. Provenance: Governance owns the IGOM ledger; refactor Cato to record via IGovernance (or unify the
+   hash formula) so there is ONE provenance chain + Merkle root.
+4. Transcript path: Orchestrator reads `src/ForgeEvolve.Orchestrator/fixtures/transcripts/`; the real
+   transcript is at top-level `fixtures/transcripts/mission-modernization.json` — point the orchestrator
+   at the top-level dir (or copy it in) so offline replay finds it.
+5. Wire Validation's ModernRunner Func to tmpc-modern-mds `MissionService.ProcessMission` → emit the REAL
+   headline equivalence number (expect 0 violations, 2000 passed, Chernoff 5.0e-7).
+6. Wire `scripts/run-demo.sh`/`make demo` to the CLI; `make verify` double-run determinism; `make sbom`.
+7. Tidy stray committed demo artifacts (`results/clar/`, `results/equivalence-report.json`) → move under
+   `results/reference/` (the committed reference run) or regenerate; keep `results/run/` gitignored.
+8. CETM: add real status-A claims for the proven metrics (MODERN-CHECK, Chernoff, CC reduction, STIG, F1).
