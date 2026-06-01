@@ -1,0 +1,54 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!--
+    ForgeEvolve.ModernMds — the BEHAVIOR-PRESERVING modernization of the synthetic legacy
+    MissionProcessor (surrogate/tmpc-surrogate-mds/legacy/MissionProcessor.cs).
+
+    GOAL: re-architect the ~200-line god method (legacy max-method cyclomatic complexity 49)
+    into single-responsibility, dependency-injected, immutable-record services — WITHOUT
+    changing observable behavior. The modern output JSON must EQUAL the legacy `legacyOutput`
+    for ALL 2000 corpus vectors (discrete exact; continuous within 1e-9 relative). That means
+    the legacy computational quirks D1 (equirectangular no-wrap distance), D2 (per-leg
+    Math.Round to 8 decimals before summing) and D3 (TOT integer truncation + omitted leap
+    seconds) are REPRODUCED EXACTLY — refactoring changes STRUCTURE, not BEHAVIOR. The D1/D2/D3
+    defects are surfaced as ECP-recommended findings, NOT fixed here (see README.md), per the
+    government's "preserve behavior; changes via ECP" guidance.
+
+    Security hardening is confined to the OUTPUT-NEUTRAL publish path (PublishEnabled=false by
+    default; never connects in the demo): parameterized SQL, injected connection string (no
+    hardcoded secret), and no TrustServerCertificate=true. These do not affect computed mission
+    outputs, so corpus equivalence is preserved.
+  -->
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <OutputType>Library</OutputType>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <LangVersion>latest</LangVersion>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <GenerateDocumentationFile>false</GenerateDocumentationFile>
+    <RootNamespace>ForgeEvolve.ModernMds</RootNamespace>
+    <AssemblyName>ForgeEvolve.ModernMds</AssemblyName>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!-- The tools project lives under ./tools; keep its sources out of THIS compile glob. -->
+    <Compile Remove="tools/**/*.cs" />
+    <None Remove="tools/**/*" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- Let ModernCheck and the test harness see internal helpers if needed. -->
+    <InternalsVisibleTo Include="ModernCheck" />
+    <InternalsVisibleTo Include="ForgeEvolve.Transformation.Tests" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!--
+      Parameterized ADO.NET publish path (output-neutral, guarded by PublishEnabled=false).
+      Replaces the legacy inline string-concatenated SQL. Never connects in the demo.
+    -->
+    <PackageReference Include="Microsoft.Data.SqlClient" Version="5.2.2" />
+  </ItemGroup>
+
+</Project>
