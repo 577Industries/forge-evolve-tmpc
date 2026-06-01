@@ -119,6 +119,47 @@ public static class SurrogateFixture
     };
 
     /// <summary>
+    /// A demo-faithful "modern" emitted set: the SQL-injection class (string-concatenated
+    /// SqlCommand) is genuinely fixed (parameterized), so APSC-DV-002500 is REMEDIATED — but the
+    /// modern C# still carries the TLS (TrustServerCertificate=true) and hardcoded connection-string
+    /// patterns, so APSC-DV-001620 and APSC-DV-002400 remain RESIDUAL. There are no modern .js/.sql
+    /// emitted files, so the legacy JS-XSS (002490) and SQL-DDL (002560) findings are OUT-OF-SCOPE
+    /// (the modern C# component does not cover those file types — absence ≠ fix). This reproduces
+    /// the real demo disposition: 1 remediated / 2 out-of-scope / 2 residual.
+    /// </summary>
+    public static IReadOnlyList<EmittedFile> ModernDemoLike() => new[]
+    {
+        new EmittedFile
+        {
+            Path = "tmpc-modern-mds/src/Distribution/MissionPublisher.cs",
+            Language = SourceLanguage.CSharp,
+            Content = """
+                using Microsoft.Data.SqlClient;
+                namespace Tmpc.Modern.Distribution;
+                public sealed class MissionPublisher
+                {
+                    // RESIDUAL hardening items still present in the modern C#:
+                    //   * hardcoded connection string (APSC-DV-002400)
+                    //   * TrustServerCertificate=true (APSC-DV-001620)
+                    private const string ConnectionString =
+                        "Server=(localdb)\\TmpcModern;Initial Catalog=Tmpc;Integrated Security=true;TrustServerCertificate=true";
+                    public async Task PublishAsync(Mission m, CancellationToken ct)
+                    {
+                        await using var conn = new SqlConnection(ConnectionString);
+                        // SQL-injection class is REMEDIATED: parameterized, no string-concatenated SqlCommand text.
+                        await using var cmd = conn.CreateCommand();
+                        cmd.CommandText = "dbo.sp_PublishMission_V2";
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add(new SqlParameter("@MissionId", SqlDbType.Int) { Value = m.Id });
+                        await conn.OpenAsync(ct);
+                        await cmd.ExecuteNonQueryAsync(ct);
+                    }
+                }
+                """,
+        },
+    };
+
+    /// <summary>
     /// A representative discovery report carrying the recovered business rules for the three
     /// latent computational defects (D1/D2/D3), so the POA&amp;M lists only defects present.
     /// </summary>

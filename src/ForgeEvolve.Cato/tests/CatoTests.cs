@@ -36,34 +36,85 @@ public class StigAnalyzerTests
     }
 
     [Fact]
-    public void CleanModern_Reconciles_LegacyFindings_As_Remediated()
+    public void DemoLikeModern_Classifies_Dispositions_Exactly_1_Remediated_2_OutOfScope_2_Residual()
     {
+        IReadOnlyList<StigFinding> before = StigAnalyzer.ScanLegacy(SurrogateFixture.Legacy());
+        IReadOnlyList<StigFinding> after =
+            StigAnalyzer.ScanModernAndReconcile(before, SurrogateFixture.ModernDemoLike());
+
+        // After-set count equals before-set count (one reconciled record per finding).
+        Assert.Equal(before.Count, after.Count);
+
+        // EXACT disposition mapping (matches Vol 2): the honest cATO story is
+        //   1 genuinely remediated / 2 out-of-scope / 2 residual.
+        var remediated = after.Where(f => f.Disposition == StigAnalyzer.DispositionRemediated)
+            .Select(f => f.RuleId).OrderBy(x => x, StringComparer.Ordinal).ToArray();
+        var outOfScope = after.Where(f => f.Disposition == StigAnalyzer.DispositionOutOfScope)
+            .Select(f => f.RuleId).OrderBy(x => x, StringComparer.Ordinal).ToArray();
+        var residual = after.Where(f => f.Disposition == StigAnalyzer.DispositionResidual)
+            .Select(f => f.RuleId).OrderBy(x => x, StringComparer.Ordinal).ToArray();
+
+        // Remediated == { APSC-DV-002500 } — the CAT I SQL-injection, parameterized in the publisher.
+        Assert.Equal(new[] { StigAnalyzer.VID_SqlInjection }, remediated);
+        // OutOfScope == { APSC-DV-002490 (JS-XSS), APSC-DV-002560 (SQL-DDL) } — file types the
+        // modern C# component does not cover; flagged for follow-on increments, NOT claimed fixed.
+        Assert.Equal(new[] { StigAnalyzer.VID_OutputEncoding, StigAnalyzer.VID_InputValidation }
+            .OrderBy(x => x, StringComparer.Ordinal).ToArray(), outOfScope);
+        // Residual == { APSC-DV-001620 (TLS), APSC-DV-002400 (hardcoded conn string) } — in-scope
+        // C# but the pattern persists in the modern C#.
+        Assert.Equal(new[] { StigAnalyzer.VID_TlsCertValidation, StigAnalyzer.VID_HardcodedCreds }
+            .OrderBy(x => x, StringComparer.Ordinal).ToArray(), residual);
+
+        // RemediatedByTransform is true IFF Disposition == "Remediated".
+        Assert.All(after, f =>
+            Assert.Equal(f.Disposition == StigAnalyzer.DispositionRemediated, f.RemediatedByTransform));
+
+        // Only the genuinely-remediated finding is counted remediated; the other four are open.
+        Assert.Single(after, f => f.RemediatedByTransform);
+        Assert.Equal(4, after.Count(f => !f.RemediatedByTransform));
+    }
+
+    [Fact]
+    public void OutOfScope_Is_Never_Claimed_Remediated_Even_When_Modern_Lacks_That_FileType()
+    {
+        // A fully clean modern set that contains NO .js and NO .sql files. The legacy JS-XSS and
+        // SQL-DDL findings must NOT be reported remediated merely because those file types are
+        // absent from the modern component — they are OutOfScope (absence ≠ fix).
         IReadOnlyList<StigFinding> before = StigAnalyzer.ScanLegacy(SurrogateFixture.Legacy());
         IReadOnlyList<StigFinding> after =
             StigAnalyzer.ScanModernAndReconcile(before, SurrogateFixture.CleanModern());
 
-        // The three required classes must reconcile to RemediatedByTransform=true.
+        foreach (string ruleId in new[] { StigAnalyzer.VID_OutputEncoding, StigAnalyzer.VID_InputValidation })
+        {
+            Assert.All(after.Where(f => f.RuleId == ruleId), f =>
+            {
+                Assert.Equal(StigAnalyzer.DispositionOutOfScope, f.Disposition);
+                Assert.False(f.RemediatedByTransform);
+            });
+        }
+
+        // The in-scope C# findings, with this CLEAN modern C#, genuinely remediate.
         foreach (string ruleId in new[]
                  {
                      StigAnalyzer.VID_SqlInjection,
                      StigAnalyzer.VID_HardcodedCreds,
-                     StigAnalyzer.VID_InputValidation,
+                     StigAnalyzer.VID_TlsCertValidation,
                  })
         {
-            Assert.All(after.Where(f => f.RuleId == ruleId),
-                f => Assert.True(f.RemediatedByTransform, $"{ruleId} should be remediated"));
+            Assert.All(after.Where(f => f.RuleId == ruleId), f =>
+            {
+                Assert.Equal(StigAnalyzer.DispositionRemediated, f.Disposition);
+                Assert.True(f.RemediatedByTransform);
+            });
         }
-
-        // After-set count equals before-set count (one reconciled record per finding).
-        Assert.Equal(before.Count, after.Count);
     }
 
     [Fact]
-    public void ModernCode_StillExhibitingDefect_Is_NotRemediated()
+    public void ModernCode_StillExhibitingDefect_Is_Residual_NotRemediated()
     {
         IReadOnlyList<StigFinding> before = StigAnalyzer.ScanLegacy(SurrogateFixture.Legacy());
 
-        // A "modern" file that STILL embeds a connection string — must remain unremediated.
+        // A "modern" C# file that STILL embeds a connection string — in-scope but unfixed → Residual.
         var stillBad = new[]
         {
             new EmittedFile
@@ -74,8 +125,11 @@ public class StigAnalyzerTests
             },
         };
         IReadOnlyList<StigFinding> after = StigAnalyzer.ScanModernAndReconcile(before, stillBad);
-        Assert.All(after.Where(f => f.RuleId == StigAnalyzer.VID_HardcodedCreds),
-            f => Assert.False(f.RemediatedByTransform));
+        Assert.All(after.Where(f => f.RuleId == StigAnalyzer.VID_HardcodedCreds), f =>
+        {
+            Assert.False(f.RemediatedByTransform);
+            Assert.Equal(StigAnalyzer.DispositionResidual, f.Disposition);
+        });
     }
 }
 
@@ -175,11 +229,19 @@ public class CyberOverlayEndToEndTests
                 SurrogateFixture.Discovery(),
                 outDir);
 
-            // STIG before has the three required findings; after has them all remediated.
+            // STIG before has the three required findings.
             Assert.Contains(art.StigBefore, f => f.RuleId == StigAnalyzer.VID_SqlInjection);
             Assert.Contains(art.StigBefore, f => f.RuleId == StigAnalyzer.VID_HardcodedCreds);
             Assert.Contains(art.StigBefore, f => f.RuleId == StigAnalyzer.VID_InputValidation);
-            Assert.All(art.StigAfter, f => Assert.True(f.RemediatedByTransform));
+            // Every "after" finding carries an honest disposition; in-scope C# findings reconcile to
+            // Remediated with this CLEAN modern set, but the out-of-scope .js/.sql findings do NOT
+            // (absence of those file types is not a fix).
+            Assert.All(art.StigAfter, f => Assert.NotNull(f.Disposition));
+            Assert.All(art.StigAfter, f =>
+                Assert.Equal(f.Disposition == StigAnalyzer.DispositionRemediated, f.RemediatedByTransform));
+            Assert.All(
+                art.StigAfter.Where(f => f.RuleId is StigAnalyzer.VID_OutputEncoding or StigAnalyzer.VID_InputValidation),
+                f => Assert.Equal(StigAnalyzer.DispositionOutOfScope, f.Disposition));
 
             // Control map covers the required control IDs.
             var controlIds = art.ControlMap.Select(c => c.ControlId).ToHashSet();

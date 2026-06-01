@@ -287,6 +287,21 @@ public sealed record StigFinding
     public required string Severity { get; init; } // CAT I|II|III
     public required string Location { get; init; }
     public bool RemediatedByTransform { get; init; }
+
+    /// <summary>
+    /// Honest remediation disposition of a reconciled "after" finding (additive; null on "before"
+    /// findings). One of:
+    ///   "Remediated"  — the finding's legacy source is a C# file WITHIN the modern transform's
+    ///                   scope AND the vulnerable pattern is absent from the modern C#. Only a
+    ///                   genuinely-fixed finding gets this value; <see cref="RemediatedByTransform"/>
+    ///                   == (Disposition == "Remediated").
+    ///   "OutOfScope"  — the finding's legacy source is a file TYPE the modern component does not
+    ///                   cover (e.g. .js UI, .sql DDL). Flagged for a follow-on increment, NOT
+    ///                   claimed fixed (absence of those files ≠ a fix).
+    ///   "Residual"    — the finding's legacy source IS an in-scope C# file, but the pattern still
+    ///                   persists in the modern C# (carried as a residual hardening POA&amp;M item).
+    /// </summary>
+    public string? Disposition { get; init; }
 }
 
 public sealed record ControlMapping

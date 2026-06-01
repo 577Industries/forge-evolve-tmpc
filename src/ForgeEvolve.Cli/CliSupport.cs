@@ -222,3 +222,56 @@ internal static class Sha
     public static string Hex(string value) =>
         Convert.ToHexString(SHA256.HashData(Encoding.UTF8.GetBytes(value))).ToLowerInvariant();
 }
+
+/// <summary>One latent-defect class with its detected divergent-vector count.</summary>
+internal sealed record LatentDefectByClass(string Tag, string Description, int DetectedCount);
+
+/// <summary>
+/// The latent-defect detection result over the full corpus (Fix B): the per-class divergent-vector
+/// counts the validation oracle surfaces (legacy-vs-reference) plus the detector's precision/recall
+/// against the corpus ground truth. Serialized deterministically to results/run/latent-defects.json
+/// (no timestamps / RNG) so the demo is byte-reproducible.
+/// </summary>
+internal sealed record LatentDefectReport
+{
+    public required int CorpusVectors { get; init; }
+    public required int TotalDetected { get; init; }
+    public required int GroundTruthDivergent { get; init; }
+    public required double Precision { get; init; }
+    public required double Recall { get; init; }
+    public required IReadOnlyList<LatentDefectByClass> ByClass { get; init; }
+
+    private static readonly JsonSerializerOptions Options = new()
+    {
+        WriteIndented = true,
+        PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+    };
+
+    public static string Serialize(LatentDefectReport report)
+    {
+        ArgumentNullException.ThrowIfNull(report);
+        // Project to an anonymous, ordered shape so the artifact is stable and self-describing.
+        var doc = new
+        {
+            description =
+                "Latent legacy defects surfaced by the mission-data-aware equivalence oracle "
+                + "(legacy output vs the independent reference answer key) over the full corpus. "
+                + "Each is an ECP-recommended finding for human adjudication — never auto-fixed.",
+            detector = "ForgeEvolve.Validation.DivergenceDetector",
+            report.CorpusVectors,
+            report.TotalDetected,
+            report.GroundTruthDivergent,
+            report.Precision,
+            report.Recall,
+            byClass = report.ByClass.Select(c => new
+            {
+                c.Tag,
+                c.Description,
+                c.DetectedCount,
+            }),
+            disclaimer =
+                "measured on the synthetic, unclassified surrogate; preliminary; not government-validated.",
+        };
+        return JsonSerializer.Serialize(doc, Options);
+    }
+}

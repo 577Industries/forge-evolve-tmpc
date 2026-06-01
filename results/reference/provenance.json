@@ -1,6 +1,6 @@
 {
   "schema": "forge-evolve/provenance/v1",
-  "merkleRoot": "1d2412b3aa87be5ffee9a129f43d90145cff9e846aacc8e430552733046bac95",
+  "merkleRoot": "6fe75157462f932c33806b164f1bd5559c41229ed6b62456eb0e1db81f12f2e1",
   "entryCount": 8,
   "records": [
     {
@@ -47,25 +47,25 @@
       "sequence": "5",
       "action": "cato",
       "actor": "ForgeEvolve.Cato",
-      "payloadSha256": "766adf78133de92809c35275189f909c434d80419e0523c56f2c458a692971b2",
+      "payloadSha256": "cb6109b01304d2cfafa940c4da29612fb05a9df4eb1e47c8b55ed9c31eba3ff8",
       "prevHash": "9e7fc643ceb3669eaa83eb8d96d706ba6f3c2e807c7548ed85d0819bf04b1639",
-      "entryHash": "05de7a3e653ba129279b2c7773cb06bc5101a6bcb2cfc25c07ceba9c374e555d"
+      "entryHash": "7d0860db2ab2d9131c82c1c964df99802e00a446ee9ab35c25a60a55b98d3972"
     },
     {
       "sequence": "6",
       "action": "review-gate-decision",
       "actor": "governance:gate:KG1",
       "payloadSha256": "2bfe4b2cc2c9a849b2fef5df66ce48491c8789a860261cd8fbab4b013b53db3f",
-      "prevHash": "05de7a3e653ba129279b2c7773cb06bc5101a6bcb2cfc25c07ceba9c374e555d",
-      "entryHash": "59b633b5e5f690eb33fd4c1ce58cbaa954c40a2a00e8ff0b61d46a8585550595"
+      "prevHash": "7d0860db2ab2d9131c82c1c964df99802e00a446ee9ab35c25a60a55b98d3972",
+      "entryHash": "70297ffd14b96225b7aa46610f9155bcd053d6a1e7e660d85f368c964ad11d66"
     },
     {
       "sequence": "7",
       "action": "review-gate-decision",
       "actor": "governance:gate:KG2",
       "payloadSha256": "01c58ef8e1f9be0a00f62bbf311f4389927b8b4ca9295faf19527c3285583e10",
-      "prevHash": "59b633b5e5f690eb33fd4c1ce58cbaa954c40a2a00e8ff0b61d46a8585550595",
-      "entryHash": "70f77047cde63d74883650da948d364cc29596fa94100c84cc2bdb90bfe10fea"
+      "prevHash": "70297ffd14b96225b7aa46610f9155bcd053d6a1e7e660d85f368c964ad11d66",
+      "entryHash": "db89a3c87a3bae9ee6b780132e0f5b4ce24b5846759605de4c333a7f46dc8f4e"
     }
   ]
 }

@@ -17,6 +17,13 @@ using ForgeEvolve.Contracts;
 
 namespace ForgeEvolve.Cato;
 
+/// <summary>
+/// A quantified latent-defect class surfaced by the validation oracle's intentional-divergence
+/// detector (e.g. anti-meridian = 150). Fed into the POA&amp;M as an ECP-recommended item carrying
+/// the measured vector count — never claimed auto-fixed.
+/// </summary>
+public sealed record LatentDefectClass(string Tag, string Description, int VectorCount);
+
 public static class PoamBuilder
 {
     /// <summary>
@@ -27,19 +34,45 @@ public static class PoamBuilder
     public static IReadOnlyList<PoamItem> Build(
         IReadOnlyList<StigFinding> stigAfter,
         DiscoveryReport discovery)
+        => Build(stigAfter, discovery, quantifiedLatentDefects: null);
+
+    /// <summary>
+    /// As <see cref="Build(IReadOnlyList{StigFinding},DiscoveryReport)"/>, but additionally emits
+    /// QUANTIFIED latent-defect ECP items (POAM-L-NNN) from the validation oracle's per-class
+    /// divergence counts. These carry the measured vector count and remain Open / ECP-recommended
+    /// (never auto-fixed in the targeting path).
+    /// </summary>
+    public static IReadOnlyList<PoamItem> Build(
+        IReadOnlyList<StigFinding> stigAfter,
+        DiscoveryReport discovery,
+        IReadOnlyList<LatentDefectClass>? quantifiedLatentDefects)
     {
         var items = new List<PoamItem>();
 
         // (1) Security findings from the STIG reconciliation (POAM-S-NNN).
+        //     Honest disposition drives the POA&M status: only a genuinely-remediated, in-scope
+        //     finding is CLOSED (Remediated). Out-of-scope findings (a file type the modern C#
+        //     component does not cover, e.g. .js UI / .sql DDL) and residual findings (in-scope
+        //     but the pattern persists) are BOTH Open POA&M items — flagged, never claimed fixed.
         int s = 0;
         foreach (StigFinding f in stigAfter)
         {
+            bool remediated = f.RemediatedByTransform; // == (Disposition == "Remediated")
+            string disposition = f.Disposition ?? (remediated
+                ? StigAnalyzer.DispositionRemediated
+                : StigAnalyzer.DispositionResidual);
             items.Add(new PoamItem
             {
                 Id = $"POAM-S-{++s:D3}",
-                Weakness = $"[{f.RuleId} / {f.Severity}] {f.Title} ({f.Location})",
-                Status = f.RemediatedByTransform ? "Remediated" : "Open",
-                ScheduledCompletion = f.RemediatedByTransform ? null : "ECP-recommended",
+                // Carry the disposition so a reviewer sees WHY an item is open: out-of-scope for a
+                // follow-on increment vs. a residual hardening item — never silently "remediated".
+                Weakness = $"[{f.RuleId} / {f.Severity}] {f.Title} ({f.Location}) [disposition: {disposition}]",
+                Status = remediated ? "Remediated" : "Open",
+                ScheduledCompletion = remediated
+                    ? null
+                    : (disposition == StigAnalyzer.DispositionOutOfScope
+                        ? "Follow-on increment (out of transform scope)"
+                        : "ECP-recommended"),
             });
         }
 
@@ -50,6 +83,30 @@ public static class PoamBuilder
         foreach (PoamItem d in LatentComputationalDefects(discovery))
         {
             items.Add(d with { Id = $"POAM-C-{++c:D3}" });
+        }
+
+        // (3) QUANTIFIED latent-defect classes from the validation oracle's divergence detector
+        //     (POAM-L-NNN). Each carries the measured divergent-vector count and is Open /
+        //     ECP-recommended (surfaced for human adjudication, never auto-fixed). Emitted in a
+        //     stable tag order for deterministic artifacts.
+        if (quantifiedLatentDefects is { Count: > 0 })
+        {
+            int l = 0;
+            foreach (LatentDefectClass d in quantifiedLatentDefects
+                         .OrderBy(x => x.Tag, StringComparer.Ordinal))
+            {
+                items.Add(new PoamItem
+                {
+                    Id = $"POAM-L-{++l:D3}",
+                    Weakness =
+                        $"Latent legacy defect class '{d.Tag}' ({d.Description}): " +
+                        $"{d.VectorCount} ground-truth divergent vectors detected by the " +
+                        "mission-data-aware equivalence oracle (precision=recall=1.0). " +
+                        "RECOMMENDED FOR ECP — surfaced for human adjudication, not auto-fixed.",
+                    Status = "Open",
+                    ScheduledCompletion = "ECP-recommended",
+                });
+            }
         }
 
         return items;

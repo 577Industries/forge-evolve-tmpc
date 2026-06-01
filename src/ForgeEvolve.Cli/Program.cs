@@ -280,18 +280,57 @@ internal static class Program
                 ("chernoffBound", Round(eq.ChernoffDeviationBound))));
         Console.WriteLine();
 
+        // ── STAGE 5b — LATENT-DEFECT DETECTION (legacy vs reference, full corpus) ──
+        // Run the Validation module's intentional-divergence detector over the WHOLE 2000-vector
+        // corpus (legacy output vs the reference answer key) and report the latent legacy defects
+        // BY CLASS. This surfaces the bugs the legacy code was hiding — never auto-fixed — and is
+        // the demo-visible proof of the precision=recall=1.0 result that previously lived only in
+        // ForgeEvolve.Validation.Tests. Reuses DivergenceDetector / CorpusLoader verbatim.
+        Console.WriteLine("── [5b/8] Latent-defect detection (legacy vs reference, full corpus) ─");
+        LatentDefectReport latent = DetectLatentDefects(corpus, legacyRunner, tolerance);
+
+        string latentPath = Path.Combine(outDir, "latent-defects.json");
+        File.WriteAllText(latentPath, LatentDefectReport.Serialize(latent));
+
+        Console.WriteLine($"  corpus vectors     : {latent.CorpusVectors}");
+        Console.WriteLine($"  latent defects     : {latent.TotalDetected}  (ground-truth divergent: {latent.GroundTruthDivergent})");
+        foreach (LatentDefectByClass cl in latent.ByClass)
+            Console.WriteLine($"    - {cl.Tag,-16} : {cl.DetectedCount,4}  ({cl.Description})");
+        Console.WriteLine($"  detector precision : {latent.Precision:F4}   recall: {latent.Recall:F4}   (vs expectedLegacyDivergent)");
+        Console.WriteLine($"  -> {Rel(repoRoot, latentPath)}");
+        if (latent.Precision != 1.0 || latent.Recall != 1.0)
+            throw new InvalidOperationException(
+                $"Latent-defect detector did not reach P=R=1.0 (P={latent.Precision}, R={latent.Recall}).");
+        // NOTE: the latent-defect detection is a SUB-STEP of validation (stage 5b) — its evidence is
+        // the latent-defects.json artifact plus the console summary, and its quantified counts flow
+        // into the cATO POA&M (POAM-L-*). We deliberately do NOT add a separate governance leaf for
+        // it, so the canonical IGOM remains the 8-record chain (discovery→CLAR→plan→transform→
+        // validate→cATO→KG1→KG2) that Vol 2 cites.
+        Console.WriteLine();
+
         // ── STAGE 6 — CYBER / cATO ───────────────────────────────────────────────
         Console.WriteLine("── [6/8] Cyber / cATO overlay (STIG, 800-53, SBOM, POA&M) ────────");
         var cyber = new CyberOverlay();
         // The overlay writes its artifact bundle under outDir (cato/*, sbom.cdx.json, poam.csv,
         // control-map.yaml, and its OWN provenance.json). Governance overwrites the canonical
         // provenance.json afterward (stage 7), so Cato's internal ledger becomes a sub-artifact.
-        CatoArtifacts cato = cyber.Generate(sources, transform.Files, discovery, outDir);
+        // The quantified per-class latent-defect counts become ECP-recommended POA&M items (POAM-L-*).
+        IReadOnlyList<LatentDefectClass> latentForPoam = latent.ByClass
+            .Select(c => new LatentDefectClass(c.Tag, c.Description, c.DetectedCount))
+            .ToList();
+        CatoArtifacts cato = cyber.Generate(sources, transform.Files, discovery, outDir, latentForPoam);
 
         int findingsBefore = cato.StigBefore.Count;
-        int findingsAfter = cato.StigAfter.Count(s => !s.RemediatedByTransform);
-        int remediated = cato.StigAfter.Count(s => s.RemediatedByTransform);
-        Console.WriteLine($"  STIG findings      : {findingsBefore} before -> {findingsAfter} residual ({remediated} remediated-by-transform)");
+        // HONEST disposition counts (absence of a file type from the modern component is NOT a fix):
+        //   Remediated — in-scope C#, pattern genuinely gone; OutOfScope — file type the modern C#
+        //   component does not cover (.js/.sql); Residual — in-scope C#, pattern still present.
+        int remediated = cato.StigAfter.Count(s => s.Disposition == StigAnalyzer.DispositionRemediated);
+        int outOfScope = cato.StigAfter.Count(s => s.Disposition == StigAnalyzer.DispositionOutOfScope);
+        int residual = cato.StigAfter.Count(s => s.Disposition == StigAnalyzer.DispositionResidual);
+        Console.WriteLine($"  STIG findings      : {findingsBefore} detected -> {remediated} remediated / {outOfScope} out-of-scope / {residual} residual");
+        Console.WriteLine($"    remediated (in-scope C#, genuinely fixed) : {string.Join(", ", cato.StigAfter.Where(s => s.Disposition == StigAnalyzer.DispositionRemediated).Select(s => s.RuleId))}");
+        Console.WriteLine($"    out-of-scope (file type not transformed)  : {string.Join(", ", cato.StigAfter.Where(s => s.Disposition == StigAnalyzer.DispositionOutOfScope).Select(s => s.RuleId))}");
+        Console.WriteLine($"    residual (in-scope C#, still present)      : {string.Join(", ", cato.StigAfter.Where(s => s.Disposition == StigAnalyzer.DispositionResidual).Select(s => s.RuleId))}");
         Console.WriteLine($"  NIST 800-53 ctrls  : {cato.ControlMap.Count} mapped");
         Console.WriteLine($"  POA&M items        : {cato.Poam.Count}");
         Console.WriteLine($"  SBOM               : {Rel(repoRoot, cato.SbomPath)}");
@@ -299,8 +338,9 @@ internal static class Program
         Console.WriteLine($"  -> {Rel(repoRoot, Path.Combine(outDir, "cato"))}/ (stig-before.json, stig-after.json, control-map.yaml, control-map.json)");
         Console.WriteLine($"  -> {Rel(repoRoot, Path.Combine(outDir, "poam.csv"))}");
         governance.Record("cato", "ForgeEvolve.Cato",
-            Canonical.Json(("stigBefore", findingsBefore), ("stigResidual", findingsAfter),
-                ("remediated", remediated), ("controls", cato.ControlMap.Count),
+            Canonical.Json(("stigBefore", findingsBefore), ("remediated", remediated),
+                ("outOfScope", outOfScope), ("residual", residual),
+                ("controls", cato.ControlMap.Count),
                 ("poam", cato.Poam.Count), ("catoMerkleRoot", cato.ProvenanceMerkleRoot)));
         Console.WriteLine();
 
@@ -342,7 +382,8 @@ internal static class Program
         Console.WriteLine($"  Transform   : max-method CC {ccBefore} -> {ccAfter}; {transform.Files.Count} modern files (offline replay)");
         Console.WriteLine($"  EQUIVALENCE : {eq.VectorsPassed}/{eq.VectorsTotal} vectors equivalent; Violations={eq.Violations}; intentional divergences={intentionalDivergences}");
         Console.WriteLine($"              : Chernoff deviation bound {eq.ChernoffDeviationBound:E3} at delta={eq.ConfidenceLevel}");
-        Console.WriteLine($"  cATO        : STIG {findingsBefore}->{findingsAfter} residual ({remediated} remediated); {cato.ControlMap.Count} controls; {cato.Poam.Count} POA&M items");
+        Console.WriteLine($"  LATENT DEFS : {latent.TotalDetected} surfaced (P=R={latent.Precision:F1}): {string.Join(" / ", latent.ByClass.Select(c => $"{c.Tag} {c.DetectedCount}"))}");
+        Console.WriteLine($"  cATO        : STIG {findingsBefore} detected -> {remediated} remediated / {outOfScope} out-of-scope / {residual} residual; {cato.ControlMap.Count} controls; {cato.Poam.Count} POA&M items");
         Console.WriteLine($"  Governance  : {governance.Ledger.Count}-record IGOM, root {Short(governance.CurrentMerkleRoot())}; KG1={(kg1.Passed ? "PASS" : "FAIL")} KG2={(kg2.Passed ? "PASS" : "FAIL")}");
         Console.WriteLine();
         Console.WriteLine($"  DISCLAIMER  : All figures are {Disclaimer}");
@@ -371,6 +412,64 @@ internal static class Program
             files.Add(SourceLoader.FromFile(path));
         }
         return files;
+    }
+
+    // ── Latent-defect detection over the full corpus (Fix B) ─────────────────────
+    // The four seeded latent legacy defect classes, in the report's canonical (count-descending,
+    // mission-impact) order. The Description text mirrors the Vol 2 latent-defect table.
+    private static readonly (string Tag, string Description)[] LatentDefectTaxonomy =
+    {
+        ("anti-meridian",   "raw (lon2-lon1) leg distance with no +/-180 deg wrap"),
+        ("leap-second",     "omitted leap-second adjustment + TOT truncation bias"),
+        ("overflow",        "numeric overflow on extreme inputs"),
+        ("precision-drift", "floating-point precision drift across accumulated legs"),
+    };
+
+    /// <summary>
+    /// Run the Validation module's intentional-divergence detector over the WHOLE corpus
+    /// (legacy-vs-reference) and bucket each detected latent defect by its corpus class tag. Also
+    /// scores the detector against the corpus `expectedLegacyDivergent` ground truth (P / R). Pure
+    /// reuse of <see cref="DivergenceDetector"/> — no detection logic is reimplemented here.
+    /// </summary>
+    private static LatentDefectReport DetectLatentDefects(
+        LoadedCorpus corpus, ILegacyRunner legacy, ToleranceConfig tolerance)
+    {
+        // Per-class detected counts (a divergent vector carries exactly one class tag in the
+        // frozen corpus; this is asserted by the determinism of the result below).
+        var detectedByTag = new Dictionary<string, int>(StringComparer.Ordinal);
+        int totalDetected = 0;
+        for (int i = 0; i < corpus.Vectors.Count; i++)
+        {
+            EquivalenceTestVector vec = corpus.Vectors[i];
+            bool detected = DivergenceDetector.IsIntentionalDivergence(vec, legacy, tolerance);
+            if (!detected) continue;
+            totalDetected++;
+            foreach ((string tag, _) in LatentDefectTaxonomy)
+                if (vec.Tags.Contains(tag))
+                {
+                    detectedByTag.TryGetValue(tag, out int n);
+                    detectedByTag[tag] = n + 1;
+                }
+        }
+
+        // Detector precision/recall vs the corpus ground-truth label (reuses Score()).
+        DetectorScore score = DivergenceDetector.Score(
+            corpus.Vectors, legacy, corpus.ExpectedLegacyDivergent, tolerance);
+
+        var byClass = LatentDefectTaxonomy
+            .Select(t => new LatentDefectByClass(
+                t.Tag, t.Description, detectedByTag.TryGetValue(t.Tag, out int c) ? c : 0))
+            .ToList();
+
+        return new LatentDefectReport
+        {
+            CorpusVectors = corpus.Vectors.Count,
+            TotalDetected = totalDetected,
+            GroundTruthDivergent = corpus.DivergentCount,
+            Precision = score.Precision,
+            Recall = score.Recall,
+            ByClass = byClass,
+        };
     }
 
     private static string? NoteValue(IReadOnlyList<string> notes, string key)

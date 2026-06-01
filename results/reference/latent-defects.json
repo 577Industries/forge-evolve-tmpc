@@ -1,0 +1,32 @@
+{
+  "description": "Latent legacy defects surfaced by the mission-data-aware equivalence oracle (legacy output vs the independent reference answer key) over the full corpus. Each is an ECP-recommended finding for human adjudication \u2014 never auto-fixed.",
+  "detector": "ForgeEvolve.Validation.DivergenceDetector",
+  "corpusVectors": 2000,
+  "totalDetected": 321,
+  "groundTruthDivergent": 321,
+  "precision": 1,
+  "recall": 1,
+  "byClass": [
+    {
+      "tag": "anti-meridian",
+      "description": "raw (lon2-lon1) leg distance with no \u002B/-180 deg wrap",
+      "detectedCount": 150
+    },
+    {
+      "tag": "leap-second",
+      "description": "omitted leap-second adjustment \u002B TOT truncation bias",
+      "detectedCount": 96
+    },
+    {
+      "tag": "overflow",
+      "description": "numeric overflow on extreme inputs",
+      "detectedCount": 59
+    },
+    {
+      "tag": "precision-drift",
+      "description": "floating-point precision drift across accumulated legs",
+      "detectedCount": 16
+    }
+  ],
+  "disclaimer": "measured on the synthetic, unclassified surrogate; preliminary; not government-validated."
+}

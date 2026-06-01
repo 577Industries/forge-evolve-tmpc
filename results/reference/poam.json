@@ -1,33 +1,33 @@
 [
   {
     "id": "POAM-S-001",
-    "weakness": "[APSC-DV-001620 / CAT II] TLS server-certificate validation disabled (TrustServerCertificate=true) (/home/twawe/577i-Projects/SBIR Working Folder/DON26BZ01-NV013 AI-Assisted Modernization/forge-evolve-tmpc/surrogate/tmpc-surrogate-mds/legacy/MissionProcessor.cs:58)",
+    "weakness": "[APSC-DV-001620 / CAT II] TLS server-certificate validation disabled (TrustServerCertificate=true) (/home/twawe/577i-Projects/SBIR Working Folder/DON26BZ01-NV013 AI-Assisted Modernization/forge-evolve-tmpc/surrogate/tmpc-surrogate-mds/legacy/MissionProcessor.cs:58) [disposition: Residual]",
     "status": "Open",
     "scheduledCompletion": "ECP-recommended"
   },
   {
     "id": "POAM-S-002",
-    "weakness": "[APSC-DV-002400 / CAT II] Hardcoded database connection string (embedded authentication/configuration data) (/home/twawe/577i-Projects/SBIR Working Folder/DON26BZ01-NV013 AI-Assisted Modernization/forge-evolve-tmpc/surrogate/tmpc-surrogate-mds/legacy/MissionProcessor.cs:58)",
+    "weakness": "[APSC-DV-002400 / CAT II] Hardcoded database connection string (embedded authentication/configuration data) (/home/twawe/577i-Projects/SBIR Working Folder/DON26BZ01-NV013 AI-Assisted Modernization/forge-evolve-tmpc/surrogate/tmpc-surrogate-mds/legacy/MissionProcessor.cs:58) [disposition: Residual]",
     "status": "Open",
     "scheduledCompletion": "ECP-recommended"
   },
   {
     "id": "POAM-S-003",
-    "weakness": "[APSC-DV-002490 / CAT II] HTML built by string concatenation and injected without output encoding (DOM-based XSS class) ((remediated in modern code))",
-    "status": "Remediated",
-    "scheduledCompletion": null
+    "weakness": "[APSC-DV-002490 / CAT II] HTML built by string concatenation and injected without output encoding (DOM-based XSS class) (/home/twawe/577i-Projects/SBIR Working Folder/DON26BZ01-NV013 AI-Assisted Modernization/forge-evolve-tmpc/surrogate/tmpc-surrogate-mds/legacy/wwwroot/mission-review.js:80) [disposition: OutOfScope]",
+    "status": "Open",
+    "scheduledCompletion": "Follow-on increment (out of transform scope)"
   },
   {
     "id": "POAM-S-004",
-    "weakness": "[APSC-DV-002500 / CAT I] SQL command text constructed by string concatenation in the publish path (dynamic-SQL / SQL-injection class) ((remediated in modern code))",
+    "weakness": "[APSC-DV-002500 / CAT I] SQL command text constructed by string concatenation in the publish path (dynamic-SQL / SQL-injection class) ((remediated in modern code)) [disposition: Remediated]",
     "status": "Remediated",
     "scheduledCompletion": null
   },
   {
     "id": "POAM-S-005",
-    "weakness": "[APSC-DV-002560 / CAT II] Untrusted delimited blob parsed with no validation (CHARINDEX/SUBSTRING/STRING_SPLIT over an external parameter) ((remediated in modern code))",
-    "status": "Remediated",
-    "scheduledCompletion": null
+    "weakness": "[APSC-DV-002560 / CAT II] Untrusted delimited blob parsed with no validation (CHARINDEX/SUBSTRING/STRING_SPLIT over an external parameter) (/home/twawe/577i-Projects/SBIR Working Folder/DON26BZ01-NV013 AI-Assisted Modernization/forge-evolve-tmpc/surrogate/tmpc-surrogate-mds/legacy/sql/sp_PublishMission.sql:67) [disposition: OutOfScope]",
+    "status": "Open",
+    "scheduledCompletion": "Follow-on increment (out of transform scope)"
   },
   {
     "id": "POAM-C-001",
@@ -38,6 +38,30 @@
   {
     "id": "POAM-C-002",
     "weakness": "D3 time-on-target defect: travel time is truncated (not rounded) and the leap-second adjustment is omitted, biasing estimatedTot/totFeasible. Latent computational correctness defect. RECOMMENDED FOR ECP (not auto-fixed by the cATO overlay).",
+    "status": "Open",
+    "scheduledCompletion": "ECP-recommended"
+  },
+  {
+    "id": "POAM-L-001",
+    "weakness": "Latent legacy defect class \u0027anti-meridian\u0027 (raw (lon2-lon1) leg distance with no \u002B/-180 deg wrap): 150 ground-truth divergent vectors detected by the mission-data-aware equivalence oracle (precision=recall=1.0). RECOMMENDED FOR ECP \u2014 surfaced for human adjudication, not auto-fixed.",
+    "status": "Open",
+    "scheduledCompletion": "ECP-recommended"
+  },
+  {
+    "id": "POAM-L-002",
+    "weakness": "Latent legacy defect class \u0027leap-second\u0027 (omitted leap-second adjustment \u002B TOT truncation bias): 96 ground-truth divergent vectors detected by the mission-data-aware equivalence oracle (precision=recall=1.0). RECOMMENDED FOR ECP \u2014 surfaced for human adjudication, not auto-fixed.",
+    "status": "Open",
+    "scheduledCompletion": "ECP-recommended"
+  },
+  {
+    "id": "POAM-L-003",
+    "weakness": "Latent legacy defect class \u0027overflow\u0027 (numeric overflow on extreme inputs): 59 ground-truth divergent vectors detected by the mission-data-aware equivalence oracle (precision=recall=1.0). RECOMMENDED FOR ECP \u2014 surfaced for human adjudication, not auto-fixed.",
+    "status": "Open",
+    "scheduledCompletion": "ECP-recommended"
+  },
+  {
+    "id": "POAM-L-004",
+    "weakness": "Latent legacy defect class \u0027precision-drift\u0027 (floating-point precision drift across accumulated legs): 16 ground-truth divergent vectors detected by the mission-data-aware equivalence oracle (precision=recall=1.0). RECOMMENDED FOR ECP \u2014 surfaced for human adjudication, not auto-fixed.",
     "status": "Open",
     "scheduledCompletion": "ECP-recommended"
   }

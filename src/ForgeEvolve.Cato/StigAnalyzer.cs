@@ -72,51 +72,88 @@ public static class StigAnalyzer
             .ToList();
     }
 
+    // ── Honest-disposition values for a reconciled "after" finding ───────────────────
+    public const string DispositionRemediated = "Remediated";  // in-scope C#, pattern now absent
+    public const string DispositionOutOfScope = "OutOfScope";  // legacy file TYPE not covered by the modern component
+    public const string DispositionResidual   = "Residual";    // in-scope C#, pattern STILL present
+
     /// <summary>
-    /// Build the "after" set: re-run the same detectors over the MODERN emitted files. Any
-    /// legacy finding whose class is now ABSENT from the modern code is reported as
-    /// RemediatedByTransform=true (carried into StigAfter); classes still present remain open.
+    /// Build the "after" set: classify each detected legacy finding into an HONEST remediation
+    /// disposition (Remediated / OutOfScope / Residual) — absence of a file type from the modern
+    /// component is NOT a fix.
+    ///
+    /// Disposition rules (matches Vol 2):
+    ///   * The finding's legacy source FILE TYPE decides scope. A C# (.cs) finding is WITHIN the
+    ///     modern transform's scope; a .js (UI) or .sql (DDL) finding is a file type the modern
+    ///     C# component does not cover, so it is <see cref="DispositionOutOfScope"/> — flagged for
+    ///     a follow-on increment, NOT claimed fixed.
+    ///   * An in-scope (C#) finding is <see cref="DispositionRemediated"/> when its vulnerable
+    ///     pattern (RuleId) is ABSENT from the modern C# set, else <see cref="DispositionResidual"/>.
+    ///   * <see cref="StigFinding.RemediatedByTransform"/> == (Disposition == Remediated): ONLY a
+    ///     genuinely-fixed, in-scope finding is reported remediated.
     /// </summary>
     public static IReadOnlyList<StigFinding> ScanModernAndReconcile(
         IReadOnlyList<StigFinding> legacyFindings,
         IReadOnlyList<EmittedFile> modern)
     {
-        // Findings still present in the modern code, keyed by RuleId.
-        var modernFindings = new List<StigFinding>();
+        // Re-scan the modern emitted files and record which RuleIds still persist there. Only the
+        // C# modern files matter for the residual/remediated decision (the modern component is C#);
+        // any non-C# emitted file does not change an out-of-scope legacy finding's disposition.
+        var modernCSharpFindings = new List<StigFinding>();
         foreach (EmittedFile f in modern)
         {
-            switch (f.Language)
-            {
-                case SourceLanguage.CSharp:
-                    modernFindings.AddRange(ScanCSharp(f.Path, f.Content));
-                    break;
-                case SourceLanguage.Sql:
-                    modernFindings.AddRange(ScanSql(f.Path, f.Content));
-                    break;
-                case SourceLanguage.JavaScript:
-                    modernFindings.AddRange(ScanJavaScript(f.Path, f.Content));
-                    break;
-            }
+            if (f.Language == SourceLanguage.CSharp)
+                modernCSharpFindings.AddRange(ScanCSharp(f.Path, f.Content));
         }
+        var stillPresentInModernCSharp =
+            modernCSharpFindings.Select(f => f.RuleId).ToHashSet(StringComparer.Ordinal);
 
-        var stillPresentRuleIds = modernFindings.Select(f => f.RuleId).ToHashSet(StringComparer.Ordinal);
-
-        // For each distinct legacy finding class, emit an "after" record flagged
-        // RemediatedByTransform when the modern code no longer exhibits that class.
         var after = new List<StigFinding>();
         foreach (StigFinding lf in legacyFindings)
         {
-            bool remediated = !stillPresentRuleIds.Contains(lf.RuleId);
+            bool inScope = IsCSharpScope(lf.Location);
+            string disposition;
+            if (!inScope)
+            {
+                // Legacy source is a file TYPE the modern C# component does not cover (.js / .sql):
+                // out of transform scope — flagged for a follow-on increment, NOT a fix.
+                disposition = DispositionOutOfScope;
+            }
+            else
+            {
+                // In-scope C#: genuinely remediated only if the pattern is absent in the modern C#.
+                disposition = stillPresentInModernCSharp.Contains(lf.RuleId)
+                    ? DispositionResidual
+                    : DispositionRemediated;
+            }
+
+            bool remediated = disposition == DispositionRemediated;
             after.Add(lf with
             {
                 Location = remediated ? "(remediated in modern code)" : lf.Location,
                 RemediatedByTransform = remediated,
+                Disposition = disposition,
             });
         }
         return after
             .OrderBy(f => f.RuleId, StringComparer.Ordinal)
             .ThenBy(f => f.Location, StringComparer.Ordinal)
             .ToList();
+    }
+
+    /// <summary>
+    /// True iff a legacy finding's source file (the <c>path:line</c> in <see cref="StigFinding.Location"/>)
+    /// is a C# file, i.e. within the modern transform's scope. A .js UI file or a .sql DDL file is
+    /// a TYPE the modern C# component does not cover → out of scope.
+    /// </summary>
+    private static bool IsCSharpScope(string location)
+    {
+        // Location is "path:line"; strip the trailing ":<line>" before reading the extension.
+        string path = location;
+        int lastColon = path.LastIndexOf(':');
+        if (lastColon > 0 && int.TryParse(path.AsSpan(lastColon + 1), out _))
+            path = path[..lastColon];
+        return path.EndsWith(".cs", StringComparison.OrdinalIgnoreCase);
     }
 
     // ─────────────────────────────────────────────────────────────────────────────

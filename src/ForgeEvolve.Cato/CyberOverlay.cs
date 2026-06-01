@@ -44,6 +44,20 @@ public sealed class CyberOverlay : ICyberOverlay
         IReadOnlyList<EmittedFile> modern,
         DiscoveryReport discovery,
         string outputDir)
+        => Generate(legacy, modern, discovery, outputDir, quantifiedLatentDefects: null);
+
+    /// <summary>
+    /// As <see cref="Generate(IReadOnlyList{SourceArtifact},IReadOnlyList{EmittedFile},DiscoveryReport,string)"/>,
+    /// but additionally feeds QUANTIFIED latent-defect classes (per-class divergent-vector counts
+    /// from the validation oracle) into the POA&amp;M as ECP-recommended items. Additive overload;
+    /// the frozen <see cref="ICyberOverlay"/> signature is unchanged.
+    /// </summary>
+    public CatoArtifacts Generate(
+        IReadOnlyList<SourceArtifact> legacy,
+        IReadOnlyList<EmittedFile> modern,
+        DiscoveryReport discovery,
+        string outputDir,
+        IReadOnlyList<LatentDefectClass>? quantifiedLatentDefects)
     {
         ArgumentNullException.ThrowIfNull(legacy);
         ArgumentNullException.ThrowIfNull(modern);
@@ -104,7 +118,7 @@ public sealed class CyberOverlay : ICyberOverlay
             ProvenanceLedger.Sha256Hex(sbomJson));
 
         // ── 5. POA&M ────────────────────────────────────────────────────────────
-        IReadOnlyList<PoamItem> poam = PoamBuilder.Build(stigAfter, discovery);
+        IReadOnlyList<PoamItem> poam = PoamBuilder.Build(stigAfter, discovery, quantifiedLatentDefects);
         ledger.Append("poam", "ForgeEvolve.Cato.PoamBuilder",
             JsonSerializer.Serialize(poam, JsonOpts));
 
