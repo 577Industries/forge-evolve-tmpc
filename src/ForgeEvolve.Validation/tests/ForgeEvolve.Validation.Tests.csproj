@@ -1,0 +1,27 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <LangVersion>latest</LangVersion>
+    <IsPackable>false</IsPackable>
+    <IsTestProject>true</IsTestProject>
+    <RootNamespace>ForgeEvolve.Validation.Tests</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.11.1" />
+    <PackageReference Include="xunit" Version="2.9.2" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="2.8.2" />
+    <PackageReference Include="CsCheck" Version="4.7.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\ForgeEvolve.Validation.csproj" />
+    <ProjectReference Include="..\..\ForgeEvolve.Contracts\ForgeEvolve.Contracts.csproj" />
+    <!-- LegacyRunner-backed tests need the surrogate legacy processor directly too. -->
+    <ProjectReference Include="..\..\..\surrogate\tmpc-surrogate-mds\legacy\MissionLegacy.csproj" />
+  </ItemGroup>
+
+</Project>

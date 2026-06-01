@@ -1,0 +1,36 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <LangVersion>latest</LangVersion>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <NoWarn>CS1591</NoWarn>
+    <RootNamespace>ForgeEvolve.Validation</RootNamespace>
+    <Description>Validation Engine (behavioral equivalence) for FORGE EVOLVE for TMPC: differential + property-based equivalence verification with mission-data-aware oracles, the multiplicative-Chernoff deviation bound, the Equivalence-Composability system bound, and intentional-divergence detection against the frozen golden corpus.</Description>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!-- The test project lives in a subfolder; keep its sources out of THIS project's
+         default-glob compilation (it owns its own .csproj). -->
+    <Compile Remove="tests\**\*.cs" />
+    <EmbeddedResource Remove="tests\**" />
+    <None Remove="tests\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- Property-based testing engine (random MissionRequest generation + shrinking). -->
+    <PackageReference Include="CsCheck" Version="4.7.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- Frozen contracts (the integration seam). -->
+    <ProjectReference Include="..\ForgeEvolve.Contracts\ForgeEvolve.Contracts.csproj" />
+    <!-- The synthetic, intentionally-legacy MDS surrogate. LegacyRunner wraps its
+         MissionProcessor.ProcessMission. We do NOT edit this project. -->
+    <ProjectReference Include="..\..\surrogate\tmpc-surrogate-mds\legacy\MissionLegacy.csproj" />
+  </ItemGroup>
+
+</Project>
