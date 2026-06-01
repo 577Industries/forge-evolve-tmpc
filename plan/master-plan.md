@@ -92,3 +92,14 @@ Per-WS exit gate: builds, unit tests green, contract conformance, no secrets/ITA
   because those files aren't in the modern C# set (absence≠fix). Reconcile StigAnalyzer to classify
   Remediated (in-scope, genuinely fixed) vs Out-of-scope vs Residual; update demo console line + reference
   stig-after.json so "3 remediated" becomes "1 remediated / 2 out-of-scope / 2 residual" (matches Vol 2).
+- 2026-05-31 — P5 complete: STIG-disposition + latent-defect-demo honesty fixes applied (commit 6533e27).
+  Five adversarial auditors run (compliance, honesty, NAVAIR red-team, code/repro, security/ITAR). Fixes
+  from findings (commit 6a83414, 84b68a1): corrected Chernoff bound (was 5.003e-7 mislabeled; now 95%
+  rule-of-three upper bound 1.498e-3 = ln(20)/N, secondary 99.9% 3.454e-3); split equivalence-vs-latent
+  framing in Vol 2; air-gap "replay not live-gen" wording; added scale/oracle-source para, performance
+  gate, next-gen compat, surrogate-calibration honesty, KG strengthening; numbers 132→137 tests, 23→24
+  projects; repo-relative paths (no username leak); NOTICE accuracy. Final consolidated re-audit:
+  CLEAN FOR SUBMISSION (137 tests pass, Vol2 8pp ≤10, all numbers reconcile, no overclaims).
+- 2026-05-31 — P6: RELEASE_APPROVAL.md added; repo publish-ready (security audit: safe as-is, clean-room,
+  no sanitization needed). Held for H6 (PI push under own auth) + H7 (DSIP webforms + certify). Proposal
+  in ../proposal/ (7 volumes + compliance matrix + DSIP guide); cited commit re-frozen at the push hash.
