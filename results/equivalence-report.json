@@ -1,0 +1,106 @@
+{
+  "unitId": "MissionRouting.MissionProcessor.ProcessMission",
+  "vectorsTotal": 2000,
+  "vectorsPassed": 2000,
+  "violations": 0,
+  "oracles": [
+    {
+      "oracleName": "routeValid",
+      "kind": "Discrete",
+      "vectorsEvaluated": 2000,
+      "violations": 0,
+      "maxObservedRelativeError": 0,
+      "isIntentionalDivergence": false
+    },
+    {
+      "oracleName": "taskingGoNoGo",
+      "kind": "Discrete",
+      "vectorsEvaluated": 2000,
+      "violations": 0,
+      "maxObservedRelativeError": 0,
+      "isIntentionalDivergence": false
+    },
+    {
+      "oracleName": "totFeasible",
+      "kind": "Discrete",
+      "vectorsEvaluated": 2000,
+      "violations": 0,
+      "maxObservedRelativeError": 0,
+      "isIntentionalDivergence": false
+    },
+    {
+      "oracleName": "estimatedTotEpochSec",
+      "kind": "Discrete",
+      "vectorsEvaluated": 2000,
+      "violations": 0,
+      "maxObservedRelativeError": 0,
+      "isIntentionalDivergence": false
+    },
+    {
+      "oracleName": "waypointCount",
+      "kind": "Discrete",
+      "vectorsEvaluated": 2000,
+      "violations": 0,
+      "maxObservedRelativeError": 0,
+      "isIntentionalDivergence": false
+    },
+    {
+      "oracleName": "messageCount",
+      "kind": "Discrete",
+      "vectorsEvaluated": 2000,
+      "violations": 0,
+      "maxObservedRelativeError": 0,
+      "isIntentionalDivergence": false
+    },
+    {
+      "oracleName": "legDistancesNm",
+      "kind": "Continuous",
+      "vectorsEvaluated": 2000,
+      "violations": 0,
+      "maxObservedRelativeError": 0,
+      "isIntentionalDivergence": false
+    },
+    {
+      "oracleName": "totalDistanceNm",
+      "kind": "Continuous",
+      "vectorsEvaluated": 2000,
+      "violations": 0,
+      "maxObservedRelativeError": 0,
+      "isIntentionalDivergence": false
+    },
+    {
+      "oracleName": "property:anti-meridian",
+      "kind": "Continuous",
+      "vectorsEvaluated": 150,
+      "violations": 0,
+      "maxObservedRelativeError": 0,
+      "isIntentionalDivergence": false
+    },
+    {
+      "oracleName": "property:leap-second",
+      "kind": "Discrete",
+      "vectorsEvaluated": 200,
+      "violations": 0,
+      "maxObservedRelativeError": 0,
+      "isIntentionalDivergence": false
+    },
+    {
+      "oracleName": "property:precision",
+      "kind": "Continuous",
+      "vectorsEvaluated": 350,
+      "violations": 0,
+      "maxObservedRelativeError": 0,
+      "isIntentionalDivergence": false
+    }
+  ],
+  "chernoffDeviationBound": 5.00250166791811E-07,
+  "confidenceLevel": 0.999,
+  "composedSystemBound": 5.00250166791811E-07,
+  "notes": [
+    "Differential equivalence over 2000 vectors (legacy vs modern, mission-data-aware oracles).",
+    "VectorsPassed (fully equivalent, zero divergence): 2000.",
+    "IntentionalDivergences (modern corrected a known legacy bug; findings, not failures): 0.",
+    "UnexpectedViolations (target 0): 0.",
+    "ChernoffDeviationBound = ln(1/0.999)/N with N=2000 (zero-violation regime)."
+  ]
+}
