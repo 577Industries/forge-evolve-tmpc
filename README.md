@@ -1,13 +1,21 @@
-# FORGE EVOLVE for TMPC
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/577Industries/.github/main/brand/out/wordmark-dark.svg">
+  <img alt="577 Industries" height="44" src="https://raw.githubusercontent.com/577Industries/.github/main/brand/out/wordmark-light.svg">
+</picture>
 
-[![demo-offline](https://github.com/577Industries/forge-evolve-tmpc/actions/workflows/demo-offline.yml/badge.svg)](https://github.com/577Industries/forge-evolve-tmpc/actions/workflows/demo-offline.yml)
-[![License: Apache-2.0](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](LICENSE)
-[![.NET](https://img.shields.io/badge/.NET-8.0-512BD4.svg)](global.json)
-[![tests](https://img.shields.io/badge/tests-137_passing-brightgreen.svg)](#build--test-developers)
-[![make demo](https://img.shields.io/badge/make_demo-offline_%7C_keyless_%7C_deterministic-success.svg)](#-for-navy-sbir-reviewers--5-minute-onramp)
+# forge-evolve-tmpc
 
-**AI-assisted modernization of C#/.NET mission-planning software, with behavioral-equivalence proof
-and continuous-ATO artifacts - runnable end-to-end on a synthetic, unclassified surrogate.**
+`FORGE EVOLVE` · [program overview](https://github.com/577Industries#forge-evolve-for-tmpc--ai-assisted-modernization-of-mission-planning-software)
+
+**AI-assisted modernization of C#/.NET mission-planning software, with behavioral-equivalence proof and continuous-ATO artifacts - runnable end-to-end on a synthetic, unclassified surrogate.**
+
+[![ci](https://img.shields.io/github/actions/workflow/status/577Industries/forge-evolve-tmpc/demo-offline.yml?style=flat-square&label=ci)](https://github.com/577Industries/forge-evolve-tmpc/actions/workflows/demo-offline.yml)
+[![release](https://img.shields.io/github/v/release/577Industries/forge-evolve-tmpc?style=flat-square)](https://github.com/577Industries/forge-evolve-tmpc/releases)
+[![license](https://img.shields.io/badge/license-Apache_2.0-blue?style=flat-square)](LICENSE)
+[![docs](https://img.shields.io/badge/docs-live-009688?style=flat-square)](https://577industries.github.io/forge-evolve-tmpc/)
+
+[![tests](https://img.shields.io/badge/tests-137_passing-brightgreen?style=flat-square)](#build--test-developers)
+[![make demo](https://img.shields.io/badge/make_demo-offline_%7C_keyless_%7C_deterministic-success?style=flat-square)](#-for-navy-sbir-reviewers--5-minute-onramp)
 
 Developed by [577 Industries, Inc.](https://github.com/577Industries) under U.S. Navy SBIR topic
 **DON26BZ01-NV013** ("AI-Assisted Modernization and Optimization of Theater Mission Planning Center
