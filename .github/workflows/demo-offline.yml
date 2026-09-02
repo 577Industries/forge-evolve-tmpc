@@ -12,8 +12,14 @@ on:
 permissions:
   contents: read
 
+# Cancel superseded pull-request runs only; push runs always finish.
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
 jobs:
   build-and-demo:
+    timeout-minutes: 30
     strategy:
       fail-fast: false
       matrix:
